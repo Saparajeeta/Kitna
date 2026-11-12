@@ -18,8 +18,10 @@ not reserved until a first upload. Fallback if it is taken by then: `kitna-nlp`
 | **HUMAN CHECKPOINT**: native-speaker review | `docs/review/README.md` | **waiting** (taxonomy section 5) |
 
 ## Later phases
-2. Parser: normalize, numerals, fractions, money, time, dates, ambiguity; tests at each step.
-   Numerals, fractions and money do not depend on the open questions and can start now.
+2. Parser, with tests at each step:
+   - normalize, numerals, fractions, money: **done** (`results/phase2/test_run.txt`);
+   - time, durations, dates, ambiguity: **not started**, held for Q3b and Q7 (taxonomy section 5);
+   - CLI and `parse_time` / `parse_date`: with the above.
 3. Packaging, mkdocs, CI (3.10-3.14), 0.1.0rc.
 4. Benchmark, target **200 items** (was 300). Authorship split agreed in round 1:
    - Roman Hinglish utterances: written by the project owner and two other speakers (50-100 each, own style);

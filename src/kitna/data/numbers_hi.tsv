@@ -1,0 +1,106 @@
+# kitna-data: numbers_hi
+# version: 1
+# status: AI-drafted spellings, not yet reviewed by a native speaker
+# format: value<TAB>spellings (TAB between columns, spaces between spellings; first spelling is the canonical one)
+# To add a spelling you actually type, append it to the right row. Lines starting with # are ignored.
+# Hindi 0-99 in Roman and Devanagari. Devanagari is matched ignoring nukta and chandrabindu/anusvara.
+0	shunya sifar शून्य
+1	ek ik एक
+2	do दो
+3	teen tin तीन
+4	chaar char चार
+5	paanch panch पाँच
+6	chhah chhe che cheh छह छः छे
+7	saat सात
+8	aath ath आठ
+9	nau नौ
+10	das dus दस
+11	gyarah gyaarah gyara ग्यारह
+12	barah baarah बारह
+13	terah तेरह
+14	chaudah chauda chowdah चौदह
+15	pandrah pandra pandhrah पंद्रह पन्द्रह
+16	solah sola सोलह
+17	satrah satra sattrah सत्रह
+18	atharah athaarah athara अठारह
+19	unnees unnis unees उन्नीस
+20	bees bis बीस
+21	ikkees ikkis ikis इक्कीस
+22	baees bais baais बाईस
+23	teis tais teyis तेईस
+24	chaubees chaubis chobis चौबीस
+25	pachchees pachees pachis pachhis pachchis पच्चीस
+26	chhabbees chhabbis chabbis chabbees छब्बीस
+27	sattaees sattais sattaais satais सत्ताईस
+28	atthaees atthais athais atthaais अट्ठाईस
+29	untees untis unatees उनतीस
+30	tees tis तीस
+31	ikatees iktees ikattis ikatis iktis इकतीस
+32	battees battis batis बत्तीस
+33	taintees taintis tetis tentis तैंतीस
+34	chauntees chauntis chautis chontis चौंतीस
+35	paintees paintis pentis पैंतीस
+36	chhattees chhattis chattis छत्तीस
+37	saintees saintis sentis सैंतीस
+38	adtees adtis artis adhtees अड़तीस
+39	untaalees untalis untaalis unchalis उनतालीस उनचालीस
+40	chaalees chalis chaalis चालीस
+41	iktaalees iktalis iktaalis ektalis इकतालीस
+42	bayaalees bayalis byalis bayaalis बयालीस
+43	taintaalees taintalis tetalis तैंतालीस
+44	chavaalees chauvalis chavalis chawalis chauwalis चौवालीस चवालीस
+45	paintaalees paintalis pentalis पैंतालीस
+46	chhiyaalees chhiyalis chiyalis छियालीस
+47	saintaalees saintalis sentalis सैंतालीस
+48	adtaalees adtalis artalis अड़तालीस
+49	unchaas unchas उनचास
+50	pachaas pachas पचास
+51	ikyaavan ikyavan ikkyavan ekyavan इक्यावन
+52	baavan bavan bawan बावन
+53	tirepan tirpan trepan तिरपन तिरेपन
+54	chauvan chavvan chowan chauwan चौवन
+55	pachpan पचपन
+56	chhappan chappan छप्पन
+57	sattaavan sattavan satavan sattawan सत्तावन
+58	atthaavan atthavan athavan atthawan अट्ठावन
+59	unsath unsaath उनसठ
+60	saath sath साठ
+61	iksath iksaath eksath इकसठ
+62	baasath basath baasaath बासठ
+63	tirsath tirsaath tresath तिरसठ
+64	chaunsath chausath chonsath चौंसठ
+65	painsath pensath paisath पैंसठ
+66	chhiyaasath chhiyasath chiyasath छियासठ
+67	sadsath sarsath sadsaath सड़सठ
+68	adsath arsath adsaath अड़सठ
+69	unhattar unhatar उनहत्तर
+70	sattar satar सत्तर
+71	ikhattar ikhatar ekhattar इकहत्तर
+72	bahattar bahatar बहत्तर
+73	tihattar tihatar तिहत्तर
+74	chauhattar chauhatar chohattar चौहत्तर
+75	pachhattar pachhatar pichhattar pachattar पचहत्तर पिचहत्तर
+76	chhihattar chhihatar chihattar छिहत्तर
+77	sathattar satahattar सतहत्तर
+78	athhattar athattar athahattar अठहत्तर
+79	unyaasi unyasi unasi unaasi उन्यासी उनासी
+80	assi assee अस्सी
+81	ikyaasi ikyasi ekyasi इक्यासी
+82	bayaasi bayasi byasi बयासी
+83	tiraasi tirasi tiryasi तिरासी
+84	chauraasi chaurasi chorasi चौरासी
+85	pachaasi pachasi पचासी
+86	chhiyaasi chhiyasi chiyasi छियासी
+87	sataasi satasi sattasi सतासी सत्तासी
+88	athaasi athasi atthasi अठासी अट्ठासी
+89	navaasi navasi nawasi nawaasi नवासी
+90	nabbe nabe nabbey नब्बे
+91	ikyaanve ikyanve ikyanave ikyaanave इक्यानवे इक्यानबे
+92	baanve banve banave baanave बानवे बानबे
+93	tiraanve tiranve tiranave तिरानवे तिरानबे
+94	chauraanve chauranve chauranave चौरानवे चौरानबे
+95	pachaanve pachanve pachanave पचानवे पंचानवे पचानबे
+96	chhiyaanve chhiyanve chiyanve chhiyanave छियानवे छियानबे
+97	sataanve satanve sattanve satanave सत्तानवे सतानवे सत्तानबे
+98	athaanve athanve atthanve athanave अट्ठानवे अठानवे अट्ठानबे
+99	ninyaanve ninyanve ninyanave ninanve निन्यानवे निन्यानबे

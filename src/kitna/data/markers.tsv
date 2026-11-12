@@ -1,0 +1,19 @@
+# kitna-data: markers
+# version: 1
+# status: AI-drafted spellings, not yet reviewed by a native speaker
+# format: role<TAB>phrases separated by | (TAB between columns, phrases may contain spaces)
+# To add a spelling you actually type, append it to the right row. Lines starting with # are ignored.
+currency_before	rs | inr | ₹ | rupees | rupee | रु
+currency_after	rupaye | rupay | rupaya | rupiya | rupiye | rupaiye | rupye | rupee | rupees | rs | inr | /- | रुपये | रुपए | रुपया | रुपयों | रूपये | रू
+paise	paise | paisa | पैसे | पैसा
+currency_tail	only | मात्र
+approx_before	lagbhag | kareeb | karib | kareeban | takriban | taqreeban | around | about | approx | approximately | roughly | लगभग | करीब | तकरीबन
+approx_after	ke aaspaas | ke aas paas | ke aaspas | ke aas pas | ke kareeb | ke karib | ke lagbhag | के आसपास | के आस पास | के करीब | के लगभग
+min_before	kam se kam | at least | minimum | कम से कम
+max_before	zyada se zyada | jyada se jyada | zyaada se zyaada | adhik se adhik | at most | maximum | ज़्यादा से ज़्यादा | अधिक से अधिक
+max_after	tak | तक
+range_sep	se | to | - | – | से
+point	point | dashamlav | पॉइंट | दशमलव
+double	double | dabal | डबल
+triple	triple | tripal | ट्रिपल
+and	and

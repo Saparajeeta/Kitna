@@ -1,0 +1,16 @@
+# kitna-data: fractions
+# version: 1
+# status: AI-drafted spellings, not yet reviewed by a native speaker
+# format: name<TAB>type<TAB>amount<TAB>spellings (TAB between columns, spaces between spellings; first spelling is the canonical one)
+# To add a spelling you actually type, append it to the right row. Lines starting with # are ignored.
+# type add:   sits before a number N and gives N + amount (sawa teen = 3.25); before a scale gives (1 + amount) x scale
+# type fixed: is a value by itself (dedh = 1.5) and can multiply a scale (dedh lakh)
+# min_n: 'saade' is only used with N >= 3 (saade ek / saade do are rejected; speakers say dedh / dhai)
+sawa	add	0.25	sawa sava savaa sawaa सवा
+saade	add	0.5	saade sade sadhe saadhe साढ़े
+paune	add	-0.25	paune pone पौने
+dedh	fixed	1.5	dedh derh डेढ़
+dhai	fixed	2.5	dhai dhaai adhai adhaai ढाई अढ़ाई
+paun	fixed	0.75	paun pauna pona पौन पौना
+aadha	fixed	0.5	aadha adha aadhe aadhi आधा आधे आधी
+paav	fixed	0.25	paav पाव
