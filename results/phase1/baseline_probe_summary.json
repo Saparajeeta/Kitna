@@ -1,0 +1,66 @@
+{
+  "generated_utc": "2026-11-12T15:16:24+00:00",
+  "python": "3.11.2",
+  "number_parser": "0.3.2",
+  "dateparser": "1.5.0",
+  "cases_file": "tests/golden/draft_cases.jsonl",
+  "cases_total": 345,
+  "cases_status": "draft, not yet reviewed by native speakers",
+  "scope": {
+    "number-parser": "kind=number cases whose expected value is one exact integer (no ranges); counted correct if language='hi' OR language='en' returns it",
+    "dateparser": "kind=date, time and datetime cases with a single-value expectation; languages=['hi','en'], DATE_ORDER=DMY, RELATIVE_BASE=<case base> 10:00"
+  },
+  "summary": {
+    "number-parser": {
+      "all": {
+        "no_parse": 89,
+        "n": 102,
+        "correct": 13
+      },
+      "roman": {
+        "no_parse": 78,
+        "n": 79,
+        "correct": 1
+      },
+      "devanagari": {
+        "correct": 12,
+        "n": 18,
+        "no_parse": 6
+      },
+      "none": {
+        "no_parse": 4,
+        "n": 4
+      },
+      "mixed": {
+        "no_parse": 1,
+        "n": 1
+      }
+    },
+    "dateparser": {
+      "all": {
+        "no_parse": 102,
+        "n": 116,
+        "correct": 10,
+        "silent_pick_of_candidate": 3,
+        "wrong": 1
+      },
+      "roman": {
+        "no_parse": 87,
+        "n": 91,
+        "correct": 3,
+        "silent_pick_of_candidate": 1
+      },
+      "none": {
+        "correct": 4,
+        "n": 4
+      },
+      "devanagari": {
+        "no_parse": 15,
+        "n": 21,
+        "correct": 3,
+        "silent_pick_of_candidate": 2,
+        "wrong": 1
+      }
+    }
+  }
+}
