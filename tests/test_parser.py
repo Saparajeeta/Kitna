@@ -255,3 +255,15 @@ def test_ek_baar_is_a_policy_row(monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.undo()
         normalize.lexicon.cache_clear()
     assert vals("ek baar") == []
+
+
+def test_english_day_after_tomorrow_is_not_read_as_tomorrow() -> None:
+    import datetime as dt
+
+    import kitna
+
+    base = dt.datetime(2026, 11, 12, 10, 0)
+    got = kitna.parse("book it for the day after tomorrow", relative_base=base)
+    assert [r.canonical for r in got] == ["2026-11-14"]
+    assert [r.canonical for r in kitna.parse("the day before yesterday", relative_base=base)] == ["2026-11-10"]
+    assert [r.canonical for r in kitna.parse("tomorrow", relative_base=base)] == ["2026-11-13"]

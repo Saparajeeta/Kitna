@@ -197,7 +197,7 @@ def _read_date(tokens: tuple[Token, ...], i: int, base: date) -> DatePiece | Non
     rel = match_temporal(tokens, i, "rel")
     if rel:
         key, end = rel
-        if key in ("0", "+1", "-1"):
+        if key not in ("kal", "parso", "narso"):  # a fixed offset in days: aaj, tomorrow, day after tomorrow
             return DatePiece(end, fixed=base + timedelta(days=int(key)))
         days = {"kal": 1, "parso": 2, "narso": 3}[key]
         conf = pol.conf("narso") if key == "narso" else 1.0

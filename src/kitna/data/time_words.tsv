@@ -24,6 +24,8 @@ rel	parso	parso | parson | parsu | परसों
 rel	narso	narso | narson | tarso | नरसों | तरसों
 rel	+1	tomorrow
 rel	-1	yesterday
+rel	+2	day after tomorrow
+rel	-2	day before yesterday
 weekday	0	somvaar | somvar | somwar | somwaar | monday | सोमवार
 weekday	1	mangalvaar | mangalvar | mangalwar | mangalwaar | tuesday | मंगलवार
 weekday	2	budhvaar | budhvar | budhwar | budhwaar | wednesday | बुधवार
