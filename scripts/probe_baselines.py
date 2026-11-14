@@ -36,7 +36,10 @@ def main() -> None:
     rows = []
     for c in cases:
         e, kind = c["expect"], c["kind"]
-        if e.get("none"):
+        # out of scope for this probe: negatives, multi-result cases, ranges, caller options
+        if e.get("none") or "results" in e or "prefer" in c or "hint" in c:
+            continue
+        if isinstance(e["value"], dict) or any(isinstance(x, dict) for x in e.get("candidates", [])):
             continue
         row = {"id": c["id"], "text": c["text"], "script": c["script"], "kind": kind}
         if kind == "number" and isinstance(e["value"], int):
@@ -50,15 +53,17 @@ def main() -> None:
             row.update(tool="number-parser", expected=e["value"],
                        outcome="correct" if e["value"] in (row["got_hi"], row["got_en"]) else
                        "no_parse" if row["got_hi"] is None and row["got_en"] is None else "wrong")
-        elif kind in ("date", "time"):
-            base = datetime.fromisoformat(c.get("relative_base", "2026-11-12") + "T10:00:00")
+        elif kind in ("date", "time", "datetime"):
+            rb = c.get("relative_base", "2026-11-12")
+            base = datetime.fromisoformat(rb if "T" in rb else rb + "T10:00")
             try:
                 dt = dateparser.parse(c["text"], languages=["hi", "en"],
                                       settings={"RELATIVE_BASE": base, "DATE_ORDER": "DMY"})
             except Exception as ex:  # noqa: BLE001
                 dt = None
                 row["exception"] = type(ex).__name__
-            got = None if dt is None else (dt.date().isoformat() if kind == "date" else dt.strftime("%H:%M"))
+            fmt = {"date": "%Y-%m-%d", "time": "%H:%M", "datetime": "%Y-%m-%dT%H:%M"}[kind]
+            got = None if dt is None else dt.strftime(fmt)
             row.update(tool="dateparser", got=got)
             if e.get("ambiguous"):
                 row["expected"] = e["candidates"]
@@ -86,9 +91,10 @@ def main() -> None:
         "cases_total": len(cases),
         "cases_status": "draft, not yet reviewed by native speakers",
         "scope": {
-            "number-parser": "kind=number cases whose expected value is one exact integer; "
+            "number-parser": "kind=number cases whose expected value is one exact integer (no ranges); "
                              "counted correct if language='hi' OR language='en' returns it",
-            "dateparser": "kind=date and kind=time cases; languages=['hi','en'], DATE_ORDER=DMY, "
+            "dateparser": "kind=date, time and datetime cases with a single-value expectation; "
+                          "languages=['hi','en'], DATE_ORDER=DMY, "
                           "RELATIVE_BASE=<case base> 10:00",
         },
         "summary": summary,

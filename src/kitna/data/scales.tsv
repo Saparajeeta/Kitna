@@ -1,0 +1,14 @@
+# kitna-data: scales
+# version: 1
+# status: AI-drafted spellings, not yet reviewed by a native speaker
+# format: value<TAB>lang<TAB>spellings (TAB between columns, spaces between spellings; first spelling is the canonical one)
+# To add a spelling you actually type, append it to the right row. Lines starting with # are ignored.
+100	hi	sau sao सौ
+100	en	hundred hundreds
+1000	hi	hazaar hazar hajar hajaar हज़ार
+1000	en	thousand thousands
+100000	hi	lakh lac laakh lakhs lacs लाख
+1000000	en	million millions
+10000000	hi	crore karod karor crores cr crs करोड़
+1000000000	hi	arab अरब
+1000000000	en	billion billions

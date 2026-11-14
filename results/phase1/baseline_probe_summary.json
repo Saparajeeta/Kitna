@@ -1,48 +1,52 @@
 {
-  "generated_utc": "2026-11-12T14:32:15+00:00",
+  "generated_utc": "2026-11-14T11:14:30+00:00",
   "python": "3.11.2",
   "number_parser": "0.3.2",
   "dateparser": "1.5.0",
   "cases_file": "tests/golden/draft_cases.jsonl",
-  "cases_total": 292,
+  "cases_total": 358,
   "cases_status": "draft, not yet reviewed by native speakers",
   "scope": {
-    "number-parser": "kind=number cases whose expected value is one exact integer; counted correct if language='hi' OR language='en' returns it",
-    "dateparser": "kind=date and kind=time cases; languages=['hi','en'], DATE_ORDER=DMY, RELATIVE_BASE=<case base> 10:00"
+    "number-parser": "kind=number cases whose expected value is one exact integer (no ranges); counted correct if language='hi' OR language='en' returns it",
+    "dateparser": "kind=date, time and datetime cases with a single-value expectation; languages=['hi','en'], DATE_ORDER=DMY, RELATIVE_BASE=<case base> 10:00"
   },
   "summary": {
     "number-parser": {
       "all": {
-        "no_parse": 84,
-        "n": 96,
-        "correct": 12
+        "no_parse": 91,
+        "n": 105,
+        "correct": 14
       },
       "roman": {
-        "no_parse": 74,
-        "n": 75,
-        "correct": 1
+        "no_parse": 80,
+        "n": 82,
+        "correct": 2
       },
       "devanagari": {
-        "correct": 11,
-        "n": 17,
+        "correct": 12,
+        "n": 18,
         "no_parse": 6
       },
       "none": {
         "no_parse": 4,
         "n": 4
+      },
+      "mixed": {
+        "no_parse": 1,
+        "n": 1
       }
     },
     "dateparser": {
       "all": {
-        "no_parse": 84,
-        "n": 98,
+        "no_parse": 102,
+        "n": 116,
         "correct": 10,
         "silent_pick_of_candidate": 3,
         "wrong": 1
       },
       "roman": {
-        "no_parse": 71,
-        "n": 75,
+        "no_parse": 87,
+        "n": 91,
         "correct": 3,
         "silent_pick_of_candidate": 1
       },
@@ -51,8 +55,8 @@
         "n": 4
       },
       "devanagari": {
-        "no_parse": 13,
-        "n": 19,
+        "no_parse": 15,
+        "n": 21,
         "correct": 3,
         "silent_pick_of_candidate": 2,
         "wrong": 1

@@ -14,18 +14,20 @@ import csv
 import json
 import re
 import sys
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT = ROOT / "tests" / "golden" / "draft_cases.jsonl"
 
-KINDS = {"number", "digits", "money", "time", "duration", "date"}
+KINDS = {"number", "digits", "money", "time", "duration", "date", "datetime"}
 SCRIPTS = {"roman", "devanagari", "mixed", "none"}
 STATUSES = {"draft", "validated", "rejected"}
 REQUIRED = {"id", "text", "script", "kind", "expect", "tags", "status"}
-OPTIONAL = {"relative_base", "note"}
-EXPECT_KEYS = {"value", "ambiguous", "candidates", "approximate", "max_confidence", "none"}
+OPTIONAL = {"relative_base", "note", "prefer", "hint"}
+PREFER = {"future", "past"}
+RANGE_KINDS = {"number", "time", "date", "datetime"}
+EXPECT_KEYS = {"value", "ambiguous", "candidates", "approximate", "max_confidence", "none", "results"}
 
 DECIMAL = re.compile(r"^\d+\.\d+$")
 INTSTR = re.compile(r"^\d+$")
@@ -38,6 +40,13 @@ ID = re.compile(r"^[A-Z]{3}-\d{3}$")
 def _is_date(v: object) -> bool:
     try:
         return isinstance(v, str) and date.fromisoformat(v).isoformat() == v
+    except ValueError:
+        return False
+
+
+def _is_datetime(v: object) -> bool:
+    try:
+        return isinstance(v, str) and datetime.fromisoformat(v).strftime("%Y-%m-%dT%H:%M") == v
     except ValueError:
         return False
 
@@ -56,6 +65,8 @@ def _scalar_ok(kind: str, v: object) -> bool:
         return isinstance(v, str) and bool(ISO_DUR.match(v))
     if kind == "date":
         return _is_date(v)
+    if kind == "datetime":
+        return _is_datetime(v)
     return False
 
 
@@ -69,8 +80,9 @@ def _value_ok(kind: str, v: object) -> bool:
         return bool(keys) and keys <= {"min", "max"} and all(
             isinstance(v[k], str) and AMOUNT.match(v[k]) for k in keys
         )
-    if kind == "number" and isinstance(v, dict):
-        return set(v) == {"min", "max"} and all(_scalar_ok(kind, x) for x in v.values())
+    if kind in RANGE_KINDS and isinstance(v, dict):
+        # a range; either end may be missing ("tak" gives only max)
+        return bool(v) and set(v) <= {"min", "max"} and all(_scalar_ok(kind, x) for x in v.values())
     return _scalar_ok(kind, v)
 
 
@@ -95,10 +107,29 @@ def check_case(c: dict) -> list[str]:
     if not isinstance(c["tags"], list) or not all(isinstance(t, str) for t in c["tags"]):
         errs.append("tags must be a list of strings")
     if c["kind"] == "date" and not _is_date(c.get("relative_base")):
-        errs.append("date cases need an ISO relative_base")
+        errs.append("date cases need an ISO date relative_base")
+    if c["kind"] == "datetime" and not _is_datetime(c.get("relative_base")):
+        errs.append("datetime cases need a YYYY-MM-DDTHH:MM relative_base")
+    if "hint" in c and c["hint"] is not False:
+        errs.append("'hint' may only be false (= call parse() without a kind hint)")
+    if "prefer" in c and c["prefer"] not in PREFER:
+        errs.append(f"bad prefer {c['prefer']!r}")
 
     e = c["expect"]
-    if not isinstance(e, dict) or set(e) - EXPECT_KEYS:
+    if isinstance(e, dict) and "results" in e:
+        # several results of the same kind, in text order
+        rs = e["results"]
+        if set(e) != {"results"} or not isinstance(rs, list) or len(rs) < 2:
+            return errs + ["'results' must be the only expect key and list >=2 blocks"]
+        for r in rs:
+            errs += _check_expect(c, r)
+        return errs
+    return errs + _check_expect(c, e)
+
+
+def _check_expect(c: dict, e: object) -> list[str]:
+    errs: list[str] = []
+    if not isinstance(e, dict) or set(e) - EXPECT_KEYS or "results" in e:
         return errs + ["bad expect block"]
     if e.get("none") is True:
         if set(e) != {"none"}:
@@ -114,7 +145,7 @@ def check_case(c: dict) -> list[str]:
             errs.append("ambiguous cases need >=2 distinct candidates")
         elif not all(_value_ok(c["kind"], x) for x in cands):
             errs.append("candidate has wrong canonical form")
-        if "ambiguity" not in c["tags"]:
+        if "ambiguity" not in c.get("tags", []):
             errs.append("ambiguous cases must carry the 'ambiguity' tag")
     else:
         if "candidates" in e:
@@ -137,7 +168,7 @@ def load(path: Path) -> list[dict]:
 def validate(paths: list[Path]) -> list[str]:
     problems: list[str] = []
     seen_ids: set[str] = set()
-    seen_text: set[tuple[str, str]] = set()
+    seen_text: set[tuple[str, str, str, bool]] = set()
     for p in paths:
         for i, c in enumerate(load(p), 1):
             where = f"{p.name}:{i} ({c.get('id', '?')})"
@@ -145,9 +176,9 @@ def validate(paths: list[Path]) -> list[str]:
             if c.get("id") in seen_ids:
                 problems.append(f"{where}: duplicate id")
             seen_ids.add(c.get("id", ""))
-            key = (c.get("kind", ""), c.get("text", ""))
+            key = (c.get("kind", ""), c.get("text", ""), c.get("prefer", ""), c.get("hint", True))
             if key in seen_text:
-                problems.append(f"{where}: duplicate (kind, text)")
+                problems.append(f"{where}: duplicate (kind, text, prefer)")
             seen_text.add(key)
     return problems
 
@@ -156,10 +187,10 @@ def export_csv(cases: list[dict], out: Path) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["id", "text", "kind", "relative_base", "expected", "tags", "author_note",
+        w.writerow(["id", "text", "kind", "relative_base", "prefer", "expected", "tags", "author_note",
                     "verdict (ok / wrong / unnatural)", "corrected_value", "reviewer_comment"])
         for c in cases:
-            w.writerow([c["id"], c["text"], c["kind"], c.get("relative_base", ""),
+            w.writerow([c["id"], c["text"], c["kind"], c.get("relative_base", ""), c.get("prefer", ""),
                         json.dumps(c["expect"], ensure_ascii=False), " ".join(c["tags"]),
                         c.get("note", ""), "", "", ""])
 

@@ -1,10 +1,65 @@
-# Phase 1: tooling config only. The [project] table (packaging) arrives in phase 3.
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kitna"
+dynamic = ["version"]
+description = "Hinglish and Devanagari quantities, money, times and dates to exact canonical values, with explicit ambiguity flags."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+dependencies = []
+keywords = ["hinglish", "hindi", "number-parsing", "nlp", "devanagari"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3",
+    "Natural Language :: Hindi",
+    "Typing :: Typed",
+]
+
+[project.scripts]
+kitna = "kitna.cli:main"
+
+[project.urls]
+Repository = "https://github.com/Saparajeeta/Kitna"
+
+[project.optional-dependencies]
+dev = ["pytest", "hypothesis", "pytest-cov", "ruff", "mypy", "jsonschema"]
+docs = ["mkdocs-material", "mkdocstrings[python]"]
+bench = ["jsonschema", "pyyaml", "numpy", "scipy", "statsmodels", "matplotlib"]
+demo = ["gradio"]
+
+[tool.hatch.version]
+path = "src/kitna/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml"]
+exclude = ["tests/bench", "tests/heldout"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kitna"]
+
+[tool.mypy]
+strict = true
+files = ["src"]
+
+[[tool.mypy.overrides]]
+module = ["yaml", "scipy.*", "statsmodels.*", "matplotlib.*", "jsonschema", "gradio"]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["kitna"]
+branch = true
+
 [tool.ruff]
 target-version = "py310"
-line-length = 110
+line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["bench"]

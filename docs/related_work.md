@@ -1,6 +1,8 @@
 # Related work
 
-Checked on 2026-11-12. This sandbox could reach only github.com and pypi.org, so
+First checked on 2026-11-12; existence, licence and latest version of every
+project below were re-checked on 2026-11-14 through the GitHub and PyPI APIs
+(all still present, none archived). This sandbox could reach only github.com and pypi.org, so
 anything hosted elsewhere (Hugging Face, arXiv) was verified second-hand and is
 marked as such. Nothing here is quoted from memory.
 
@@ -14,12 +16,12 @@ marked as such. Nothing here is quoted from memory.
 | **number-parser** (Zyte/Scrapinghub) | PyPI 0.3.2; GitHub last push 2026-10-03, BSD-3. | Number words to integers; Hindi supported in **Devanagari** (`language='hi'`). | No Romanized Hindi. No fraction idioms (ढाई, डेढ़, साढ़े...). No ambiguity or confidence output. |
 | **dateparser** (Zyte/Scrapinghub) | PyPI 1.5.0; GitHub last push 2026-11-05, BSD-3. | Dates in 200+ locales incl. Hindi in **Devanagari** (months, weekdays, आज/कल/परसों, some relative forms). | No Romanized Hindi. कल and परसों are each mapped to one fixed direction. No बजे / सुबह-शाम time handling. |
 
-## Correction to the project brief
+## What Kitna can and cannot claim
 
-The brief says "Romanized Hinglish is not covered" by existing work. That is too
-strong. **IndicOrderBench already evaluates agents on Romanized Hinglish**, and
-**bfcl-hi-audit already publishes a Hinglish condition of BFCL**. The claim
-Kitna can defend is narrower:
+Romanized Hinglish **is** covered by existing work: IndicOrderBench evaluates
+agents on Romanized Hinglish, and bfcl-hi-audit publishes a Hinglish condition
+of BFCL. (An early version of the project brief said otherwise; the project
+owner withdrew that wording.) The claim Kitna can defend is narrower:
 
 - no existing *tool-calling* benchmark we found has speaker-authored items in
   all three of Devanagari, Romanized Hinglish and English, with Indian-context
@@ -41,14 +43,19 @@ with near-default settings. This is a coverage check, not a quality ranking.
 
 | Library (version) | Cases in scope | Correct | No parse | Other |
 |---|---|---|---|---|
-| number-parser 0.3.2 | 96 exact-integer number cases | 12 | 84 | - |
-| ...Roman script | 75 | 1 (`fifty thousand`, English) | 74 | - |
-| ...Devanagari | 17 | 11 | 6 | - |
+| number-parser 0.3.2 | 105 exact-integer number cases | 14 | 91 | - |
+| ...Roman script | 82 | 2 (`fifty thousand`, `ten`: English) | 80 | - |
+| ...Devanagari | 18 | 12 | 6 | - |
+| ...mixed script | 1 (`५ lakh`) | 0 | 1 | - |
 | ...digits only | 4 | 0 | 4 | - |
-| dateparser 1.5.0 | 98 date and time cases | 10 | 84 | 3 single answers on cases we label ambiguous, 1 wrong |
-| ...Roman script | 75 | 3 (all English-only inputs) | 71 | 1 single answer (`26 January`) |
-| ...Devanagari | 19 | 3 | 13 | 2 single answers (कल, परसों), 1 wrong |
+| dateparser 1.5.0 | 116 date, time and date-time cases | 10 | 102 | 3 single answers on cases we label ambiguous, 1 wrong |
+| ...Roman script | 91 | 3 (all English-only inputs) | 87 | 1 single answer (`26 January`) |
+| ...Devanagari | 21 | 3 | 15 | 2 single answers (कल, परसों), 1 wrong |
 | ...digits only | 4 | 4 | 0 | - |
+
+Out of scope for the probe, and so not counted: negatives, ranges, multi-result
+cases, and cases that use Kitna's `prefer` option or run without a kind hint.
+The case file has 358 cases; 221 were in scope.
 
 Notes that keep this fair:
 

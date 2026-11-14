@@ -1,0 +1,51 @@
+# Install once:  pip install pre-commit && pre-commit install
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+        exclude: ^results/
+      - id: trailing-whitespace
+        exclude: ^(results/|docs/_generated/)
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+        args: ["--maxkb=1500"]
+      - id: check-merge-conflict
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      - id: ruff
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy (strict, core library)
+        entry: mypy
+        language: system
+        pass_filenames: false
+        files: ^src/
+      - id: validate-cases
+        name: parser cases validate
+        entry: python scripts/validate_cases.py
+        language: system
+        pass_filenames: false
+        files: ^tests/golden/
+      - id: policy-docs
+        name: policy tables in docs are current
+        entry: python scripts/gen_policy_docs.py --check
+        language: system
+        pass_filenames: false
+        files: ^(src/kitna/data/policy\.tsv|docs/_generated/)
+      - id: heldout-frozen
+        name: held-out set unchanged
+        entry: python scripts/bench.py heldout check
+        language: system
+        pass_filenames: false
+        files: ^tests/heldout/
+      - id: claims
+        name: every claim links to a results file
+        entry: python scripts/check_claims.py
+        language: system
+        pass_filenames: false
+        files: ^(README\.md|docs/|drafts/|hf/|results/)

@@ -1,0 +1,151 @@
+{
+  "what_this_is": "Simulated power of a two-sided exact McNemar test at alpha 0.05, single test, no multiplicity correction. A planning aid under stated assumptions; not a measurement.",
+  "replications": 5000,
+  "seed": 20261112,
+  "rows": [
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.05,
+      "power": 0.274
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.08,
+      "power": 0.563
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.1,
+      "power": 0.734
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.12,
+      "power": 0.854
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.15,
+      "power": 0.953
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.2,
+      "power": 0.993
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.05,
+      "power": 0.175
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.08,
+      "power": 0.386
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.1,
+      "power": 0.532
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.12,
+      "power": 0.677
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.15,
+      "power": 0.846
+    },
+    {
+      "pairs": 100,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.2,
+      "power": 0.962
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.05,
+      "power": 0.371
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.08,
+      "power": 0.71
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.1,
+      "power": 0.864
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.12,
+      "power": 0.942
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.15,
+      "power": 0.988
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.02,
+      "true_accuracy_difference": 0.2,
+      "power": 0.999
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.05,
+      "power": 0.238
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.08,
+      "power": 0.513
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.1,
+      "power": 0.667
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.12,
+      "power": 0.81
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.15,
+      "power": 0.925
+    },
+    {
+      "pairs": 130,
+      "only_hindi_variant_right": 0.05,
+      "true_accuracy_difference": 0.2,
+      "power": 0.991
+    }
+  ]
+}

@@ -1,9 +1,13 @@
 # Kitna
 
-> **Status: phase 1 of 6 (gap check). There is no parser and no benchmark yet.**
-> Nothing here is installable. See [PLAN.md](PLAN.md).
+> **Status: pre-alpha (0.1.0.dev0), not on PyPI.** The parser is built but
+> **has no accuracy figure**: no native speaker has reviewed its rules or test
+> cases, and the held-out set that will give one does not exist. The benchmark
+> tooling runs end to end on a mock model, but **the benchmark itself does not
+> exist yet and no model has been run**: it needs utterances written and labelled
+> by native speakers. [What is done and what is not](#status).
 
-Kitna ("how much") is planned as two things:
+Kitna ("how much") is two things:
 
 - **A Python library** that converts Hinglish (Romanized Hindi mixed with
   English) and Devanagari quantities, money, times and dates into exact
@@ -21,34 +25,129 @@ Kitna ("how much") is planned as two things:
   of BFCL.
 - The Hindi number and date parsers we examined handle Devanagari, not Roman
   script, and have no fraction idioms (dhai, dedh, saade) or ambiguity output.
-  In our phase-1 probe, number-parser parsed 1 of 75 Roman-script number cases
-  and dateparser 3 of 75 Roman-script date/time cases, all four being plain
+  In our phase-1 probe, number-parser parsed 2 of 82 Roman-script number cases
+  and dateparser 3 of 91 Roman-script date/time cases, all five being plain
   English inputs. The cases are our own unreviewed drafts, built to target
-  this gap. Source: `results/phase1/baseline_probe_summary.json`.
+  this gap. Source: [results/phase1/baseline_probe_summary.json](results/phase1/baseline_probe_summary.json).
 
 Details, caveats and what these projects do well: [docs/related_work.md](docs/related_work.md).
 
-## What exists today
+## What works today
+
+```console
+$ kitna parse "kal subah saade saat baje 2.5 lakh rupaye bhej dunga" --base 2026-11-12
+datetime	2026-11-13T07:30	confidence=1.0	'kal subah saade saat baje'
+money	INR 250000	confidence=1.0	'2.5 lakh rupaye'
+$ kitna parse "kal shaam sawa paanch baje" --base 2026-11-12
+datetime	2026-11-11T17:15 | 2026-11-13T17:15	confidence=1.0  [ambiguous]	'kal shaam sawa paanch baje'
+```
+
+```python
+import datetime
+import kitna
+kitna.parse("paune do lakh rupaye")[0].canonical        # 'INR 175000'
+kitna.parse("do se teen hazaar rupaye")[0].canonical    # 'INR 2000..INR 3000'
+kitna.parse("5 baje")[0].candidates                     # 05:00 and 17:00, ambiguous=True
+kitna.parse("mujhe paani de do")                        # []  ("do" is the verb)
+kitna.parse("no one came")                              # []  (English "one" needs an anchor)
+kitna.parse_date("26 January", datetime.date(2026, 11, 12), prefer="future").canonical   # '2027-01-26'
+```
+
+`kal` with no tense cue is returned as both yesterday and tomorrow; nothing is
+picked silently. Confidence is an ordering, not a probability.
+
+Relative dates need a "today". Pass `relative_base=`; without it the system
+clock is used and the result carries a `warnings` entry. `strict=True` raises
+instead, and `now=` injects a clock for tests. `Result.to_dict()` gives a
+versioned JSON form (schema: `src/kitna/data/result.schema.json`).
+
+More examples, all executed by the test suite: [docs/quickstart.md](docs/quickstart.md).
+
+## Status
+
+| Piece | Status | Evidence |
+|---|---|---|
+| Parser: numbers, fractions, money, ranges, times, durations, dates | built, **in review** (waiting for native speakers) | [results/phase2/golden_summary.json](results/phase2/golden_summary.json) |
+| Clock warning, strict mode, versioned JSON output | done | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
+| Documentation site, project files | done; site builds locally, not deployed | `mkdocs build --strict` |
+| Benchmark item schema, validator, authoring kit, annotation tools | done | [bench/README.md](bench/README.md) |
+| AI-drafted seed set (40 scenarios, pipeline test only) | done; **never reported as results** | [bench/items/seed_v0.jsonl](bench/items/seed_v0.jsonl) |
+| Scenario drafts for the benchmark (160: tools, gold, English, Devanagari, briefs) | AI-drafted, **in review** | [bench/authoring/scenarios_v1_draft.jsonl](bench/authoring/scenarios_v1_draft.jsonl) |
+| Evaluation harness, grader, statistics, reports | done, exercised with a mock model only | [results/pipeline_check_mock/](results/pipeline_check_mock/README.md) |
+| Analysis plan | written before any run, tagged `analysis-plan-v1` | [docs/analysis_plan.md](docs/analysis_plan.md) |
+| Dataset card, demo, leaderboard page, post drafts | drafts with placeholders | `hf/`, `demo/`, `leaderboard/`, `drafts/` |
+| CI and release workflows | written; **never run on GitHub**; local checks on Python 3.11 only | [docs/releasing.md](docs/releasing.md) |
+| Native-speaker review of parser rules, spellings, cases | **not started** | [docs/open_questions.md](docs/open_questions.md) |
+| Held-out accuracy set for the parser | **not started** (protocol and freeze script ready) | [docs/heldout_protocol.md](docs/heldout_protocol.md) |
+| Roman Hinglish utterances by native speakers | **not started** | [bench/authoring/guideline.md](bench/authoring/guideline.md) |
+| Independent labels and agreement (kappa) | **not started** | - |
+| Runs on real models, results, leaderboard entries | **not started** | - |
+| PyPI release | **not started** (owner checklist ready) | [docs/releasing.md](docs/releasing.md) |
+
+### What has been checked, and what has not
+
+| Check | Result | Source |
+|---|---|---|
+| Parser vs. its author's own draft cases, settled rules | 322 of 322 match | [results/phase2/golden_summary.json](results/phase2/golden_summary.json) |
+| Same, cases resting on rules still awaiting a native speaker (reported separately) | 36 of 36 match | same file |
+| Test suite, including benchmark-tooling tests | 573 passed, 1 expected failure (a pinned known limitation) | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
+| Native-speaker review of rules, spellings or cases | **not done** | [docs/review/](docs/review/README.md) |
+| Accuracy on a held-out set written by native speakers | **not measured; set does not exist** | [docs/heldout_protocol.md](docs/heldout_protocol.md) |
+
+The first two rows are a self-consistency check, not accuracy: the same AI
+agent wrote the cases and the parser.
+
+Install from a checkout: `pip install -e ".[dev]"`, then `pytest`.
+
+## What Kitna does not do
+
+- It does not translate, transliterate, or understand sentences. It finds
+  quantity, money, time and date expressions and nothing else.
+- It does not guess. An unresolved `kal` or `5 baje` comes back with every
+  candidate and `value=None`; your code or your user has to choose.
+- It does not use a model, and nothing is trained or fine-tuned. Rules and
+  spelling tables only, so an unlisted spelling can be missed.
+- It does not handle speech, other Indian languages, time zones other than a
+  naive IST reading, currencies beyond those in `markers.tsv`, ordinals as
+  dates in every form, or recurring schedules (`har somvaar`).
+- It does not read lone English number words (`I have two options`) unless a
+  unit, currency, scale word or Hindi neighbour anchors them. This is
+  deliberate: a false number is worse than a miss.
+- It does not give a calibrated probability. `confidence` only orders results.
+- It has no measured accuracy yet.
+
+The longer list, with examples: [docs/limitations.md](docs/limitations.md).
+
+## Repository
 
 | Path | What |
 |---|---|
+| `src/kitna/` | The library (zero runtime dependencies, typed) |
+| `src/kitna/data/` | Spelling tables as plain TSV; see `data/README.md` to contribute |
+| `tests/` | Golden cases, unit tests, hypothesis property and fuzz tests |
 | `docs/related_work.md` | What BFCL-Hi, IndicOrderBench, number-parser, dateparser cover |
-| `docs/taxonomy.md` | Draft phenomena, canonical forms, open questions |
-| `tests/golden/draft_cases.jsonl` | 292 draft parser cases (unreviewed) |
-| `docs/review/` | Reviewer instructions and spreadsheet |
-| `scripts/`, `results/phase1/` | Case validator, baseline probe and its raw output |
-
-```bash
-python scripts/validate_cases.py     # stdlib only
-pip install pytest && pytest -q
-```
+| `docs/taxonomy.md` | Phenomena, canonical forms, decisions, open questions (draft 2) |
+| `docs/review/` | Reviewer instructions, spreadsheet, round-1 decisions |
+| `docs/limitations.md` | Behaviours that may surprise you; what the numbers do not mean |
+| `docs/heldout_protocol.md` | How the first real accuracy number will be produced |
+| `src/kitna/data/policy.tsv` | Every contested rule, editable without touching code |
+| `docs/open_questions.md` | Design decisions that need native-speaker input |
+| `CONTRIBUTING.md` | How to add a spelling, how review works |
+| `bench/` | Benchmark: schema, tools, seed set, scenario drafts, authoring kit, harness (`bench/README.md`) |
+| `docs/analysis_plan.md` | Statistics and kill criterion, fixed before any run |
+| `docs/claims_checklist.md` | Every public claim and the results file behind it |
+| `hf/`, `demo/`, `leaderboard/`, `drafts/` | Draft dataset card, Gradio demo, leaderboard page, post drafts |
+| `scripts/`, `results/` | Case validator, baseline probe, raw outputs behind every number here |
 
 ## Limitations (current)
 
-- All Hindi/Hinglish text so far was drafted by an AI agent and has not been
-  reviewed by a native speaker.
-- Related-work checks were limited to GitHub and PyPI on 2026-11-12.
+- All Hindi/Hinglish text so far was drafted by an AI agent. One non-native
+  reviewer checked the arithmetic; no native speaker has reviewed it.
+- The spelling tables are AI-drafted too. Unlisted spellings fall back to a
+  repair step that can miss, and ordinary words that look like number words
+  (`do`, `saath`, `ek`) are handled by a small rule list that will have gaps.
+- Related-work checks were limited to GitHub and PyPI (last re-checked 2026-11-14).
 
 ## License
 
-Code: Apache-2.0. Benchmark data (planned): CC BY 4.0.
+Code: Apache-2.0. Benchmark data: CC BY 4.0 (`bench/LICENSE-DATA.md`).

@@ -1,0 +1,51 @@
+site_name: Kitna
+site_description: Hinglish and Devanagari quantities, money, times and dates to exact canonical values
+repo_url: https://github.com/Saparajeeta/Kitna
+edit_uri: edit/main/docs/
+theme:
+  name: material
+  features: [navigation.sections, content.code.copy]
+markdown_extensions:
+  - admonition
+  - tables
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: false
+            show_root_heading: true
+            heading_level: 3
+exclude_docs: |
+  _generated/
+  review/*.csv
+nav:
+  - Home: index.md
+  - Install: install.md
+  - Quickstart: quickstart.md
+  - Reference:
+      - API: api.md
+      - Taxonomy and canonical forms: taxonomy.md
+      - Ambiguity handling: ambiguity.md
+      - The policy table: policy.md
+  - Limitations: limitations.md
+  - Contributing:
+      - Add a spelling: add_spelling.md
+      - Decisions that need native-speaker input: open_questions.md
+      - Reviewing parser cases: review/README.md
+      - Review round 1: review/round1_decisions.md
+  - Benchmark:
+      - Methodology: benchmark_methodology.md
+      - Analysis plan: analysis_plan.md
+      - Held-out protocol: heldout_protocol.md
+  - Project:
+      - Releasing and version policy: releasing.md
+      - Claims checklist: claims_checklist.md
+  - Related work: related_work.md
+  - Changelog: changelog.md

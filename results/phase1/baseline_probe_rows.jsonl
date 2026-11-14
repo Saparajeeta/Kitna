@@ -164,7 +164,7 @@
 {"id": "DAT-026", "text": "शुक्रवार को", "script": "devanagari", "kind": "date", "tool": "dateparser", "got": "2026-11-06", "expected": "2026-11-13", "outcome": "wrong"}
 {"id": "DAT-027", "text": "guruvaar", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": ["2026-11-12", "2026-11-19"], "outcome": "no_parse"}
 {"id": "DAT-028", "text": "agle somvaar", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-16", "outcome": "no_parse"}
-{"id": "DAT-029", "text": "agle shanivaar", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": ["2026-11-14", "2026-11-21"], "outcome": "no_parse"}
+{"id": "DAT-029", "text": "agle shanivaar", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-14", "outcome": "no_parse"}
 {"id": "DAT-030", "text": "pichhle shukravaar", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-06", "outcome": "no_parse"}
 {"id": "DAT-031", "text": "is ravivaar", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-15", "outcome": "no_parse"}
 {"id": "DAT-032", "text": "agle hafte mangalvaar", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-17", "outcome": "no_parse"}
@@ -192,3 +192,30 @@
 {"id": "DAT-054", "text": "agle mahine ki 5 tareekh", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-12-05", "outcome": "no_parse"}
 {"id": "DAT-055", "text": "is mahine ki 20 tareekh", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-20", "outcome": "no_parse"}
 {"id": "DAT-056", "text": "pichhle mahine ki 28 tareekh", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-10-28", "outcome": "no_parse"}
+{"id": "NUM-088", "text": "2 lakhs", "script": "roman", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 200000, "outcome": "no_parse"}
+{"id": "NUM-089", "text": "5 crores", "script": "roman", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 50000000, "outcome": "no_parse"}
+{"id": "NUM-090", "text": "two lakh fifty thousand", "script": "roman", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 250000, "outcome": "no_parse"}
+{"id": "NUM-091", "text": "५ lakh", "script": "mixed", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 500000, "outcome": "no_parse"}
+{"id": "NUM-092", "text": "पाँच हज़ार", "script": "devanagari", "kind": "number", "got_hi": 5000, "got_en": null, "tool": "number-parser", "expected": 5000, "outcome": "correct"}
+{"id": "NUM-093", "text": "chhah", "script": "roman", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 6, "outcome": "no_parse"}
+{"id": "TIM-048", "text": "subah 3 baje", "script": "roman", "kind": "time", "tool": "dateparser", "got": null, "expected": "03:00", "outcome": "no_parse"}
+{"id": "TIM-049", "text": "shaam 11 baje", "script": "roman", "kind": "time", "tool": "dateparser", "got": null, "expected": "23:00", "outcome": "no_parse"}
+{"id": "DTM-001", "text": "do ghante baad", "script": "roman", "kind": "datetime", "tool": "dateparser", "got": null, "expected": "2026-11-12T12:00", "outcome": "no_parse"}
+{"id": "DTM-002", "text": "das minute pehle", "script": "roman", "kind": "datetime", "tool": "dateparser", "got": null, "expected": "2026-11-12T09:50", "outcome": "no_parse"}
+{"id": "DTM-003", "text": "aadhe ghante baad", "script": "roman", "kind": "datetime", "tool": "dateparser", "got": null, "expected": "2026-11-12T10:30", "outcome": "no_parse"}
+{"id": "DTM-004", "text": "दो घंटे बाद", "script": "devanagari", "kind": "datetime", "tool": "dateparser", "got": null, "expected": "2026-11-12T12:00", "outcome": "no_parse"}
+{"id": "DTM-005", "text": "kal subah 7 baje jaunga", "script": "roman", "kind": "datetime", "tool": "dateparser", "got": null, "expected": "2026-11-13T07:00", "outcome": "no_parse"}
+{"id": "DTM-006", "text": "kal shaam 5 baje", "script": "roman", "kind": "datetime", "tool": "dateparser", "got": null, "expected": ["2026-11-11T17:00", "2026-11-13T17:00"], "outcome": "no_parse"}
+{"id": "DTM-007", "text": "parso dopahar 2 baje meeting thi", "script": "roman", "kind": "datetime", "tool": "dateparser", "got": null, "expected": "2026-11-10T14:00", "outcome": "no_parse"}
+{"id": "DTM-008", "text": "आज रात 9 बजे", "script": "devanagari", "kind": "datetime", "tool": "dateparser", "got": null, "expected": "2026-11-12T21:00", "outcome": "no_parse"}
+{"id": "DTM-009", "text": "somvaar ko subah 10 baje", "script": "roman", "kind": "datetime", "tool": "dateparser", "got": null, "expected": "2026-11-16T10:00", "outcome": "no_parse"}
+{"id": "DAT-057", "text": "shanivaar ko gaya tha", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-07", "outcome": "no_parse"}
+{"id": "DAT-058", "text": "somvaar ko aaya tha", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-09", "outcome": "no_parse"}
+{"id": "DAT-059", "text": "pichhle hafte budhvaar ko mila tha", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-04", "outcome": "no_parse"}
+{"id": "DAT-060", "text": "agle hafte shanivaar", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-21", "outcome": "no_parse"}
+{"id": "DAT-067", "text": "20 tareekh ko", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": ["2026-10-20", "2026-11-20"], "outcome": "no_parse"}
+{"id": "DAT-069", "text": "5 tareekh ko jaunga", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-12-05", "outcome": "no_parse"}
+{"id": "DAT-070", "text": "5 tareekh ko aaya tha", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-05", "outcome": "no_parse"}
+{"id": "NUM-102", "text": "ten", "script": "roman", "kind": "number", "got_hi": null, "got_en": 10, "tool": "number-parser", "expected": 10, "outcome": "correct"}
+{"id": "NUM-107", "text": "do chai", "script": "roman", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 2, "outcome": "no_parse"}
+{"id": "NUM-108", "text": "paanch sau do", "script": "roman", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 502, "outcome": "no_parse"}

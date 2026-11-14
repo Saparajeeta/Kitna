@@ -1,0 +1,65 @@
+# kitna-data: time_words
+# version: 1
+# status: AI-drafted, not yet reviewed by a native speaker
+# format: role<TAB>key<TAB>spellings separated by | (may contain spaces) (TAB between columns)
+daypart	subah	subah | subeh | savere | sawere | saware | morning | सुबह | सवेरे
+daypart	dopahar	dopahar | dopeher | dupahar | dopahr | dopehar | afternoon | दोपहर
+daypart	shaam	shaam | sham | evening | शाम
+daypart	raat	raat | night | रात
+baje	-	baje | bje | bajey | o'clock | बजे
+bajke	-	bajke | bajkar | baj ke | baj kar | बजकर | बजके | बज कर
+bajne	-	bajne mein | bajne me | bajne main | बजने में
+ampm	am	am
+ampm	pm	pm
+unit	second	second | seconds | sec | सेकंड
+unit	minute	minute | minutes | min | mint | मिनट
+unit	hour	ghanta | ghante | ghanton | ghnte | hour | hours | hr | hrs | घंटा | घंटे | घंटों
+unit	day	din | dino | dinon | day | days | दिन | दिनों
+unit	week	hafta | hafte | hafton | week | weeks | saptah | हफ़्ता | हफ़्ते | हफ़्तों | सप्ताह
+unit	month	mahina | mahine | mahino | maheene | maheena | month | months | महीना | महीने | महीनों
+unit	year	saal | saalon | year | years | varsh | साल | सालों | वर्ष
+rel	0	aaj | aj | today | आज
+rel	kal	kal | कल
+rel	parso	parso | parson | parsu | परसों
+rel	narso	narso | narson | tarso | नरसों | तरसों
+rel	+1	tomorrow
+rel	-1	yesterday
+rel	+2	day after tomorrow
+rel	-2	day before yesterday
+weekday	0	somvaar | somvar | somwar | somwaar | monday | सोमवार
+weekday	1	mangalvaar | mangalvar | mangalwar | mangalwaar | tuesday | मंगलवार
+weekday	2	budhvaar | budhvar | budhwar | budhwaar | wednesday | बुधवार
+weekday	3	guruvaar | guruvar | guruwar | guruwaar | brihaspativar | veervar | thursday | गुरुवार | बृहस्पतिवार | वीरवार
+weekday	4	shukravaar | shukravar | shukrawar | shukrvar | shukrawaar | friday | शुक्रवार
+weekday	5	shanivaar | shanivar | shaniwar | shaniwaar | saturday | शनिवार
+weekday	6	ravivaar | ravivar | raviwar | raviwaar | itvaar | itvar | itwar | itwaar | sunday | रविवार | इतवार
+month	1	janvari | janwari | january | jan | जनवरी
+month	2	farvari | farwari | february | feb | फ़रवरी
+month	3	march | maarch | mar | मार्च
+month	4	april | aprail | apr | अप्रैल
+month	5	may | mai | मई
+month	6	june | joon | jun | जून
+month	7	july | julai | jul | जुलाई
+month	8	august | agast | agust | aug | अगस्त
+month	9	september | sitambar | sept | sep | सितंबर | सितम्बर
+month	10	october | aktubar | aktoobar | oct | अक्टूबर | अक्तूबर
+month	11	november | navambar | nov | नवंबर | नवम्बर
+month	12	december | disambar | dec | दिसंबर | दिसम्बर
+next	-	agle | agla | agli | next | अगले | अगला | अगली
+prev	-	pichhle | pichle | pichhla | pichhli | pichla | last | पिछले | पिछला | पिछली
+this	-	is | iss | this | इस
+after	-	baad | ke baad | later | बाद | के बाद
+before	-	pehle | pahle | pehele | ago | पहले
+tareekh	-	tareekh | tarikh | taareekh | tarik | तारीख
+of	-	ki | ka | ke | की | का | के
+particle	-	ko | ke | at | को | के
+from_today	-	aaj se | aj se | आज से
+until	-	tak | तक
+range_sep	-	se | to | - | – | से
+clause_break	-	aur | lekin | magar | phir | and | but | और | लेकिन | मगर | फिर
+cue_future_word	-	hoga | hogi | honge | will | aane wale | aane wala | aane wali | aanewale | होगा | होगी | होंगे | आने वाले | आने वाला | आने वाली
+cue_future_suffix	-	unga | ungi | oonga | oongi | enge | engi | ega | egi | ूंगा | ूंगी | ऊंगा | ऊंगी | ेंगे | एंगे | ेगा | ेगी | एगा | एगी
+cue_future_na	-	hai | hain | hoga | है | हैं | होगा
+cue_past_word	-	tha | thi | gaya | gayi | gaye | gya | gyi | aaya | aayi | aaye | hua | hui | hue | kiya | kiye | mila | mili | liya | diya | dekha | bheja | beete | bite | beeta | bita | guzre | था | थी | थे | गया | गई | गयी | गए | आया | आई | आए | हुआ | हुई | हुए | किया | मिला | मिली | लिया | दिया | देखा | भेजा | बीते | बीता
+cue_not_future	-	challenge | revenge | omega | mega
+recurring	-	har | every | prati | हर | प्रति

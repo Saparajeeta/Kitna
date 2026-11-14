@@ -1,0 +1,10 @@
+model,condition,variant,wrong_tool,wrong_scale,wrong_date_direction,am_pm,fraction_idiom,hallucinated_argument,refusal,other
+mock-scripted-a,kitna_hints,english,0,0,0,0,0,0,1,0
+mock-scripted-a,kitna_hints,roman,0,0,1,0,0,0,3,0
+mock-scripted-a,kitna_hints,devanagari,1,0,0,0,0,3,4,0
+mock-scripted-a,raw,english,1,0,0,0,0,0,3,0
+mock-scripted-a,raw,roman,1,0,1,0,0,2,6,0
+mock-scripted-a,raw,devanagari,1,0,0,0,0,4,6,0
+mock-scripted-b,kitna_hints,roman,0,0,0,0,0,0,1,0
+mock-scripted-b,raw,roman,2,0,0,0,0,0,1,0
+mock-scripted-b,raw,devanagari,1,0,0,0,1,0,1,0

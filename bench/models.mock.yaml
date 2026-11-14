@@ -1,0 +1,5 @@
+# Offline pipeline check. These "models" read the gold answers; their scores mean nothing.
+models:
+  - {name: mock-oracle, adapter: mock, behavior: oracle}
+  - {name: mock-scripted-a, adapter: mock, behavior: scripted, error_rate: 0.35}
+  - {name: mock-scripted-b, adapter: mock, behavior: scripted, error_rate: 0.15}

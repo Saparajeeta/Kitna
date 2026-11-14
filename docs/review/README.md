@@ -1,17 +1,23 @@
-# Phase-1 review: how to mark up the cases
+# How to review the cases (about two hours)
 
-1. Read `docs/taxonomy.md`, answer the Open questions (Q1-Q10).
-2. Open `phase1_cases_review.csv` (UTF-8, opens in Excel / Google Sheets). For each row fill:
-   - `verdict`: `ok`, `wrong` (expected value is wrong), or `unnatural` (nobody says/types this);
+Who: a native Hindi/Hinglish speaker. The arithmetic was already checked in
+round 1 (`round1_decisions.md`); spend the time on **naturalness, regional
+usage and spelling**, not on the numbers.
+
+1. Answer the open questions in `docs/taxonomy.md` section 5.
+2. Open `phase1_cases_review.csv` (UTF-8; Excel or Google Sheets). Filter the
+   `tags` column to rows containing any of `review`, `ambiguity`, `tense-cue`,
+   `daypart`, `spelling`, `noise` (start with the `review` rows). For each, fill:
+   - `verdict`: `ok`, `wrong` (expected value is wrong) or `unnatural` (nobody says or types this);
    - `corrected_value` when wrong;
-   - `reviewer_comment` for anything else, including spellings to add.
-   Rows tagged `review` are the ones the author is least sure about; start there.
-3. Send the file back (or commit it as `phase1_cases_review_<initials>.csv`).
+   - `reviewer_comment`: anything else, especially spellings you would type instead.
+3. Skim the remaining rows; mark only what looks off.
+4. Send the file back, or commit it as `phase1_cases_review_<initials>.csv`.
 
-After review the agent will apply corrections, set `status` to `validated` or
-`rejected` per case, and record who reviewed what and when in
-`docs/review/REVIEW_LOG.md`. Until that file exists, no case may be called
+After a native review, corrections are applied, each case gets
+`status: validated` or `rejected`, and reviewer, date and scope go into
+`docs/review/REVIEW_LOG.md`. Until that file exists no case may be marked
 validated (enforced by `tests/test_golden_format.py`).
 
-The canonical file is `tests/golden/draft_cases.jsonl`; regenerate the CSV with
+The canonical file is `tests/golden/draft_cases.jsonl`. Regenerate the CSV with
 `python scripts/validate_cases.py --export-csv docs/review/phase1_cases_review.csv`.

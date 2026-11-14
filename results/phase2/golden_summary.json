@@ -1,0 +1,51 @@
+{
+  "what_this_is": "agreement between the parser and its author's own draft expectations; NOT an accuracy figure. No native-speaker review has happened and there is no held-out set yet (docs/heldout_protocol.md).",
+  "generated_utc": "2026-11-14T14:03:26+00:00",
+  "kitna": "0.1.0.dev0",
+  "python": "3.11.2",
+  "policy_version": "1",
+  "cases_total": 358,
+  "cases_status": {
+    "draft": 358
+  },
+  "headline_excludes_review_tagged": true,
+  "settled": {
+    "match": 322,
+    "n": 322
+  },
+  "settled_by_kind": {
+    "date": {
+      "match": 69,
+      "n": 69
+    },
+    "datetime": {
+      "match": 9,
+      "n": 9
+    },
+    "digits": {
+      "match": 6,
+      "n": 6
+    },
+    "duration": {
+      "match": 16,
+      "n": 16
+    },
+    "money": {
+      "match": 49,
+      "n": 49
+    },
+    "number": {
+      "match": 128,
+      "n": 128
+    },
+    "time": {
+      "match": 45,
+      "n": 45
+    }
+  },
+  "review_tagged_reported_separately": {
+    "match": 36,
+    "n": 36
+  },
+  "mismatches": []
+}

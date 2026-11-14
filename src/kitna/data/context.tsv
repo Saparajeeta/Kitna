@@ -1,0 +1,23 @@
+# kitna-data: context
+# version: 1
+# status: AI-drafted spellings, not yet reviewed by a native speaker
+# format: rule<TAB>words<TAB>context words
+# To add a spelling you actually type, append it to the right row. Lines starting with # are ignored.
+# Rules that stop a word being read as a number.
+# not_number_if_prev: the word is not a number when the word before it is in the list (de do = 'give')
+# not_number_if_next: ... when the word after it is in the list (ek baar = 'once')
+#   a rule written as rule:policy.key applies only while that row of policy.tsv says 'nothing'
+# verb_if_clause_final: the word is a verb when it ends a clause after an ordinary word (ticket do); 'connectors' are excepted (ek ya do)
+# needs_numeric_neighbour: only a number next to another number, scale or currency word (saath = 60, but usually 'with')
+# hindi_neighbours: an English number word standing alone (one, two, ten) counts only with a kind hint, next to a
+#   scale / currency / unit word, or next to one of these Hindi words (or any Devanagari word). "no one" is not 1.
+# no_fuzzy: real words that must never be spelling-corrected into a number word
+not_number_if_prev	do दो	de kar bata bhej likh rakh chhod la dikha bana hata laga daal dal suna bol jaane jane rehne hone aane dila karwa de दे कर बता भेज लिख रख छोड़ ला दिखा बना हटा लगा डाल सुना बोल जाने रहने होने आने दिला करवा
+not_number_if_next	do	you we i they not it
+not_number_if_next:number.ek_baar	ek एक	baar bar baari dafa बार दफ़ा
+not_number_if_prev	saat saath sath	mere tere uske unke iske inke ke hamare humare tumhare aapke apne kiske sabke
+verb_if_clause_final	do दो	-
+connectors	-	ya aur or and se to या और से
+needs_numeric_neighbour	saath sath	-
+no_fuzzy	-	there these thirsty eighth fourth forth fifth sixth seventh chappal bachpan aadhar hazir baraf solar chore lakes pause saare sawal saval chaat chaal satta batti chali chalis bazaar seventeenth
+hindi_neighbours	-	ko ka ki ke se mein par tak aur ya hai hain tha thi hoga hogi chahiye chahiye dena lena bhejo karo kar log baar wala wale wali rupaye aadmi bache ticket kilo din baje को का की के से में पर तक और या है हैं था थी चाहिए
