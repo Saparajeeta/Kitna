@@ -1,0 +1,24 @@
+{
+  "run_id": "pipeline_check_mock",
+  "is_real_run": false,
+  "seed_items_only": true,
+  "rows_scored": 720,
+  "kill_criterion": {
+    "evaluated": false,
+    "ceiling_reached": null,
+    "reason": "not evaluated: this is not a real run"
+  },
+  "files": [
+    "summary.md",
+    "summary.csv",
+    "paired_tests.csv",
+    "ablation_tests.csv",
+    "error_types.csv",
+    "argument_accuracy_by_kind.csv",
+    "sample_consistency.csv",
+    "manual_review_sample.csv",
+    "scored.jsonl",
+    "plots/accuracy_by_variant.png",
+    "plots/error_types.png"
+  ]
+}

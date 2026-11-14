@@ -1,0 +1,7 @@
+model,condition,comparison,n_pairs,both_right,only_first_right,only_second_right,both_wrong,p_value,diff_diff,diff_ci_low,diff_ci_high,acc_english,acc_other,p_holm,reject
+mock-oracle,raw,english_vs_roman,25,25,0,0,0,1.0000,0.0000,0.0000,0.0000,1.0000,1.0000,1.0000,False
+mock-oracle,raw,english_vs_devanagari,25,25,0,0,0,1.0000,0.0000,0.0000,0.0000,1.0000,1.0000,1.0000,False
+mock-scripted-a,raw,english_vs_roman,25,16,6,2,1,0.2891,0.1600,-0.0400,0.3600,0.8800,0.7200,1.0000,False
+mock-scripted-a,raw,english_vs_devanagari,25,16,6,3,0,0.5078,0.1200,-0.1200,0.3600,0.8800,0.7600,1.0000,False
+mock-scripted-b,raw,english_vs_roman,25,23,2,0,0,0.5000,0.0800,0.0000,0.2000,1.0000,0.9200,1.0000,False
+mock-scripted-b,raw,english_vs_devanagari,25,23,2,0,0,0.5000,0.0800,0.0000,0.2000,1.0000,0.9200,1.0000,False

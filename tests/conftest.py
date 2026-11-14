@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import importlib.util
 import json
 from datetime import date, datetime, time
 from decimal import Decimal
@@ -68,3 +69,9 @@ def check_case(case: dict[str, Any]) -> str | None:
         if not 0.0 < r.confidence <= b.get("max_confidence", 1.0):
             return f"confidence {r.confidence} above {b.get('max_confidence', 1.0)}"
     return None
+
+
+# Benchmark-tooling tests need the `bench` extra; without it they are not collected.
+_BENCH_NEEDS = ("jsonschema", "yaml", "numpy", "scipy", "statsmodels", "matplotlib")
+collect_ignore_glob = (["bench/test_*.py"] if any(importlib.util.find_spec(m) is None for m in _BENCH_NEEDS)
+                       else [])

@@ -1,0 +1,2 @@
+scenario_id,domain,brief,roman_utterance,writer_id,comment
+v1-xxx-000,payments,"Today is Thu 12 Nov 2026, 10:00 am. (EXAMPLE ROW - delete it.) Ask to send money now. Payee: Ramesh. Amount: ₹2,50,000.",,w01,

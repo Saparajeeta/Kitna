@@ -1,0 +1,41 @@
+# Copy to bench/models.yaml (git-ignored) and fill it in. Nothing here names a real model:
+# you choose them. Replace every <...>; the harness refuses to run while a placeholder remains.
+#
+# API keys are never written in this file. `api_key_env` is the NAME of an environment
+# variable that holds the key.
+#
+# Prices are per one million tokens, in US dollars, from your provider's price page on the
+# day you run. They are used for the estimate and for the cost cap. Without prices a model's
+# cost is not estimated and does not count against the cap.
+
+models:
+  # A hosted, OpenAI-compatible API
+  - name: <label-for-tables>              # e.g. the model family; appears in every table
+    adapter: openai_compat
+    base_url: <https://provider.example/v1>
+    model: <model-id-exactly-as-the-provider-names-it>
+    model_version: <dated snapshot or version string shown by the provider>
+    api_key_env: <NAME_OF_ENV_VAR>
+    usd_per_1m_input_tokens: <number>
+    usd_per_1m_output_tokens: <number>
+    timeout_s: 60
+    max_retries: 4
+
+  # A local model served by Ollama (no key, no cost)
+  # - name: <label>
+  #   adapter: openai_compat
+  #   base_url: http://localhost:11434/v1
+  #   model: <ollama model tag>
+  #   model_version: <output of `ollama show <tag>`: digest>
+  #   usd_per_1m_input_tokens: 0
+  #   usd_per_1m_output_tokens: 0
+  #   send_seed: true
+
+  # A model served by vLLM (start it with tool calling enabled)
+  # - name: <label>
+  #   adapter: openai_compat
+  #   base_url: http://localhost:8000/v1
+  #   model: <served-model-name>
+  #   model_version: <model revision / commit hash>
+  #   usd_per_1m_input_tokens: 0
+  #   usd_per_1m_output_tokens: 0

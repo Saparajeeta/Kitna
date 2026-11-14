@@ -1,0 +1,10 @@
+model,variant,comparison,n_pairs,both_right,only_first_right,only_second_right,both_wrong,p_value,diff_diff,diff_ci_low,diff_ci_high,acc_kitna_hints,acc_raw,p_holm,reject
+mock-oracle,english,kitna_hints_vs_raw,26,26,0,0,0,1.0000,0.0000,0.0000,0.0000,1.0000,1.0000,1.0000,False
+mock-oracle,roman,kitna_hints_vs_raw,25,25,0,0,0,1.0000,0.0000,0.0000,0.0000,1.0000,1.0000,1.0000,False
+mock-oracle,devanagari,kitna_hints_vs_raw,25,25,0,0,0,1.0000,0.0000,0.0000,0.0000,1.0000,1.0000,1.0000,False
+mock-scripted-a,english,kitna_hints_vs_raw,26,23,2,0,1,0.5000,0.0769,0.0000,0.1923,0.9615,0.8846,1.0000,False
+mock-scripted-a,roman,kitna_hints_vs_raw,25,18,3,0,4,0.2500,0.1200,0.0000,0.2800,0.8400,0.7200,1.0000,False
+mock-scripted-a,devanagari,kitna_hints_vs_raw,25,19,2,0,4,0.5000,0.0800,0.0000,0.2000,0.8400,0.7600,1.0000,False
+mock-scripted-b,english,kitna_hints_vs_raw,26,26,0,0,0,1.0000,0.0000,0.0000,0.0000,1.0000,1.0000,1.0000,False
+mock-scripted-b,roman,kitna_hints_vs_raw,25,23,1,0,1,1.0000,0.0400,0.0000,0.1200,0.9600,0.9200,1.0000,False
+mock-scripted-b,devanagari,kitna_hints_vs_raw,25,23,2,0,0,0.5000,0.0800,0.0000,0.2000,1.0000,0.9200,1.0000,False

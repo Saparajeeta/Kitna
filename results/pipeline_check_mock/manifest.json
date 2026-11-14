@@ -1,0 +1,67 @@
+{
+  "what_this_is": "PIPELINE CHECK WITH A MOCK ADAPTER: the 'model' reads the gold answers. These are not model results and must not be quoted.",
+  "is_real_run": false,
+  "run_id": "pipeline_check_mock",
+  "started_utc": "2026-11-14T13:53:21+00:00",
+  "last_resumed_utc": "2026-11-14T13:53:21+00:00",
+  "finished_utc": "2026-11-14T13:53:22+00:00",
+  "items_file": "bench/items/seed_v0.jsonl",
+  "items_sha256": "3c1fb38080d9f03f15c4359ad6c4313618eb6e2765e0fd80ba46c4f45d4d557d",
+  "n_items": 120,
+  "n_scenarios": 40,
+  "item_provenance": [
+    "ai_drafted"
+  ],
+  "splits": [
+    "seed"
+  ],
+  "conditions": [
+    "raw",
+    "kitna_hints"
+  ],
+  "samples": 1,
+  "temperature_sample_0": 0.0,
+  "temperature_other_samples": null,
+  "seed": 20261112,
+  "prompt_version": "1",
+  "models": [
+    {
+      "name": "mock-oracle",
+      "adapter": "mock",
+      "behavior": "oracle"
+    },
+    {
+      "name": "mock-scripted-a",
+      "adapter": "mock",
+      "behavior": "scripted",
+      "error_rate": 0.35
+    },
+    {
+      "name": "mock-scripted-b",
+      "adapter": "mock",
+      "behavior": "scripted",
+      "error_rate": 0.15
+    }
+  ],
+  "git_commit": "a21228ea58c95e196d48970c07761de32f3f4991",
+  "git_dirty": true,
+  "analysis_plan_tag": null,
+  "versions": {
+    "python": "3.11.2",
+    "kitna": "0.1.0.dev0",
+    "kitna_bench": "0.1.0.dev0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "statsmodels": "0.15.0",
+    "matplotlib": "3.11.2",
+    "jsonschema": "4.26.0",
+    "pyyaml": "6.0.3"
+  },
+  "command": "scripts/bench.py run --models bench/models.mock.yaml --out results/pipeline_check_mock",
+  "max_cost_usd": null,
+  "complete": true,
+  "stopped_reason": null,
+  "calls_made_this_invocation": 720,
+  "failed_calls_this_invocation": 0,
+  "cost_usd_recorded": 0.0
+}
