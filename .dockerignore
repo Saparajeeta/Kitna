@@ -1,0 +1,14 @@
+.git
+.github
+**/__pycache__
+.venv
+bench
+demo
+docs
+drafts
+hf
+leaderboard
+results
+tests
+site
+dist

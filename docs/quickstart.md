@@ -98,3 +98,33 @@ Confidence is an ordering, not a probability: see [limitations](limitations.md).
 
 The same structure comes from `kitna parse "5 baje tak" --json`. Its JSON Schema
 ships with the package as `kitna/data/result.schema.json`; see the [API page](api.md).
+
+## The clock and the verb can settle "today"
+
+Said at 10:00 with a future verb, 2 o'clock today can only be the afternoon. This is a context
+resolver: a contested rule kept in `policy.tsv` (open question Q13), so the confidence is lower.
+
+```pycon
+>>> r = kitna.parse("aaj 2 baje call karungi", relative_base=B)[0]
+>>> r.canonical, r.confidence
+('2026-11-12T14:00', 0.9)
+>>> kitna.parse("aaj 11 baje aaunga", relative_base=B)[0].canonical   # both still to come: not decided
+'2026-11-12T11:00 | 2026-11-12T23:00'
+
+```
+
+## Checking a tool call
+
+```pycon
+>>> call = {"name": "transfer", "arguments": {"amount": 25000, "when": "2026-11-13T05:00"}}
+>>> review = kitna.postprocess_tool_call(call, "kal 5 baje dhai lakh rupaye bhej dena", relative_base=B)
+>>> review.arguments
+{'amount': 250000, 'when': '2026-11-13T05:00'}
+>>> [(a.name, a.status) for a in review.reviews]
+[('amount', 'corrected'), ('when', 'ambiguous')]
+>>> review.needs_confirmation
+True
+
+```
+
+More: [Use Kitna in your app](integrations.md).
