@@ -85,4 +85,7 @@ def build_ui() -> Any:
 
 
 if __name__ == "__main__":
-    build_ui().launch(server_name=os.environ.get("HOST", "0.0.0.0"), server_port=int(os.environ.get("PORT", "7860")))
+    # 127.0.0.1 by default so the printed address opens in a browser on every system.
+    # Hosted environments (containers, Spaces) set HOST or GRADIO_SERVER_NAME to 0.0.0.0.
+    host = os.environ.get("HOST") or os.environ.get("GRADIO_SERVER_NAME") or "127.0.0.1"
+    build_ui().launch(server_name=host, server_port=int(os.environ.get("PORT", "7860")))
