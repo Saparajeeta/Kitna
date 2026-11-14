@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use Kitna, please cite it as below. Pre-alpha software: no accuracy claims have been made."
+title: "Kitna: Hinglish and Devanagari quantities, money, times and dates to canonical values"
+type: software
+authors:
+  - name: "Saparajeeta"   # GitHub account that owns the repository. [TBD: replace with author name(s)]
+repository-code: "https://github.com/Saparajeeta/Kitna"
+license: Apache-2.0
+version: "0.1.0.dev0"

@@ -1,0 +1,21 @@
+name: Native-speaker input
+description: Answer an open question from docs/open_questions.md, or tell us a spelling you use
+labels: [native-input]
+body:
+  - type: input
+    id: question
+    attributes: {label: Question id or word, placeholder: "Q7, or 'hazaar'"}
+    validations: {required: true}
+  - type: textarea
+    id: answer
+    attributes: {label: Your answer, description: What it means to you, or the spellings you type}
+    validations: {required: true}
+  - type: input
+    id: region
+    attributes: {label: Where you learned Hindi/Hinglish (city or state, optional)}
+  - type: checkboxes
+    id: native
+    attributes:
+      label: About you
+      options:
+        - label: I am a native or fluent everyday speaker of Hindi/Hinglish
