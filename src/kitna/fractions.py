@@ -13,11 +13,7 @@ from __future__ import annotations
 from decimal import Decimal
 
 from .normalize import Entry
-
-#: ``saade`` needs a number of at least this size (``saade ek``/``saade do`` are not said).
-SAADE_MIN_N = 3
-#: confidence factor for a bare ``paune`` (speakers say ``paun``/``pauna``)
-BARE_PAUNE_CONFIDENCE = 0.8
+from .policy import policy
 
 
 class RejectedFraction(Exception):
@@ -26,7 +22,7 @@ class RejectedFraction(Exception):
 
 def with_number(frac: Entry, n: Decimal) -> Decimal:
     """``add``-type fraction followed by the whole number ``n``."""
-    if frac.name == "saade" and n < SAADE_MIN_N:
+    if frac.name == "saade" and n < int(policy().choice("saade.min_n")):
         raise RejectedFraction(f"'saade' is not used with {n}; speakers say dedh / dhai")
     return n + frac.value
 
@@ -38,11 +34,15 @@ def before_scale(frac: Entry) -> Decimal:
     return frac.value if frac.ftype == "fixed" else Decimal(1) + frac.value
 
 
-def alone(frac: Entry) -> tuple[Decimal, float]:
-    """Value and confidence factor of a fraction word standing by itself."""
+def alone(frac: Entry, *, unit_follows: bool = False) -> tuple[Decimal, float]:
+    """Value and confidence factor of a fraction word standing by itself.
+
+    A bare ``paune`` is unusual (speakers say ``paun``) unless a unit follows it
+    (``paune ghante`` = 45 minutes).
+    """
     if frac.name == "saade":
         raise RejectedFraction("'saade' needs a number after it")
     if frac.ftype == "fixed":
         return frac.value, 1.0
-    factor = BARE_PAUNE_CONFIDENCE if frac.name == "paune" else 1.0
+    factor = policy().conf("bare_paune") if frac.name == "paune" and not unit_follows else 1.0
     return Decimal(1) + frac.value, factor

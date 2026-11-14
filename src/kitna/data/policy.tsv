@@ -1,0 +1,30 @@
+# kitna-data: policy
+# version: 1
+# status: AI-drafted, not yet reviewed by a native speaker
+# format: key<TAB>value<TAB>open question<TAB>meaning (TAB between columns)
+# EVERY CONTESTED DECISION LIVES HERE. Changing an answer is an edit to the 'value' column, not to code.
+# 'open question' points to docs/taxonomy.md; '-' means settled or uncontested.
+confidence.squeezed	0.85	-	spelling matched only after collapsing repeated letters (an ordering, not a probability)
+confidence.edited	0.6	-	spelling one edit away from a listed one
+confidence.bare_paune	0.8	Q5	bare 'paune' with no number after it
+confidence.do_chaar	0.8	Q2	idiom 'do chaar' returned as 2-4
+confidence.odd_daypart	0.8	Q3	hour outside the day-part's usual hours (shaam 11 baje)
+confidence.weak_cue_present	0.85	Q4	direction taken from a bare present 'hai'
+confidence.weak_cue_imperative	0.9	Q4	direction taken from an imperative request
+confidence.narso	0.9	Q9b	narso / tarso is regional
+saade.min_n	3	Q9	smallest N allowed after 'saade'
+daypart.subah	am=1-11 fallback=am	Q3	usual hours and their meridiem; 'fallback' is used for other hours, with confidence.odd_daypart
+daypart.dopahar	pm=12,1-4 fallback=pm	Q3	
+daypart.shaam	pm=4-8 fallback=pm	Q3b	shaam 4 baje = 16:00: awaiting native confirmation
+daypart.raat	pm=7-11 am=12,1-4 fallback=pm	Q3b	raat 2 baje = 02:00: awaiting native confirmation
+time.bare_hour	flag	Q3	no day-part, hour 1-12. flag = return both AM and PM
+weekday.bare	next	-	bare weekday with no cue. next = first occurrence after the base date
+weekday.same_day	flag	Q6	bare weekday said on that weekday. flag | today | next_week
+weekday.agle	next_occurrence	Q7	'agle <weekday>'. next_occurrence | next_week | flag
+date.no_year	flag	Q8	day + month, no year, no cue. flag | future | past
+date.no_month	flag	Q8	'20 tareekh', no month, no cue. flag | future | past
+prefer.relative_words	yes	Q11	does prefer='future' also resolve bare kal / parso / narso? yes | no
+week.start	monday	-	first day of the week for 'agle hafte'. monday | sunday
+date.numeric_order	dmy	-	12/11/2026 is 12 November. dmy | mdy
+cue.weak_present	hai hain है हैं	Q4	present-tense words read as a weak future cue for kal/parso
+cue.weak_imperative	do karo kardo kijiye kariye bhejo dijiye dedo lagao rakho batao dena kardena दो करो कीजिए करिए भेजो दीजिए लगाओ रखो बताओ देना	Q4	request words read as a weak future cue

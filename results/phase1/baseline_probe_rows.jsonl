@@ -216,3 +216,6 @@
 {"id": "DAT-067", "text": "20 tareekh ko", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": ["2026-10-20", "2026-11-20"], "outcome": "no_parse"}
 {"id": "DAT-069", "text": "5 tareekh ko jaunga", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-12-05", "outcome": "no_parse"}
 {"id": "DAT-070", "text": "5 tareekh ko aaya tha", "script": "roman", "kind": "date", "tool": "dateparser", "got": null, "expected": "2026-11-05", "outcome": "no_parse"}
+{"id": "NUM-102", "text": "ten", "script": "roman", "kind": "number", "got_hi": null, "got_en": 10, "tool": "number-parser", "expected": 10, "outcome": "correct"}
+{"id": "NUM-107", "text": "do chai", "script": "roman", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 2, "outcome": "no_parse"}
+{"id": "NUM-108", "text": "paanch sau do", "script": "roman", "kind": "number", "got_hi": null, "got_en": null, "tool": "number-parser", "expected": 502, "outcome": "no_parse"}

@@ -41,8 +41,8 @@ with near-default settings. This is a coverage check, not a quality ranking.
 
 | Library (version) | Cases in scope | Correct | No parse | Other |
 |---|---|---|---|---|
-| number-parser 0.3.2 | 102 exact-integer number cases | 13 | 89 | - |
-| ...Roman script | 79 | 1 (`fifty thousand`, English) | 78 | - |
+| number-parser 0.3.2 | 105 exact-integer number cases | 14 | 91 | - |
+| ...Roman script | 82 | 2 (`fifty thousand`, `ten`: English) | 80 | - |
 | ...Devanagari | 18 | 12 | 6 | - |
 | ...mixed script | 1 (`५ lakh`) | 0 | 1 | - |
 | ...digits only | 4 | 0 | 4 | - |
@@ -52,8 +52,8 @@ with near-default settings. This is a coverage check, not a quality ranking.
 | ...digits only | 4 | 4 | 0 | - |
 
 Out of scope for the probe, and so not counted: negatives, ranges, multi-result
-cases and cases that use Kitna's `prefer` option. The case file has 345 cases;
-218 were in scope.
+cases, and cases that use Kitna's `prefer` option or run without a kind hint.
+The case file has 358 cases; 221 were in scope.
 
 Notes that keep this fair:
 

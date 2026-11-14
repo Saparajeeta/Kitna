@@ -24,7 +24,7 @@ KINDS = {"number", "digits", "money", "time", "duration", "date", "datetime"}
 SCRIPTS = {"roman", "devanagari", "mixed", "none"}
 STATUSES = {"draft", "validated", "rejected"}
 REQUIRED = {"id", "text", "script", "kind", "expect", "tags", "status"}
-OPTIONAL = {"relative_base", "note", "prefer"}
+OPTIONAL = {"relative_base", "note", "prefer", "hint"}
 PREFER = {"future", "past"}
 RANGE_KINDS = {"number", "time", "date", "datetime"}
 EXPECT_KEYS = {"value", "ambiguous", "candidates", "approximate", "max_confidence", "none", "results"}
@@ -110,6 +110,8 @@ def check_case(c: dict) -> list[str]:
         errs.append("date cases need an ISO date relative_base")
     if c["kind"] == "datetime" and not _is_datetime(c.get("relative_base")):
         errs.append("datetime cases need a YYYY-MM-DDTHH:MM relative_base")
+    if "hint" in c and c["hint"] is not False:
+        errs.append("'hint' may only be false (= call parse() without a kind hint)")
     if "prefer" in c and c["prefer"] not in PREFER:
         errs.append(f"bad prefer {c['prefer']!r}")
 
@@ -166,7 +168,7 @@ def load(path: Path) -> list[dict]:
 def validate(paths: list[Path]) -> list[str]:
     problems: list[str] = []
     seen_ids: set[str] = set()
-    seen_text: set[tuple[str, str, str]] = set()
+    seen_text: set[tuple[str, str, str, bool]] = set()
     for p in paths:
         for i, c in enumerate(load(p), 1):
             where = f"{p.name}:{i} ({c.get('id', '?')})"
@@ -174,7 +176,7 @@ def validate(paths: list[Path]) -> list[str]:
             if c.get("id") in seen_ids:
                 problems.append(f"{where}: duplicate id")
             seen_ids.add(c.get("id", ""))
-            key = (c.get("kind", ""), c.get("text", ""), c.get("prefer", ""))
+            key = (c.get("kind", ""), c.get("text", ""), c.get("prefer", ""), c.get("hint", True))
             if key in seen_text:
                 problems.append(f"{where}: duplicate (kind, text, prefer)")
             seen_text.add(key)

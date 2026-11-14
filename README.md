@@ -1,7 +1,9 @@
 # Kitna
 
-> **Status: phase 2 of 6, in progress.** Numbers, fraction idioms and money parse.
-> Times, dates and the benchmark do not exist yet. Not on PyPI. See [PLAN.md](PLAN.md).
+> **Status: pre-alpha (0.1.0.dev0), not on PyPI yet.** The parser handles numbers,
+> money, times, durations and dates. **There is no accuracy figure**: no native
+> speaker has reviewed the rules or the test cases, and the held-out set that
+> will give one does not exist yet. The benchmark is not started. See [PLAN.md](PLAN.md).
 
 Kitna ("how much") is planned as two things:
 
@@ -21,8 +23,8 @@ Kitna ("how much") is planned as two things:
   of BFCL.
 - The Hindi number and date parsers we examined handle Devanagari, not Roman
   script, and have no fraction idioms (dhai, dedh, saade) or ambiguity output.
-  In our phase-1 probe, number-parser parsed 1 of 79 Roman-script number cases
-  and dateparser 3 of 91 Roman-script date/time cases, all four being plain
+  In our phase-1 probe, number-parser parsed 2 of 82 Roman-script number cases
+  and dateparser 3 of 91 Roman-script date/time cases, all five being plain
   English inputs. The cases are our own unreviewed drafts, built to target
   this gap. Source: `results/phase1/baseline_probe_summary.json`.
 
@@ -30,27 +32,38 @@ Details, caveats and what these projects do well: [docs/related_work.md](docs/re
 
 ## What works today
 
-```python
->>> import kitna
->>> [(r.kind, r.canonical, r.confidence) for r in kitna.parse("dhai lakh")]
-[('number', '250000', 1.0)]
->>> kitna.parse("paune do lakh rupaye")[0].canonical
-'INR 175000'
->>> kitna.parse("do se teen hazaar rupaye")[0].canonical
-'INR 2000..INR 3000'
->>> kitna.parse("tees hazzar")[0].confidence      # misspelling repaired, confidence lowered
-0.85
->>> kitna.parse("mujhe paani de do")              # "do" is the verb here
-[]
->>> kitna.parse("zero nau ek", kind="digits")[0].value
-'091'
+```console
+$ kitna parse "kal subah saade saat baje 2.5 lakh rupaye bhej dunga" --base 2026-11-12
+datetime	2026-11-13T07:30	confidence=1.0	'kal subah saade saat baje'
+money	INR 250000	confidence=1.0	'2.5 lakh rupaye'
+$ kitna parse "kal shaam sawa paanch baje" --base 2026-11-12
+datetime	2026-11-11T17:15 | 2026-11-13T17:15	confidence=1.0  [ambiguous]	'kal shaam sawa paanch baje'
 ```
 
-Test status (source: `results/phase2/test_run.txt`): all 198 number, digit-sequence
-and money cases in the draft golden file pass; the 147 time, duration and date
-cases are skipped because those parsers are not written. Branch coverage of
-`src/kitna` in that run was 97%. The golden cases are drafts that no native
-speaker has reviewed, so "pass" means "matches the draft expectation".
+```python
+import kitna
+kitna.parse("paune do lakh rupaye")[0].canonical        # 'INR 175000'
+kitna.parse("do se teen hazaar rupaye")[0].canonical    # 'INR 2000..INR 3000'
+kitna.parse("5 baje")[0].candidates                     # 05:00 and 17:00, ambiguous=True
+kitna.parse("mujhe paani de do")                        # []  ("do" is the verb)
+kitna.parse("no one came")                              # []  (English "one" needs an anchor)
+kitna.parse_date("26 January", date(2026, 11, 12), prefer="future").canonical   # '2027-01-26'
+```
+
+`kal` with no tense cue is returned as both yesterday and tomorrow; nothing is
+picked silently. Confidence is an ordering, not a probability.
+
+### What has been checked, and what has not
+
+| Check | Result | Source |
+|---|---|---|
+| Parser vs. its author's own draft cases, settled rules | 322 of 322 match | `results/phase2/golden_summary.json` |
+| Same, cases resting on rules still awaiting a native speaker (reported separately) | 36 of 36 match | same file |
+| Test suite | 435 passed, 1 expected failure (a pinned known limitation) | `results/phase2/test_run.txt` |
+| Native-speaker review of rules, spellings or cases | **not done** | `docs/review/` |
+| Accuracy on a held-out set written by native speakers | **not measured; set does not exist** | `docs/heldout_protocol.md` |
+
+The first two rows are a self-consistency check. They are not accuracy.
 
 Install from a checkout: `pip install -e ".[dev]"`, then `pytest`.
 
@@ -64,6 +77,9 @@ Install from a checkout: `pip install -e ".[dev]"`, then `pytest`.
 | `docs/related_work.md` | What BFCL-Hi, IndicOrderBench, number-parser, dateparser cover |
 | `docs/taxonomy.md` | Phenomena, canonical forms, decisions, open questions (draft 2) |
 | `docs/review/` | Reviewer instructions, spreadsheet, round-1 decisions |
+| `docs/limitations.md` | Behaviours that may surprise you; what the numbers do not mean |
+| `docs/heldout_protocol.md` | How the first real accuracy number will be produced |
+| `src/kitna/data/policy.tsv` | Every contested rule, editable without touching code |
 | `scripts/`, `results/` | Case validator, baseline probe, raw outputs behind every number here |
 
 ## Limitations (current)

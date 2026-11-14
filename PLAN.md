@@ -13,17 +13,18 @@ not reserved until a first upload. Fallback if it is taken by then: `kitna-nlp`
 | Read BFCL-Hi card, IndicOrderBench, number-parser, dateparser | `docs/related_work.md` | done, gaps marked `[TBD]` |
 | Probe the two parsers on our inputs | `scripts/probe_baselines.py`, `results/phase1/` | done (re-run on draft 2) |
 | Phenomena, canonical forms | `docs/taxonomy.md` | draft 2, round-1 decisions applied |
-| Labeled parser cases | `tests/golden/draft_cases.jsonl` (345), validator + tests | draft 2 |
+| Labeled parser cases | `tests/golden/draft_cases.jsonl` (358), validator + tests | draft 2 |
 | Review round 1 (arithmetic, non-native) | `docs/review/round1_decisions.md` | done |
 | **HUMAN CHECKPOINT**: native-speaker review | `docs/review/README.md` | **waiting** (taxonomy section 5) |
 
 ## Later phases
-2. Parser, with tests at each step:
-   - normalize, numerals, fractions, money: **done** (`results/phase2/test_run.txt`);
-   - time, durations, dates, ambiguity: **not started**, held for Q3b and Q7 (taxonomy section 5);
-   - CLI and `parse_time` / `parse_date`: with the above.
-3. Packaging, mkdocs, CI (3.10-3.14), 0.1.0rc.
-4. Benchmark, target **200 items** (was 300). Authorship split agreed in round 1:
+2. Parser: **built** (numbers, fractions, money, time, durations, dates, ambiguity, CLI).
+   Contested rules are provisional and live in `src/kitna/data/policy.tsv`; affected cases stay tagged `review`.
+   **Open:** native-speaker answers (taxonomy section 5) and the held-out set (`docs/heldout_protocol.md`).
+3. Packaging: CI (3.10-3.14) and trusted-publishing release workflow **written, not yet run on GitHub**;
+   wheel builds and installs in a clean venv locally. **Owner action:** add the PyPI pending publisher, then tag
+   `v0.1.0.dev0`. Still to do: mkdocs site, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT.
+4. Benchmark, target **150-200 items**. Authorship split agreed in round 1:
    - Roman Hinglish utterances: written by the project owner and two other speakers (50-100 each, own style);
    - tool schemas, gold arguments, Devanagari and English variants: drafted by the AI agent;
    - gold arguments labeled independently by different people; Cohen's kappa; freeze v1;

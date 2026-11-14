@@ -88,9 +88,9 @@ def test_fraction_idioms(n: int, word: str, scale: tuple[str, int]) -> None:
 @given(st.text(max_size=80))
 @settings(max_examples=400)
 def test_never_crashes_on_arbitrary_unicode(text: str) -> None:
-    for kind in (None, "number", "money", "digits"):
-        results = kitna.parse(text, kind=kind)
-        assert results == kitna.parse(text, kind=kind)  # deterministic
+    for kind in (None, *kitna.KINDS):
+        results = kitna.parse(text, kind=kind, relative_base=BASE)
+        assert results == kitna.parse(text, kind=kind, relative_base=BASE)  # deterministic
         last = 0
         for r in results:
             assert 0 <= r.span[0] < r.span[1] <= len(text) and r.span[0] >= last
@@ -99,7 +99,11 @@ def test_never_crashes_on_arbitrary_unicode(text: str) -> None:
             last = r.span[1]
 
 
-VOCAB = sorted(LEX.words) + ["rupaye", "se", "tak", "ke", "aaspaas", "kam", "point", "double", "-", "₹",
+BASE = __import__("datetime").datetime(2026, 11, 12, 10, 0)
+TEMPORAL_VOCAB = sorted({" ".join(p) for entries in LEX.temporal.values() for _, p in entries})
+VOCAB = sorted(LEX.words) + TEMPORAL_VOCAB + ["5:30", "12/11/2026", "2026", "31", "29", "12", "24", "0",
+                                              "rupaye", "se", "tak", "ke", "aaspaas", "kam",
+                             "point", "double", "-", "₹",
                              "paise", "lagbhag", "baje", "mujhe", "de", ",", "5", "2,50,000", "1.5", "L", "k"]
 
 
@@ -108,8 +112,35 @@ VOCAB = sorted(LEX.words) + ["rupaye", "se", "tak", "ke", "aaspaas", "kam", "poi
 def test_never_crashes_on_word_salad(words: list[str], joiner: str) -> None:
     """ASR-style noise: number vocabulary in any order, with spaces dropped."""
     text = joiner.join(words)
-    for r in kitna.parse(text):
+    for r in kitna.parse(text, relative_base=BASE):
         assert text[r.span[0]:r.span[1]] == r.text
+        assert r.ambiguous == (r.value is None) == bool(r.candidates)
+
+
+@given(st.dates(min_value=__import__("datetime").date(1990, 1, 1), max_value=__import__("datetime").date(2090, 1, 1)),
+       st.sampled_from(sorted({" ".join(p) for role in ("rel", "weekday", "next", "prev", "this", "month",
+                                                         "unit", "after", "before", "tareekh", "daypart", "baje")
+                               for _, p in LEX.temporal[role]}) + ["29", "30", "31", "1", "do", "dedh"]).flatmap(
+           lambda w: st.lists(st.just(w) | st.sampled_from(["31", "29", "agle", "mahine", "ki", "tareekh", "feb",
+                                                            "pichhle", "hafte", "saal", "baad", "pehle", "100"]),
+                              min_size=1, max_size=6)))
+@settings(max_examples=400)
+def test_dates_never_crash_on_any_base_date(base, words: list[str]) -> None:  # type: ignore[no-untyped-def]
+    """Month ends, leap days and far years must not raise."""
+    for r in kitna.parse(" ".join(words), relative_base=base):
+        assert r.kind in kitna.KINDS
+
+
+@given(st.integers(1, 12), st.sampled_from(["subah", "dopahar", "shaam", "raat"]))
+def test_daypart_never_leaves_a_time_ambiguous(hour: int, daypart: str) -> None:
+    r = kitna.parse_time(f"{daypart} {hour} baje")
+    assert r is not None and not r.ambiguous and r.value.hour % 12 == hour % 12
+
+
+@given(st.integers(1, 12))
+def test_bare_hour_is_always_flagged_with_both_readings(hour: int) -> None:
+    r = kitna.parse_time(f"{hour} baje")
+    assert r is not None and r.ambiguous and [c.hour for c in r.candidates] == [hour % 12, hour % 12 + 12]
 
 
 @given(st.sampled_from(sorted(k for k, e in LEX.words.items() if k.isascii() and len(k) >= 4)),

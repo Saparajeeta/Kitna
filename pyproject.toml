@@ -19,6 +19,12 @@ classifiers = [
     "Typing :: Typed",
 ]
 
+[project.scripts]
+kitna = "kitna.cli:main"
+
+[project.urls]
+Repository = "https://github.com/Saparajeeta/Kitna"
+
 [project.optional-dependencies]
 dev = ["pytest", "hypothesis", "pytest-cov", "ruff", "mypy"]
 
@@ -38,7 +44,7 @@ branch = true
 
 [tool.ruff]
 target-version = "py310"
-line-length = 110
+line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]

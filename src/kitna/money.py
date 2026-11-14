@@ -10,12 +10,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from decimal import Decimal
 
-from ._types import Money, Range, Result, clean_number
-from .normalize import Token
+from ._types import Money, Range, Result, canonical, clean_number
+from .normalize import Token, detect_script, lexicon, match_temporal
 from .numerals import NumberRead, Rejected, match_marker, read_number
+from .policy import policy
 
-#: confidence factor for the idiom "do chaar" (= "a few", returned as 2-4)
-DO_CHAAR_CONFIDENCE = 0.8
 _PAISE_PER_RUPEE = Decimal(100)
 
 
@@ -87,7 +86,7 @@ def read_quantity(
                 approx = True
                 notes.append("adjacent values read as an approximate range")
                 if a.value == 2 and b.value == 4:
-                    conf *= DO_CHAAR_CONFIDENCE
+                    conf *= policy().conf("do_chaar")
                     notes.append("'do chaar' is an idiom for 'a few'")
 
     # ---- trailing markers
@@ -126,6 +125,11 @@ def read_quantity(
     if paise_only:
         notes.append("amount given in paise")
 
+    # ---- a lone English number word ("no one", "the one I want", "ten") needs an anchor
+    if kind is None and not currency and a.english_only and (not isinstance(b, NumberRead) or b.english_only):
+        if not _anchored(tokens, i, j):
+            return Skip(j, "English number word without a scale, currency, unit or Hindi neighbour")
+
     is_money = kind != "number" and (currency or kind == "money")
     if kind == "money" and not currency:
         notes.append("no currency word; treated as money because kind='money'")
@@ -151,6 +155,12 @@ def read_quantity(
     return res, j
 
 
-def canonical(value: object) -> str:
-    """Canonical string: ``250000``, ``3.25``, ``INR 100.50``, ``INR 2000..INR 3000``, ``..5000``."""
-    return str(value)
+def _anchored(tokens: tuple[Token, ...], i: int, j: int) -> bool:
+    """Is the English-only number at tokens[i:j] next to something that makes it a quantity?"""
+    neighbours = {w for _, ctx in lexicon().rules.get("hindi_neighbours", ()) for w in ctx}
+    for k in (i - 1, j):
+        if 0 <= k < len(tokens) and tokens[k].type == "word":
+            w = tokens[k].norm
+            if w in neighbours or detect_script(w) == "devanagari" or match_temporal(tokens, k, "unit"):
+                return True
+    return False

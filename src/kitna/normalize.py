@@ -11,6 +11,8 @@ from decimal import Decimal
 from functools import lru_cache
 from importlib import resources
 
+from .policy import policy
+
 _DEVA = re.compile(r"[\u0900-\u097F]")
 _LATIN = re.compile(r"[A-Za-z]")
 _DEVA_DIGITS = str.maketrans("०१२३४५६७८९", "0123456789")
@@ -107,6 +109,8 @@ class Lexicon:
     markers: tuple[tuple[str, tuple[str, ...]], ...]  # (role, phrase tokens), longest first
     rules: dict[str, tuple[tuple[frozenset[str], frozenset[str]], ...]]
     versions: dict[str, str]
+    #: role -> ((key, phrase tokens), ...) from time_words.tsv, longest phrase first
+    temporal: dict[str, tuple[tuple[str, tuple[str, ...]], ...]]
 
 
 class DataTableError(RuntimeError):
@@ -187,7 +191,29 @@ def lexicon() -> Lexicon:
             frozenset(word_key(w) for w in ws.split() if w != "-"),
             frozenset(word_key(w) for w in ctx.split() if w != "-"),
         ))
-    return Lexicon(words, squeezed, tuple(markers), {k: tuple(v) for k, v in rules.items()}, versions)
+    versions["time_words.tsv"], rows = _rows("time_words.tsv")
+    temporal: dict[str, list[tuple[str, tuple[str, ...]]]] = {}
+    for role, key, phrases in rows:
+        for p in phrases.split("|"):
+            toks = tuple(t.norm for t in tokenize(p))
+            if toks:
+                temporal.setdefault(role, []).append((key, toks))
+    for v in temporal.values():
+        v.sort(key=lambda m: -len(m[1]))
+    versions["policy.tsv"] = policy().version
+    return Lexicon(
+        words, squeezed, tuple(markers), {k: tuple(v) for k, v in rules.items()}, versions,
+        {k: tuple(v) for k, v in temporal.items()},
+    )
+
+
+def match_temporal(tokens: tuple[Token, ...], i: int, role: str) -> tuple[str, int] | None:
+    """Longest ``time_words.tsv`` phrase with ``role`` at token ``i``: (key, end index)."""
+    for key, phrase in lexicon().temporal.get(role, ()):
+        window = tokens[i:i + len(phrase)]
+        if len(window) == len(phrase) and all(t.norm == p for t, p in zip(window, phrase, strict=True)):
+            return key, i + len(phrase)
+    return None
 
 
 def _within_one_edit(a: str, b: str) -> bool:
@@ -210,16 +236,18 @@ def _within_one_edit(a: str, b: str) -> bool:
     return a[i:] == b[i + 1:]
 
 
-EXACT, SQUEEZED, EDITED = 1.0, 0.85, 0.6
+EXACT = 1.0
 
 
 @lru_cache(maxsize=4096)
 def lookup(key: str) -> tuple[Entry, float] | None:
     """Find a number, scale or fraction word.
 
-    Returns the entry and a confidence: 1.0 for a spelling in the tables, 0.85
-    when it matched only after collapsing repeated letters, 0.6 when it is one
-    edit away from exactly one table value (words of six or more letters only).
+    Returns the entry and a confidence: 1.0 for a spelling in the tables, a lower
+    value (``confidence.squeezed`` in ``data/policy.tsv``) when it matched only
+    after collapsing repeated letters, lower again (``confidence.edited``) when it
+    is one edit away from exactly one table value (six or more letters only).
+    These numbers rank results; they are not probabilities.
     """
     lex = lexicon()
     e = lex.words.get(key)
@@ -229,10 +257,10 @@ def lookup(key: str) -> tuple[Entry, float] | None:
         return None
     e = lex.squeezed.get(squeeze(key))
     if e is not None:
-        return e, SQUEEZED
+        return e, policy().conf("squeezed")
     if len(key) >= 6 and key.isascii():
         hits = {(c.cat, c.value, c.ftype): c for k, c in lex.words.items()
                 if len(k) >= 6 and k[0] == key[0] and k.isascii() and _within_one_edit(key, k)}
         if len(hits) == 1:
-            return next(iter(hits.values())), EDITED
+            return next(iter(hits.values())), policy().conf("edited")
     return None

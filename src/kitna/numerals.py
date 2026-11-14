@@ -16,6 +16,9 @@ class NumberRead:
     end: int  # index of the first token not consumed
     confidence: float
     has_scale: bool
+    #: every word was an English number word and there was no digit string or scale
+    #: word; such a run needs an anchor before it counts (see money.read_quantity)
+    english_only: bool
     #: when the number is "mantissa x scales" with nothing after (teen hazaar),
     #: the mantissa and the multiplier; used to spread a scale over a range
     mantissa: Decimal | None
@@ -145,7 +148,7 @@ def read_digits(tokens: tuple[Token, ...], i: int, *, forced: bool) -> tuple[str
 
 
 def read_number(
-    tokens: tuple[Token, ...], i: int, *, kind: str | None = None
+    tokens: tuple[Token, ...], i: int, *, kind: str | None = None, unit_follows: bool = False
 ) -> NumberRead | Rejected | None:
     """Read one cardinal number starting at token ``i``.
 
@@ -162,6 +165,7 @@ def read_number(
     conf = 1.0
     notes: list[str] = []
     j = i
+    english_only = True
 
     def note_scale() -> None:
         nonlocal mantissa, has_scale
@@ -173,6 +177,7 @@ def read_number(
         t = tokens[j]
         if t.type == "num":
             v = _literal(t)
+            english_only = False
             if unit_used or (cur is not None and v >= _HUNDRED) or (last_big is not None and v >= last_big):
                 break
             cur = (cur or Decimal(0)) + v
@@ -223,6 +228,7 @@ def read_number(
             break
         e, c = hit
         if e.cat == "frac":
+            english_only = False
             if cur is not None or unit_used:
                 break
             nxt = classify(tokens, j + 1)
@@ -240,7 +246,7 @@ def read_number(
                     conf = min(conf, c)
                     j += 1
                 else:
-                    cur, factor = fractions.alone(e)
+                    cur, factor = fractions.alone(e, unit_follows=unit_follows)
                     conf = min(conf, c) * factor
                     if factor < 1:
                         notes.append(f"bare '{e.name}' is unusual")
@@ -253,6 +259,7 @@ def read_number(
         if e.cat == "num":
             if unit_used:
                 break
+            english_only = english_only and e.en
             v = e.value
             j += 1
             if e.en and v >= 20 and v % 10 == 0:  # English "twenty five" / "twenty-five"
@@ -265,6 +272,9 @@ def read_number(
             unit_used = True
             continue
         # scale word
+        if hundred_used and e.value == _HUNDRED:
+            break
+        english_only = english_only and e.en and (cur is None)  # "two hundred" is anchored by its scale
         s = e.value
         if s == _HUNDRED:
             if hundred_used or (cur is not None and not unit_used):
@@ -296,7 +306,7 @@ def read_number(
         probe = value / mantissa
         if probe in _PURE_MULTIPLIERS:
             mult = probe
-    return NumberRead(value, j, conf, has_scale, mantissa, mult, tuple(notes))
+    return NumberRead(value, j, conf, has_scale, english_only, mantissa, mult, tuple(notes))
 
 
 _PURE_MULTIPLIERS = frozenset(Decimal(10) ** p for p in range(2, 13))

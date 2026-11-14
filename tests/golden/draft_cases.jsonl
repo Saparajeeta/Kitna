@@ -35,7 +35,7 @@
 {"id": "NUM-035", "text": "तीन लाख", "script": "devanagari", "kind": "number", "expect": {"value": 300000}, "tags": ["lakh-crore", "scale"], "status": "draft"}
 {"id": "NUM-036", "text": "दो करोड़ पचास लाख", "script": "devanagari", "kind": "number", "expect": {"value": 25000000}, "tags": ["lakh-crore", "scale"], "status": "draft"}
 {"id": "NUM-037", "text": "एक हज़ार नौ सौ सैंतालीस", "script": "devanagari", "kind": "number", "expect": {"value": 1947}, "tags": ["scale"], "status": "draft"}
-{"id": "NUM-038", "text": "पांच हजार", "script": "devanagari", "kind": "number", "expect": {"value": 5000}, "tags": ["scale", "spelling"], "note": "anusvara instead of chandrabindu, no nukta", "status": "draft"}
+{"id": "NUM-038", "text": "पांच हजार", "script": "devanagari", "kind": "number", "expect": {"value": 5000}, "tags": ["review", "scale", "spelling"], "note": "anusvara instead of chandrabindu, no nukta", "status": "draft"}
 {"id": "NUM-039", "text": "2,50,000", "script": "none", "kind": "number", "expect": {"value": 250000}, "tags": ["digits", "indian-grouping"], "status": "draft"}
 {"id": "NUM-040", "text": "1,00,00,000", "script": "none", "kind": "number", "expect": {"value": 10000000}, "tags": ["digits", "indian-grouping"], "status": "draft"}
 {"id": "NUM-041", "text": "12,34,567", "script": "none", "kind": "number", "expect": {"value": 1234567}, "tags": ["digits", "indian-grouping"], "status": "draft"}
@@ -54,20 +54,20 @@
 {"id": "NUM-054", "text": "5 लाख", "script": "devanagari", "kind": "number", "expect": {"value": 500000}, "tags": ["lakh-crore", "mixed", "scale"], "status": "draft"}
 {"id": "NUM-055", "text": "teen point paanch", "script": "roman", "kind": "number", "expect": {"value": "3.5"}, "tags": ["decimal"], "status": "draft"}
 {"id": "NUM-056", "text": "5k", "script": "roman", "kind": "number", "expect": {"value": 5000}, "tags": ["abbrev"], "status": "draft"}
-{"id": "NUM-057", "text": "1 lac", "script": "roman", "kind": "number", "expect": {"value": 100000}, "tags": ["lakh-crore", "scale", "spelling"], "status": "draft"}
-{"id": "NUM-058", "text": "do lac", "script": "roman", "kind": "number", "expect": {"value": 200000}, "tags": ["lakh-crore", "scale", "spelling"], "status": "draft"}
-{"id": "NUM-059", "text": "teen karod", "script": "roman", "kind": "number", "expect": {"value": 30000000}, "tags": ["lakh-crore", "scale", "spelling"], "status": "draft"}
-{"id": "NUM-060", "text": "pachas", "script": "roman", "kind": "number", "expect": {"value": 50}, "tags": ["spelling"], "status": "draft"}
-{"id": "NUM-061", "text": "pachaas hajar", "script": "roman", "kind": "number", "expect": {"value": 50000}, "tags": ["scale", "spelling"], "status": "draft"}
-{"id": "NUM-062", "text": "das hazar", "script": "roman", "kind": "number", "expect": {"value": 10000}, "tags": ["scale", "spelling"], "status": "draft"}
-{"id": "NUM-063", "text": "char", "script": "roman", "kind": "number", "expect": {"value": 4}, "tags": ["spelling"], "status": "draft"}
-{"id": "NUM-064", "text": "che", "script": "roman", "kind": "number", "expect": {"value": 6}, "tags": ["spelling"], "status": "draft"}
-{"id": "NUM-065", "text": "chhe", "script": "roman", "kind": "number", "expect": {"value": 6}, "tags": ["spelling"], "status": "draft"}
-{"id": "NUM-066", "text": "ikkis", "script": "roman", "kind": "number", "expect": {"value": 21}, "tags": ["irregular", "spelling"], "status": "draft"}
-{"id": "NUM-067", "text": "pachis", "script": "roman", "kind": "number", "expect": {"value": 25}, "tags": ["irregular", "spelling"], "status": "draft"}
-{"id": "NUM-068", "text": "sattais", "script": "roman", "kind": "number", "expect": {"value": 27}, "tags": ["irregular", "spelling"], "status": "draft"}
-{"id": "NUM-069", "text": "tees hazzar", "script": "roman", "kind": "number", "expect": {"value": 30000, "max_confidence": 0.9}, "tags": ["noise", "scale", "spelling"], "note": "not in variant table: must come from edit-distance fallback, so confidence is lowered", "status": "draft"}
-{"id": "NUM-070", "text": "pachaaas", "script": "roman", "kind": "number", "expect": {"value": 50, "max_confidence": 0.9}, "tags": ["noise", "spelling"], "note": "edit-distance fallback", "status": "draft"}
+{"id": "NUM-057", "text": "1 lac", "script": "roman", "kind": "number", "expect": {"value": 100000}, "tags": ["lakh-crore", "review", "scale", "spelling"], "status": "draft"}
+{"id": "NUM-058", "text": "do lac", "script": "roman", "kind": "number", "expect": {"value": 200000}, "tags": ["lakh-crore", "review", "scale", "spelling"], "status": "draft"}
+{"id": "NUM-059", "text": "teen karod", "script": "roman", "kind": "number", "expect": {"value": 30000000}, "tags": ["lakh-crore", "review", "scale", "spelling"], "status": "draft"}
+{"id": "NUM-060", "text": "pachas", "script": "roman", "kind": "number", "expect": {"value": 50}, "tags": ["review", "spelling"], "status": "draft"}
+{"id": "NUM-061", "text": "pachaas hajar", "script": "roman", "kind": "number", "expect": {"value": 50000}, "tags": ["review", "scale", "spelling"], "status": "draft"}
+{"id": "NUM-062", "text": "das hazar", "script": "roman", "kind": "number", "expect": {"value": 10000}, "tags": ["review", "scale", "spelling"], "status": "draft"}
+{"id": "NUM-063", "text": "char", "script": "roman", "kind": "number", "expect": {"value": 4}, "tags": ["review", "spelling"], "status": "draft"}
+{"id": "NUM-064", "text": "che", "script": "roman", "kind": "number", "expect": {"value": 6}, "tags": ["review", "spelling"], "status": "draft"}
+{"id": "NUM-065", "text": "chhe", "script": "roman", "kind": "number", "expect": {"value": 6}, "tags": ["review", "spelling"], "status": "draft"}
+{"id": "NUM-066", "text": "ikkis", "script": "roman", "kind": "number", "expect": {"value": 21}, "tags": ["irregular", "review", "spelling"], "status": "draft"}
+{"id": "NUM-067", "text": "pachis", "script": "roman", "kind": "number", "expect": {"value": 25}, "tags": ["irregular", "review", "spelling"], "status": "draft"}
+{"id": "NUM-068", "text": "sattais", "script": "roman", "kind": "number", "expect": {"value": 27}, "tags": ["irregular", "review", "spelling"], "status": "draft"}
+{"id": "NUM-069", "text": "tees hazzar", "script": "roman", "kind": "number", "expect": {"value": 30000, "max_confidence": 0.9}, "tags": ["noise", "review", "scale", "spelling"], "note": "not in variant table: must come from edit-distance fallback, so confidence is lowered", "status": "draft"}
+{"id": "NUM-070", "text": "pachaaas", "script": "roman", "kind": "number", "expect": {"value": 50, "max_confidence": 0.9}, "tags": ["noise", "review", "spelling"], "note": "edit-distance fallback", "status": "draft"}
 {"id": "NUM-071", "text": "mujhe teen ticket chahiye", "script": "roman", "kind": "number", "expect": {"value": 3}, "tags": ["embedded"], "status": "draft"}
 {"id": "NUM-072", "text": "total paanch sau bees log aaye", "script": "roman", "kind": "number", "expect": {"value": 520}, "tags": ["embedded", "scale"], "status": "draft"}
 {"id": "NUM-073", "text": "do chai de do", "script": "roman", "kind": "number", "expect": {"value": 2}, "tags": ["do-verb", "embedded"], "note": "first 'do' is the number two, last 'do' is the verb 'give'", "status": "draft"}
@@ -96,7 +96,7 @@
 {"id": "FRA-009", "text": "paune paanch", "script": "roman", "kind": "number", "expect": {"value": "4.75"}, "tags": ["fraction"], "status": "draft"}
 {"id": "FRA-010", "text": "saade baarah", "script": "roman", "kind": "number", "expect": {"value": "12.5"}, "tags": ["fraction"], "status": "draft"}
 {"id": "FRA-011", "text": "paune ek", "script": "roman", "kind": "number", "expect": {"value": "0.75"}, "tags": ["fraction"], "status": "draft"}
-{"id": "FRA-012", "text": "pone do", "script": "roman", "kind": "number", "expect": {"value": "1.75"}, "tags": ["fraction", "spelling"], "status": "draft"}
+{"id": "FRA-012", "text": "pone do", "script": "roman", "kind": "number", "expect": {"value": "1.75"}, "tags": ["fraction", "review", "spelling"], "status": "draft"}
 {"id": "FRA-013", "text": "dedh sau", "script": "roman", "kind": "number", "expect": {"value": 150}, "tags": ["fraction", "scale"], "status": "draft"}
 {"id": "FRA-014", "text": "dhai sau", "script": "roman", "kind": "number", "expect": {"value": 250}, "tags": ["fraction", "scale"], "status": "draft"}
 {"id": "FRA-015", "text": "sawa sau", "script": "roman", "kind": "number", "expect": {"value": 125}, "tags": ["fraction", "scale"], "status": "draft"}
@@ -121,12 +121,12 @@
 {"id": "FRA-034", "text": "सवा पाँच", "script": "devanagari", "kind": "number", "expect": {"value": "5.25"}, "tags": ["fraction"], "status": "draft"}
 {"id": "FRA-035", "text": "पौने चार", "script": "devanagari", "kind": "number", "expect": {"value": "3.75"}, "tags": ["fraction"], "status": "draft"}
 {"id": "FRA-036", "text": "साढ़े सात हज़ार", "script": "devanagari", "kind": "number", "expect": {"value": 7500}, "tags": ["fraction", "scale"], "status": "draft"}
-{"id": "FRA-037", "text": "sava teen", "script": "roman", "kind": "number", "expect": {"value": "3.25"}, "tags": ["fraction", "spelling"], "status": "draft"}
-{"id": "FRA-038", "text": "sadhe chaar", "script": "roman", "kind": "number", "expect": {"value": "4.5"}, "tags": ["fraction", "spelling"], "status": "draft"}
-{"id": "FRA-039", "text": "saadhe paanch", "script": "roman", "kind": "number", "expect": {"value": "5.5"}, "tags": ["fraction", "spelling"], "status": "draft"}
-{"id": "FRA-040", "text": "derh lakh", "script": "roman", "kind": "number", "expect": {"value": 150000}, "tags": ["fraction", "lakh-crore", "scale", "spelling"], "status": "draft"}
-{"id": "FRA-041", "text": "adhai lakh", "script": "roman", "kind": "number", "expect": {"value": 250000}, "tags": ["fraction", "lakh-crore", "scale", "spelling"], "status": "draft"}
-{"id": "FRA-042", "text": "dhaai", "script": "roman", "kind": "number", "expect": {"value": "2.5"}, "tags": ["fraction", "spelling"], "status": "draft"}
+{"id": "FRA-037", "text": "sava teen", "script": "roman", "kind": "number", "expect": {"value": "3.25"}, "tags": ["fraction", "review", "spelling"], "status": "draft"}
+{"id": "FRA-038", "text": "sadhe chaar", "script": "roman", "kind": "number", "expect": {"value": "4.5"}, "tags": ["fraction", "review", "spelling"], "status": "draft"}
+{"id": "FRA-039", "text": "saadhe paanch", "script": "roman", "kind": "number", "expect": {"value": "5.5"}, "tags": ["fraction", "review", "spelling"], "status": "draft"}
+{"id": "FRA-040", "text": "derh lakh", "script": "roman", "kind": "number", "expect": {"value": 150000}, "tags": ["fraction", "lakh-crore", "review", "scale", "spelling"], "status": "draft"}
+{"id": "FRA-041", "text": "adhai lakh", "script": "roman", "kind": "number", "expect": {"value": 250000}, "tags": ["fraction", "lakh-crore", "review", "scale", "spelling"], "status": "draft"}
+{"id": "FRA-042", "text": "dhaai", "script": "roman", "kind": "number", "expect": {"value": "2.5"}, "tags": ["fraction", "review", "spelling"], "status": "draft"}
 {"id": "FRA-043", "text": "saade ek", "script": "roman", "kind": "number", "expect": {"none": true}, "tags": ["fraction", "negative"], "note": "rejected: saade needs N >= 3 (speakers say 'dedh'); the phrase yields no result, not 1 and not 1.5 (Q9)", "status": "draft"}
 {"id": "FRA-044", "text": "dhai sau gram", "script": "roman", "kind": "number", "expect": {"value": 250}, "tags": ["embedded", "fraction", "scale"], "note": "unit word is not parsed in v0.1", "status": "draft"}
 {"id": "FRA-045", "text": "aadha kilo", "script": "roman", "kind": "number", "expect": {"value": "0.5"}, "tags": ["embedded", "fraction"], "status": "draft"}
@@ -151,12 +151,12 @@
 {"id": "MON-019", "text": "2.5L", "script": "roman", "kind": "money", "expect": {"value": {"amount": "250000", "currency": "INR"}}, "tags": ["abbrev", "lakh-crore"], "note": "'L' = lakh only because kind='money' is passed; without the hint it could be litres (Q9)", "status": "draft"}
 {"id": "MON-020", "text": "1.2 cr", "script": "roman", "kind": "money", "expect": {"value": {"amount": "12000000", "currency": "INR"}}, "tags": ["abbrev", "lakh-crore"], "status": "draft"}
 {"id": "MON-021", "text": "पाँच सौ रुपये", "script": "devanagari", "kind": "money", "expect": {"value": {"amount": "500", "currency": "INR"}}, "tags": [], "status": "draft"}
-{"id": "MON-022", "text": "ढाई हज़ार रुपए", "script": "devanagari", "kind": "money", "expect": {"value": {"amount": "2500", "currency": "INR"}}, "tags": ["fraction", "scale", "spelling"], "status": "draft"}
+{"id": "MON-022", "text": "ढाई हज़ार रुपए", "script": "devanagari", "kind": "money", "expect": {"value": {"amount": "2500", "currency": "INR"}}, "tags": ["fraction", "review", "scale", "spelling"], "status": "draft"}
 {"id": "MON-023", "text": "₹५००", "script": "devanagari", "kind": "money", "expect": {"value": {"amount": "500", "currency": "INR"}}, "tags": ["digits", "symbol"], "status": "draft"}
 {"id": "MON-024", "text": "दस लाख रुपये", "script": "devanagari", "kind": "money", "expect": {"value": {"amount": "1000000", "currency": "INR"}}, "tags": ["lakh-crore", "scale"], "status": "draft"}
 {"id": "MON-025", "text": "पचास पैसे", "script": "devanagari", "kind": "money", "expect": {"value": {"amount": "0.50", "currency": "INR"}}, "tags": ["paise"], "status": "draft"}
-{"id": "MON-026", "text": "1500 rupay", "script": "roman", "kind": "money", "expect": {"value": {"amount": "1500", "currency": "INR"}}, "tags": ["spelling"], "status": "draft"}
-{"id": "MON-027", "text": "do sau rupiya", "script": "roman", "kind": "money", "expect": {"value": {"amount": "200", "currency": "INR"}}, "tags": ["spelling"], "status": "draft"}
+{"id": "MON-026", "text": "1500 rupay", "script": "roman", "kind": "money", "expect": {"value": {"amount": "1500", "currency": "INR"}}, "tags": ["review", "spelling"], "status": "draft"}
+{"id": "MON-027", "text": "do sau rupiya", "script": "roman", "kind": "money", "expect": {"value": {"amount": "200", "currency": "INR"}}, "tags": ["review", "spelling"], "status": "draft"}
 {"id": "MON-028", "text": "300 rs", "script": "roman", "kind": "money", "expect": {"value": {"amount": "300", "currency": "INR"}}, "tags": ["symbol"], "status": "draft"}
 {"id": "MON-029", "text": "Ramesh ko 1500 rupaye bhejo", "script": "roman", "kind": "money", "expect": {"value": {"amount": "1500", "currency": "INR"}}, "tags": ["embedded"], "note": "synthetic name", "status": "draft"}
 {"id": "MON-030", "text": "teen hazaar ka recharge kar do", "script": "roman", "kind": "money", "expect": {"value": {"amount": "3000", "currency": "INR"}}, "tags": ["do-verb", "embedded", "scale"], "note": "kind='money' hint; trailing 'do' is a verb", "status": "draft"}
@@ -216,8 +216,8 @@
 {"id": "TIM-037", "text": "दोपहर ढाई बजे", "script": "devanagari", "kind": "time", "expect": {"value": "14:30"}, "tags": ["daypart", "fraction"], "status": "draft"}
 {"id": "TIM-038", "text": "सवा चार बजे", "script": "devanagari", "kind": "time", "expect": {"value": null, "ambiguous": true, "candidates": ["04:15", "16:15"]}, "tags": ["ambiguity", "fraction"], "status": "draft"}
 {"id": "TIM-039", "text": "पाँच बजकर पंद्रह मिनट", "script": "devanagari", "kind": "time", "expect": {"value": null, "ambiguous": true, "candidates": ["05:15", "17:15"]}, "tags": ["ambiguity", "bajke"], "status": "draft"}
-{"id": "TIM-040", "text": "subah 7 bje", "script": "roman", "kind": "time", "expect": {"value": "07:00"}, "tags": ["daypart", "noise", "spelling"], "status": "draft"}
-{"id": "TIM-041", "text": "sham 6 baje", "script": "roman", "kind": "time", "expect": {"value": "18:00"}, "tags": ["daypart", "spelling"], "status": "draft"}
+{"id": "TIM-040", "text": "subah 7 bje", "script": "roman", "kind": "time", "expect": {"value": "07:00"}, "tags": ["daypart", "noise", "review", "spelling"], "status": "draft"}
+{"id": "TIM-041", "text": "sham 6 baje", "script": "roman", "kind": "time", "expect": {"value": "18:00"}, "tags": ["daypart", "review", "spelling"], "status": "draft"}
 {"id": "TIM-042", "text": "savere 8 baje", "script": "roman", "kind": "time", "expect": {"value": "08:00"}, "tags": ["daypart"], "status": "draft"}
 {"id": "DUR-001", "text": "dhai ghante", "script": "roman", "kind": "duration", "expect": {"value": "PT2H30M"}, "tags": ["duration", "fraction"], "status": "draft"}
 {"id": "DUR-002", "text": "dedh ghanta", "script": "roman", "kind": "duration", "expect": {"value": "PT1H30M"}, "tags": ["duration", "fraction"], "status": "draft"}
@@ -295,7 +295,7 @@
 {"id": "NUM-090", "text": "two lakh fifty thousand", "script": "roman", "kind": "number", "expect": {"value": 250000}, "tags": ["code-switch", "english", "lakh-crore", "scale"], "status": "draft"}
 {"id": "NUM-091", "text": "५ lakh", "script": "mixed", "kind": "number", "expect": {"value": 500000}, "tags": ["digits", "lakh-crore", "mixed", "scale"], "note": "Devanagari digit + Roman scale word", "status": "draft"}
 {"id": "NUM-092", "text": "पाँच हज़ार", "script": "devanagari", "kind": "number", "expect": {"value": 5000}, "tags": ["nukta", "scale"], "note": "precomposed U+095B; NUM-034 has the same word as ज + U+093C. Both must parse identically", "status": "draft"}
-{"id": "NUM-093", "text": "chhah", "script": "roman", "kind": "number", "expect": {"value": 6}, "tags": ["spelling"], "status": "draft"}
+{"id": "NUM-093", "text": "chhah", "script": "roman", "kind": "number", "expect": {"value": 6}, "tags": ["review", "spelling"], "status": "draft"}
 {"id": "NUM-094", "text": "teen-chaar hazaar", "script": "roman", "kind": "number", "expect": {"value": {"min": 3000, "max": 4000}, "approximate": true}, "tags": ["approx", "range", "reduplicated", "scale"], "status": "draft"}
 {"id": "NUM-095", "text": "pachaas-saath", "script": "roman", "kind": "number", "expect": {"value": {"min": 50, "max": 60}, "approximate": true}, "tags": ["approx", "range", "reduplicated"], "status": "draft"}
 {"id": "NUM-096", "text": "mere saat chalo", "script": "roman", "kind": "number", "expect": {"none": true}, "tags": ["homograph", "negative"], "note": "'saat' here is saath = 'with', not seven", "status": "draft"}
@@ -303,7 +303,7 @@
 {"id": "FRA-046", "text": "paun", "script": "roman", "kind": "number", "expect": {"value": "0.75"}, "tags": ["fraction"], "note": "(Q5)", "status": "draft"}
 {"id": "FRA-047", "text": "pauna", "script": "roman", "kind": "number", "expect": {"value": "0.75"}, "tags": ["fraction"], "note": "(Q5)", "status": "draft"}
 {"id": "FRA-048", "text": "saade do", "script": "roman", "kind": "number", "expect": {"none": true}, "tags": ["fraction", "negative"], "note": "rejected like 'saade ek' (speakers say 'dhai') (Q9)", "status": "draft"}
-{"id": "FRA-049", "text": "sade teen", "script": "roman", "kind": "number", "expect": {"value": "3.5"}, "tags": ["fraction", "spelling"], "status": "draft"}
+{"id": "FRA-049", "text": "sade teen", "script": "roman", "kind": "number", "expect": {"value": "3.5"}, "tags": ["fraction", "review", "spelling"], "status": "draft"}
 {"id": "FRA-050", "text": "साढ़े तीन", "script": "devanagari", "kind": "number", "expect": {"value": "3.5"}, "tags": ["fraction", "nukta"], "note": "precomposed U+095D; FRA-033 uses ढ + U+093C", "status": "draft"}
 {"id": "MON-048", "text": "rupees fifty thousand only", "script": "roman", "kind": "money", "expect": {"value": {"amount": "50000", "currency": "INR"}}, "tags": ["english", "scale"], "note": "cheque-style wording", "status": "draft"}
 {"id": "MON-049", "text": "teen-chaar hazaar rupaye", "script": "roman", "kind": "money", "expect": {"value": {"min": "3000", "max": "4000", "currency": "INR"}, "approximate": true}, "tags": ["approx", "range", "reduplicated", "scale"], "status": "draft"}
@@ -343,3 +343,16 @@
 {"id": "DAT-072", "text": "kal", "script": "roman", "kind": "date", "relative_base": "2026-11-12", "prefer": "future", "expect": {"value": "2026-11-13"}, "tags": ["prefer", "relative", "review"], "note": "OPEN (Q11): should prefer='future' also resolve bare kal/parso, or only year-less dates?", "status": "draft"}
 {"id": "DAT-073", "text": "pehle teen din rukna", "script": "roman", "kind": "date", "relative_base": "2026-11-12", "expect": {"none": true}, "tags": ["homograph", "negative"], "note": "'pehle' = 'first', not 'ago': no date here", "status": "draft"}
 {"id": "DUR-016", "text": "pehle teen din rukna", "script": "roman", "kind": "duration", "expect": {"value": "P3D"}, "tags": ["duration", "embedded", "homograph"], "note": "same sentence does contain a duration", "status": "draft"}
+{"id": "NUM-098", "text": "no one came", "script": "roman", "kind": "number", "hint": false, "expect": {"none": true}, "tags": ["english-gate", "negative"], "note": "run with no kind hint: a lone English number word needs a scale, currency, unit or Hindi neighbour", "status": "draft"}
+{"id": "NUM-099", "text": "one of them is late", "script": "roman", "kind": "number", "hint": false, "expect": {"none": true}, "tags": ["english-gate", "negative"], "note": "run with no kind hint: a lone English number word needs a scale, currency, unit or Hindi neighbour", "status": "draft"}
+{"id": "NUM-100", "text": "the one I want", "script": "roman", "kind": "number", "hint": false, "expect": {"none": true}, "tags": ["english-gate", "negative"], "note": "run with no kind hint: a lone English number word needs a scale, currency, unit or Hindi neighbour", "status": "draft"}
+{"id": "NUM-101", "text": "ten", "script": "roman", "kind": "number", "hint": false, "expect": {"none": true}, "tags": ["english-gate", "negative"], "note": "run with no kind hint: a lone English number word needs a scale, currency, unit or Hindi neighbour; parse_number('ten') still gives 10", "status": "draft"}
+{"id": "NUM-102", "text": "ten", "script": "roman", "kind": "number", "expect": {"value": 10}, "tags": ["english"], "note": "with the kind hint the same word is a number", "status": "draft"}
+{"id": "NUM-103", "text": "two lakh", "script": "roman", "kind": "number", "hint": false, "expect": {"value": 200000}, "tags": ["english", "english-gate", "lakh-crore", "scale"], "note": "no hint: anchored by the scale word", "status": "draft"}
+{"id": "NUM-104", "text": "mujhe two ticket chahiye", "script": "roman", "kind": "number", "hint": false, "expect": {"value": 2}, "tags": ["code-switch", "embedded", "english", "english-gate"], "note": "no hint: anchored by a Hindi neighbour", "status": "draft"}
+{"id": "MON-052", "text": "ten rupaye", "script": "roman", "kind": "money", "hint": false, "expect": {"value": {"amount": "10", "currency": "INR"}}, "tags": ["english", "english-gate"], "note": "no hint: anchored by the currency word", "status": "draft"}
+{"id": "NUM-105", "text": "chai do", "script": "roman", "kind": "number", "expect": {"none": true}, "tags": ["do-verb", "negative"], "note": "'do' = give", "status": "draft"}
+{"id": "NUM-106", "text": "ek ya do", "script": "roman", "kind": "number", "expect": {"results": [{"value": 1}, {"value": 2}]}, "tags": ["do-verb"], "note": "after 'ya' the final 'do' is the number two", "status": "draft"}
+{"id": "NUM-107", "text": "do chai", "script": "roman", "kind": "number", "expect": {"value": 2}, "tags": ["do-verb", "embedded"], "note": "'do' before a noun is the number", "status": "draft"}
+{"id": "NUM-108", "text": "paanch sau do", "script": "roman", "kind": "number", "expect": {"value": 502}, "tags": ["do-verb", "scale"], "note": "final 'do' after a number word is part of the number", "status": "draft"}
+{"id": "NUM-109", "text": "das-pandrah hazaar", "script": "roman", "kind": "number", "expect": {"value": {"min": 10000, "max": 15000}, "approximate": true}, "tags": ["approx", "range", "reduplicated", "scale"], "note": "hyphenated number WORDS are approximate; hyphenated DIGITS (10-15 hazaar, MON-035) are an exact range", "status": "draft"}

@@ -6,7 +6,7 @@ arithmetic and calendar math of the first 292 cases (see
 `docs/review/round1_decisions.md`). Naturalness, regional usage and typing
 habits are still unchecked.
 
-Cases: `tests/golden/draft_cases.jsonl` (345). Spreadsheet copy:
+Cases: `tests/golden/draft_cases.jsonl` (358). Spreadsheet copy:
 `docs/review/phase1_cases_review.csv`.
 
 ## 1. Kinds and canonical values
@@ -134,6 +134,15 @@ a clause it means "first" (`pehle teen din rukna`): no date, but a duration.
 - Slang amounts (peti, khokha), ordinals (pehla, doosra), percentages.
 - Whole-period expressions (`agle hafte` as a week), recurring times (`har somvaar`).
 - Other Indian languages and non-Hindi regional number words.
+
+## 3a. Where the rules live
+
+Every contested rule below is a row in `src/kitna/data/policy.tsv` (day-part
+hours, bare-hour handling, weekday and `agle` rules, no-year and no-month dates,
+weak tense cues, whether `prefer` applies to `kal`, and every confidence value).
+Changing an answer means editing that file's `value` column. Other behaviours
+worth knowing (hyphen ranges, English number words, look-alikes) are described
+in [limitations.md](limitations.md).
 
 ## 4. Decisions so far
 

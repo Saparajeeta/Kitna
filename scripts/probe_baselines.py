@@ -37,7 +37,7 @@ def main() -> None:
     for c in cases:
         e, kind = c["expect"], c["kind"]
         # out of scope for this probe: negatives, multi-result cases, ranges, caller options
-        if e.get("none") or "results" in e or "prefer" in c:
+        if e.get("none") or "results" in e or "prefer" in c or "hint" in c:
             continue
         if isinstance(e["value"], dict) or any(isinstance(x, dict) for x in e.get("candidates", [])):
             continue
