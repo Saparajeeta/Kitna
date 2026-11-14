@@ -1,75 +1,69 @@
-# Benchmark methodology (planned)
+# Benchmark methodology
 
-!!! note "Nothing on this page has been run"
-    The benchmark, the harness and the analysis do not exist yet. This page
-    states the plan so it can be criticised before any model is evaluated.
-    There are no results; every figure is `[TBD]`.
+!!! note "The benchmark does not exist yet, and no model has been run"
+    Built and tested offline: item schema and validator, an AI-drafted seed set, the
+    authoring kit, annotation tools, the harness, grader, statistics and reports.
+    **Not done:** the human-written Roman Hinglish lines, the independent labels, and
+    every model run. There are no results.
 
 ## Question
 
-How often do LLMs fill tool-call arguments correctly when the user writes in
-Romanized Hinglish or Devanagari Hindi, compared with the same request in
-English?
+How often do LLMs fill tool-call arguments correctly when the user writes in Romanized
+Hinglish or Devanagari Hindi, compared with the same request in English?
 
 ## Items
 
-- 150-200 items in five domains: money transfer and bill pay, travel booking,
-  reminders and calendar, shopping and orders, customer support.
-- Each item exists in three variants: Devanagari, Romanized Hinglish, English
-  (the control).
-- 1-3 tools per item with Indian-context parameters (rupee amounts, IST times,
-  PIN codes, Indian cities).
-- Includes negative items (no tool should be called) and ambiguous items (the
-  right behaviour is to ask).
-- All names, numbers and IDs are synthetic. Nothing is copied or translated from
-  BFCL, BFCL-Hi or any other dataset.
+- Target 150-200 scenarios in five domains: payments and bills, travel booking, reminders
+  and calendar, shopping and orders, customer support. 160 scenario drafts exist.
+- Each scenario has three variants: Devanagari, Romanized Hinglish, English (the control).
+- Three tools are offered per item, with Indian-context parameters (rupee amounts, IST
+  times, Indian cities). The same tool schemas are used for all three variants, so that the
+  comparison isolates the language of the request.
+- Includes negative items (no tool should be called) and ambiguity items (the right
+  behaviour is to ask). Both are scored separately from ordinary items.
+- Everything is synthetic. Nothing is copied or translated from BFCL, BFCL-Hi or any other
+  dataset. The validator rejects anything that looks like a phone number, UPI ID or URL.
+
+Format, fields and commands: `bench/README.md` in the repository.
 
 ## Who writes what
 
 | Part | Author | Recorded as |
 |---|---|---|
-| Roman Hinglish utterances | native speakers, in their own typing style | `provenance: human_written` |
-| Tool schemas, gold arguments, Devanagari and English variants | AI-drafted, then human-checked | `provenance: ai_drafted` |
-| Gold-argument labels | at least two further native speakers, independently | `labels` |
+| Roman Hinglish utterances | native speakers, from neutral briefs, in their own typing style | `provenance: human_written` |
+| Tool schemas, gold arguments, Devanagari and English variants, briefs | AI-drafted | `provenance: ai_drafted` |
+| Independent labels of tool and arguments | at least two further native speakers | `labels` |
 
-A 40-item AI-drafted seed set exists only to test the pipeline and is never
-reported as benchmark results.
+Writers see only a brief ("Payee: Ramesh. Amount: ₹2,50,000."), never the AI's English or
+Devanagari line. The 40-scenario seed set is AI-drafted in all variants, exists to test the
+pipeline, and is never reported.
 
 ## Labels and agreement
 
-Double labelling of a subset; Cohen's kappa per argument type and overall, with
-percent agreement; disagreements adjudicated and listed. Annotator count:
-`[TBD]`. Kappa: `[TBD]`.
+Annotators get sheets without gold values. Agreement is reported as Cohen's kappa and
+percent agreement for the behaviour (call / ask / no tool), the tool, and argument values
+per argument type and overall, after normalising values (so `2.5 lakh` and `250000` are the
+same label). Disagreements are listed for adjudication. Annotator count: `[TBD]`. Kappa:
+`[TBD]`.
 
-## Grading
+## Running models
 
-Tool-name match, then argument match after normalising both the gold value and
-the model's value with Kitna. Per-argument and per-item accuracy. Ambiguous
-items are scored separately (did the model ask or guess?), as is abstention on
-negative items.
+One command, run by the project owner: `python scripts/bench.py run --models
+bench/models.yaml --items bench/items/dev_v1.jsonl --max-cost-usd N`. Any
+OpenAI-compatible endpoint works (hosted APIs, Ollama, vLLM). Model names are never
+hardcoded. The harness prints the call count and a cost estimate, requires a typed
+confirmation, stops at the cost cap, retries with backoff, saves raw responses and resumes.
 
-## Statistics
+## Grading, statistics, ablation, kill criterion
 
-Wilson intervals per condition; paired McNemar (or paired bootstrap) on
-identical items for English vs. Hinglish; Holm correction across models; using
-scipy/statsmodels. The analysis plan will be committed and tagged
-(`docs/analysis_plan.md`) before any real run.
-
-## Ablation
-
-Raw utterance vs. utterance plus Kitna-parsed values passed to the model.
-Whichever direction the effect goes is reported.
-
-## Kill criterion
-
-If every frontier model is near ceiling on the Hinglish variant, the report will
-say so plainly and the project will be reframed as a deterministic parser and
-grader.
+Fixed in advance in the [analysis plan](analysis_plan.md).
 
 ## Known threats to validity
 
-- The grader is the parser under development: a parser bug can mis-grade. Grader
-  disagreements will be sampled for manual review.
-- AI-drafted Devanagari and English variants may be more regular than human
-  text.
-- A few writers from a few regions: `[TBD: writer count and regions]`.
+- The grader uses the parser under development; a parser bug can mis-grade. A strict
+  grader column and a manual-review sample are produced for every run.
+- AI-drafted, templated English and Devanagari lines are more regular than human text, so
+  "language" is partly confounded with "who wrote it".
+- Scenarios come from tables of names, amounts and times; some combinations are unrealistic.
+- Few writers from few regions: `[TBD: writer count and regions]`.
+- "Asked a question" is detected by a question mark.

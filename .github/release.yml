@@ -1,0 +1,21 @@
+# Categories for GitHub's auto-generated release notes, driven by PR labels.
+# PR titles follow Conventional Commits (feat:, fix:, data:, docs:, ...); see CONTRIBUTING.md.
+changelog:
+  exclude:
+    labels: [skip-changelog]
+    authors: [dependabot]
+  categories:
+    - title: Behaviour changes (parser output differs)
+      labels: [breaking, behaviour]
+    - title: New expressions and features
+      labels: [feat, enhancement]
+    - title: Spellings and policy table (data only)
+      labels: [data, spelling, policy]
+    - title: Fixes
+      labels: [fix, bug]
+    - title: Benchmark and harness
+      labels: [bench]
+    - title: Documentation
+      labels: [docs, documentation]
+    - title: Other
+      labels: ["*"]

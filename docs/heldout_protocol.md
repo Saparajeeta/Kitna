@@ -27,3 +27,31 @@ rules. **The set does not exist yet.**
 
 The parser's test suite does not read `tests/heldout/`; a single script will,
 and its output goes to `results/`.
+
+## File format and commands
+
+The tooling for rules 5 to 7 exists and is tested on temporary files; it has
+never been run on a real set, because none exists.
+
+One JSON object per line in `tests/heldout/v1.jsonl`:
+
+```json
+{"id": "h1-001", "text": "…", "kind": "money", "base": "2026-11-12T10:00",
+ "expected": "INR 250000", "writer_id": "w01", "provenance": "human_written"}
+```
+
+- `kind` is one of number, money, time, duration, date, datetime.
+- `expected` uses the canonical strings listed in `docs/api.md`. When the
+  writer says two readings are both possible, join them with ` | `, for example `05:00 | 17:00` (order does not matter).
+- `provenance` must be `human_written`; freezing refuses anything else.
+
+```bash
+python scripts/bench.py heldout freeze v1   # once; refuses fewer than 150 items or a second freeze
+python scripts/bench.py heldout check       # run in CI and pre-commit; fails if a frozen file changed
+python scripts/bench.py heldout score v1    # writes results/heldout/v1_kitna-<version>.json
+```
+
+`score` counts four outcomes per item (exact, ambiguity flagged as the writer
+expected, wrong, miss) with Wilson intervals, overall and by kind and script.
+It compares only the first result of the requested kind, so an item whose
+sentence holds two quantities of one kind should be split into two items.

@@ -41,7 +41,11 @@ nav:
       - Reviewing parser cases: review/README.md
       - Review round 1: review/round1_decisions.md
   - Benchmark:
-      - Methodology (planned): benchmark_methodology.md
+      - Methodology: benchmark_methodology.md
+      - Analysis plan: analysis_plan.md
       - Held-out protocol: heldout_protocol.md
+  - Project:
+      - Releasing and version policy: releasing.md
+      - Claims checklist: claims_checklist.md
   - Related work: related_work.md
   - Changelog: changelog.md

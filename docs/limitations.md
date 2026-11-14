@@ -78,3 +78,19 @@ headline count in `results/phase2/golden_summary.json`.
 Standard Hindi number words and common Roman spellings only. No regional number
 words, no other Indian languages, no units of measure, ordinals, percentages or
 slang amounts.
+
+## Known wrong or surprising outputs (not fixed yet)
+
+These were seen while building the benchmark. They are listed so nobody is surprised; most need a
+native speaker's answer before a rule is written.
+
+- **English fraction phrases are not understood.** `one and a half lakh` returns `100000` (it reads only
+  `lakh`), `two and a half hours` and `quarter to seven` return nothing. Kitna targets Hinglish and
+  Devanagari; do not rely on it for fully English sentences.
+- `kal se 3 din baad` returns a flagged `kal` and a separate date, not one date.
+- `parso subah` returns the day and ignores `subah`.
+- `agle hafte` on its own returns nothing.
+- `kal raat 12 baje` is paired with 00:00 of the same calendar day as `kal`.
+- `12/11/2026 ko 5:30 baje` is flagged as 05:30 or 17:30 (correct by the rules, but worth knowing).
+- `20 November` with no year is flagged with last year and this year as candidates, even when the
+  date is a week away.

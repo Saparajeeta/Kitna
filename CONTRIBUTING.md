@@ -65,5 +65,8 @@ spellings they use themselves). Commit messages follow
 [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`,
 `data:`, `docs:`, `test:`).
 
+Benchmark utterances are written from briefs: read `bench/authoring/guideline.md`. Releases and the version
+policy are described in `docs/releasing.md`. Install the commit hooks with `pip install pre-commit && pre-commit install`.
+
 By contributing you agree that code is licensed Apache-2.0 and benchmark data
 CC BY 4.0, and you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).

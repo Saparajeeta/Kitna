@@ -26,3 +26,19 @@ First development version. Not validated by native speakers; no accuracy claim.
 - Docs: mkdocs site, policy and open-question tables generated from `policy.tsv`,
   quickstart examples executed by the tests. Project files: CONTRIBUTING, SECURITY,
   CODE_OF_CONDUCT, CITATION.cff, issue and pull-request templates.
+- English `day after tomorrow` / `day before yesterday` are read as two days away (were read as
+  `tomorrow` / `yesterday`).
+
+## Benchmark tooling (not part of the `kitna` package; no release yet)
+
+- Item JSON Schema and validator; 15 AI-drafted tool definitions; AI-drafted seed set (40 scenarios x 3
+  variants, `provenance: ai_drafted`, for pipeline tests only).
+- 160 AI-drafted scenario drafts (tools, gold, English and Devanagari lines, writer briefs) with the Roman
+  Hinglish line left for native speakers; writer sheets, import with row validation, guideline, examples.
+- Annotation: blind label sheets, Cohen's kappa per argument type and overall, disagreement list.
+- Held-out set: freeze, check (CI) and score commands.
+- Harness: OpenAI-compatible adapter, mock adapter, cost estimate and confirmation, cost cap, retries,
+  resume, raw outputs, run manifest. Grader with Kitna normalisation, error types, statistics (Wilson, exact
+  McNemar, paired bootstrap, Holm), ablation, tables, plots, kill-criterion section.
+- Analysis plan written before any run. No model has been run.
+- Drafts: dataset card, Gradio demo, leaderboard page, post drafts; claims checker.

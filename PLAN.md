@@ -18,19 +18,24 @@ not reserved until a first upload. Fallback if it is taken by then: `kitna-nlp`
 | **HUMAN CHECKPOINT**: native-speaker review | `docs/review/README.md` | **waiting** (taxonomy section 5) |
 
 ## Later phases
-2. Parser: **built** (numbers, fractions, money, time, durations, dates, ambiguity, CLI).
-   Contested rules are provisional and live in `src/kitna/data/policy.tsv`; affected cases stay tagged `review`.
-   **Open:** native-speaker answers (taxonomy section 5) and the held-out set (`docs/heldout_protocol.md`).
-3. Packaging: CI (3.10-3.14) and trusted-publishing release workflow **written, not yet run on GitHub**;
-   wheel builds and installs in a clean venv locally. **Owner action:** add the PyPI pending publisher, then tag
-   `v0.1.0.dev0`. Still to do: mkdocs site, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT.
-4. Benchmark, target **150-200 items**. Authorship split agreed in round 1:
-   - Roman Hinglish utterances: written by the project owner and two other speakers (50-100 each, own style);
-   - tool schemas, gold arguments, Devanagari and English variants: drafted by the AI agent;
-   - gold arguments labeled independently by different people; Cohen's kappa; freeze v1;
-   - the dataset card states which parts were AI-drafted.
-5. Harness, analysis plan committed before runs, cost estimate + confirmation, runs, stats, ablation, errors.
-6. Report, dataset card, leaderboard, README with sourced numbers only.
+2. Parser: **built** (numbers, fractions, money, time, durations, dates, ambiguity, CLI, clock warning,
+   strict mode, versioned JSON output). Contested rules are provisional and live in
+   `src/kitna/data/policy.tsv`; affected cases stay tagged `review`.
+   **HUMAN CHECKPOINT:** native-speaker answers (`docs/open_questions.md`) and the held-out set
+   (`docs/heldout_protocol.md`; `scripts/bench.py heldout freeze|check|score`).
+3. Benchmark (`bench/`): schema, validator, 15 tools, 40-scenario AI seed set, 160 AI-drafted scenario
+   drafts, authoring kit, annotation tools: **built**.
+   **HUMAN CHECKPOINT:** native speakers write the Roman Hinglish lines; at least two other native speakers
+   label independently; agreement is computed; disagreements are settled.
+4. Harness: adapters, mock, runner (estimate, confirmation, cost cap, resume), grader, statistics, ablation,
+   error types, reports, manifest, kill criterion: **built, run with the mock adapter only**.
+   Analysis plan: `docs/analysis_plan.md`, tag `analysis-plan-v1`.
+   **OWNER STEP:** fill `bench/models.yaml`, run `scripts/bench.py run` (needs network and keys).
+5. Packaging: CI (3.10-3.14), release workflow, pre-commit, dependabot, release-notes template: **written,
+   never run on GitHub**. **OWNER STEP:** checklist in `docs/releasing.md`. `0.1.0` only after native-speaker
+   review and a frozen held-out set.
+6. Public surfaces: dataset card, Gradio demo, leaderboard page, post drafts, claims checklist:
+   **drafts with placeholders**; numbers are filled only from `results/`.
 
 ## Known blockers and risks
 - **Network**: this environment reaches only GitHub and PyPI. Hugging Face,

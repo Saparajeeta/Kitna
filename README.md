@@ -1,11 +1,13 @@
 # Kitna
 
-> **Status: pre-alpha (0.1.0.dev0), not on PyPI yet.** The parser handles numbers,
-> money, times, durations and dates. **There is no accuracy figure**: no native
-> speaker has reviewed the rules or the test cases, and the held-out set that
-> will give one does not exist yet. The benchmark is not started. See [PLAN.md](PLAN.md).
+> **Status: pre-alpha (0.1.0.dev0), not on PyPI.** The parser is built but
+> **has no accuracy figure**: no native speaker has reviewed its rules or test
+> cases, and the held-out set that will give one does not exist. The benchmark
+> tooling runs end to end on a mock model, but **the benchmark itself does not
+> exist yet and no model has been run**: it needs utterances written and labelled
+> by native speakers. [What is done and what is not](#status).
 
-Kitna ("how much") is planned as two things:
+Kitna ("how much") is two things:
 
 - **A Python library** that converts Hinglish (Romanized Hindi mixed with
   English) and Devanagari quantities, money, times and dates into exact
@@ -65,15 +67,22 @@ More examples, all executed by the test suite: [docs/quickstart.md](docs/quickst
 
 | Piece | Status | Evidence |
 |---|---|---|
-| Parser: numbers, fractions, money, ranges, digits | built, **awaiting native-speaker review** | [results/phase2/golden_summary.json](results/phase2/golden_summary.json) |
-| Parser: times, durations, dates, date+time | built, **awaiting native-speaker review** | same file |
+| Parser: numbers, fractions, money, ranges, times, durations, dates | built, **in review** (waiting for native speakers) | [results/phase2/golden_summary.json](results/phase2/golden_summary.json) |
 | Clock warning, strict mode, versioned JSON output | done | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
-| Documentation site (mkdocs) | done, builds locally; not deployed | `mkdocs build --strict` in CI |
-| CI and release workflows | written; **never run on GitHub** | `.github/workflows/` |
-| Native-speaker review of rules, spellings, cases | **not started** | [docs/open_questions.md](docs/open_questions.md) |
-| Held-out accuracy set | **not started** (protocol written) | [docs/heldout_protocol.md](docs/heldout_protocol.md) |
-| PyPI release | **not started** | - |
-| Benchmark items, harness, model results | **not started** | [docs/benchmark_methodology.md](docs/benchmark_methodology.md) |
+| Documentation site, project files | done; site builds locally, not deployed | `mkdocs build --strict` |
+| Benchmark item schema, validator, authoring kit, annotation tools | done | [bench/README.md](bench/README.md) |
+| AI-drafted seed set (40 scenarios, pipeline test only) | done; **never reported as results** | [bench/items/seed_v0.jsonl](bench/items/seed_v0.jsonl) |
+| Scenario drafts for the benchmark (160: tools, gold, English, Devanagari, briefs) | AI-drafted, **in review** | [bench/authoring/scenarios_v1_draft.jsonl](bench/authoring/scenarios_v1_draft.jsonl) |
+| Evaluation harness, grader, statistics, reports | done, exercised with a mock model only | [results/pipeline_check_mock/](results/pipeline_check_mock/README.md) |
+| Analysis plan | written before any run, tagged `analysis-plan-v1` | [docs/analysis_plan.md](docs/analysis_plan.md) |
+| Dataset card, demo, leaderboard page, post drafts | drafts with placeholders | `hf/`, `demo/`, `leaderboard/`, `drafts/` |
+| CI and release workflows | written; **never run on GitHub**; local checks on Python 3.11 only | [docs/releasing.md](docs/releasing.md) |
+| Native-speaker review of parser rules, spellings, cases | **not started** | [docs/open_questions.md](docs/open_questions.md) |
+| Held-out accuracy set for the parser | **not started** (protocol and freeze script ready) | [docs/heldout_protocol.md](docs/heldout_protocol.md) |
+| Roman Hinglish utterances by native speakers | **not started** | [bench/authoring/guideline.md](bench/authoring/guideline.md) |
+| Independent labels and agreement (kappa) | **not started** | - |
+| Runs on real models, results, leaderboard entries | **not started** | - |
+| PyPI release | **not started** (owner checklist ready) | [docs/releasing.md](docs/releasing.md) |
 
 ### What has been checked, and what has not
 
@@ -81,7 +90,7 @@ More examples, all executed by the test suite: [docs/quickstart.md](docs/quickst
 |---|---|---|
 | Parser vs. its author's own draft cases, settled rules | 322 of 322 match | [results/phase2/golden_summary.json](results/phase2/golden_summary.json) |
 | Same, cases resting on rules still awaiting a native speaker (reported separately) | 36 of 36 match | same file |
-| Test suite | 496 passed, 1 expected failure (a pinned known limitation) | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
+| Test suite, including benchmark-tooling tests | 573 passed, 1 expected failure (a pinned known limitation) | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
 | Native-speaker review of rules, spellings or cases | **not done** | [docs/review/](docs/review/README.md) |
 | Accuracy on a held-out set written by native speakers | **not measured; set does not exist** | [docs/heldout_protocol.md](docs/heldout_protocol.md) |
 
@@ -124,6 +133,10 @@ The longer list, with examples: [docs/limitations.md](docs/limitations.md).
 | `src/kitna/data/policy.tsv` | Every contested rule, editable without touching code |
 | `docs/open_questions.md` | Design decisions that need native-speaker input |
 | `CONTRIBUTING.md` | How to add a spelling, how review works |
+| `bench/` | Benchmark: schema, tools, seed set, scenario drafts, authoring kit, harness (`bench/README.md`) |
+| `docs/analysis_plan.md` | Statistics and kill criterion, fixed before any run |
+| `docs/claims_checklist.md` | Every public claim and the results file behind it |
+| `hf/`, `demo/`, `leaderboard/`, `drafts/` | Draft dataset card, Gradio demo, leaderboard page, post drafts |
 | `scripts/`, `results/` | Case validator, baseline probe, raw outputs behind every number here |
 
 ## Limitations (current)
@@ -137,4 +150,4 @@ The longer list, with examples: [docs/limitations.md](docs/limitations.md).
 
 ## License
 
-Code: Apache-2.0. Benchmark data (planned): CC BY 4.0.
+Code: Apache-2.0. Benchmark data: CC BY 4.0 (`bench/LICENSE-DATA.md`).

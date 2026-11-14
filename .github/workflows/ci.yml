@@ -24,6 +24,30 @@ jobs:
       - run: python scripts/validate_cases.py
       - run: python scripts/gen_policy_docs.py --check
       - run: pytest -q --cov --cov-report=term
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e ".[dev,bench]"
+      - run: mypy src bench/kitna_bench
+      - name: Item files validate and generated files are current
+        run: |
+          python scripts/bench.py validate bench/items/*.jsonl
+          python scripts/bench.py seed --check
+          python scripts/bench.py drafts --check
+      - name: Held-out set unchanged since it was frozen
+        run: python scripts/bench.py heldout check
+      - run: pytest -q tests/bench
+      - name: Mock-adapter fixture run (offline, end to end)
+        run: |
+          python scripts/bench.py run --models bench/models.mock.yaml --out "$RUNNER_TEMP/mock-run" --samples 3
+          test -s "$RUNNER_TEMP/mock-run/summary.md"
+          python scripts/bench.py leaderboard --out "$RUNNER_TEMP/leaderboard.html"
+      - name: Every claim links to a results file
+        run: python scripts/check_claims.py
   docs:
     runs-on: ubuntu-latest
     steps:

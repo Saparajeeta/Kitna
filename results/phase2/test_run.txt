@@ -1,4 +1,4 @@
-# kitna 0.1.0.dev0, 2026-11-14T11:48Z, Python 3.11.2
+# kitna 0.1.0.dev0, 2026-11-14T14:02Z, Python 3.11.2, full suite including tests/bench (needs the bench extra)
 # NOT an accuracy measurement: see docs/heldout_protocol.md
 ================================ tests coverage ================================
 _______________ coverage: platform linux, python 3.11.2-final-0 ________________
@@ -9,13 +9,13 @@ src/kitna/__init__.py        5      0      0      0   100%
 src/kitna/_types.py         81      3     22      2    95%
 src/kitna/api.py           155      0     66      0   100%
 src/kitna/cli.py            41      7      8      2    82%
-src/kitna/dates.py         268      5    126      8    97%
+src/kitna/dates.py         268      5    126      9    96%
 src/kitna/fractions.py      20      1      8      1    93%
 src/kitna/money.py         119      3     72      5    96%
 src/kitna/normalize.py     182      3     86      6    97%
-src/kitna/numerals.py      247      6    134      7    97%
+src/kitna/numerals.py      247      7    134      8    96%
 src/kitna/policy.py         68      8     28      6    85%
-src/kitna/time.py          160      4     72      5    96%
+src/kitna/time.py          160      6     72      7    94%
 ----------------------------------------------------------
-TOTAL                     1346     40    622     42    96%
-496 passed, 1 xfailed in 24.23s
+TOTAL                     1346     43    622     46    95%
+573 passed, 1 xfailed in 32.43s
