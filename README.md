@@ -1,11 +1,60 @@
 # Kitna
 
+**Indian agents misread "dhai lakh", "parso", "saade teen baje". Kitna reads them exactly, or tells you it's unsure.**
+
 > **Status: pre-alpha (0.1.0.dev0), not on PyPI.** The parser is built but
 > **has no accuracy figure**: no native speaker has reviewed its rules or test
 > cases, and the held-out set that will give one does not exist. The benchmark
 > tooling runs end to end on a mock model, but **the benchmark itself does not
 > exist yet and no model has been run**: it needs utterances written and labelled
 > by native speakers. [What is done and what is not](#status).
+
+The first sentence is the problem Kitna is built for, not a measured result: no
+model has been run yet, so there is no figure for how often agents get these wrong.
+
+| It asks instead of guessing | It uses the clock and the verb | It shows the action before anything runs |
+|---|---|---|
+| ![The demo asks whether "kal 5 baje" means 5 AM or 5 PM](docs/assets/demo_ambiguity.png) | ![At 10:00, "aaj 2 bje ... krungi" is read as 2 PM, with the reason](docs/assets/demo_context.png) | ![A confirmation card and the tool call for sending ₹2,50,000](docs/assets/demo_action.png) |
+
+Screenshots of the local demo (`python demo/app.py`, see [demo/README.md](demo/README.md)). It is not hosted anywhere yet.
+
+## Quickstart in 60 seconds
+
+```bash
+pip install "git+https://github.com/Saparajeeta/Kitna"
+```
+
+```python
+import datetime, kitna
+for r in kitna.parse("Ramesh ko kal 5 baje dhai lakh rupaye bhej dena", relative_base=datetime.datetime(2026, 11, 12, 10)):
+    print(r.text, "->", r.canonical, "(ambiguous)" if r.ambiguous else "")
+```
+
+```text
+kal 5 baje -> 2026-11-13T05:00 | 2026-11-13T17:00 (ambiguous)
+dhai lakh rupaye -> INR 250000
+```
+
+Check a model's tool call against what the user actually said:
+
+```python
+review = kitna.postprocess_tool_call({"name": "transfer", "arguments": {"amount": 25000}}, "Ramesh ko dhai lakh rupaye bhej do")
+print(review.arguments, "|", review.reviews[0].reason)
+```
+
+```text
+{'amount': 250000} | the message says 'dhai lakh rupaye' = 250000; the call had 25000 (off by a factor of 10: a scale slip)
+```
+
+(The wrong `25000` above is typed by hand to show the check; it is not a model's output.)
+
+| I want to | Do this |
+|---|---|
+| Try it in a browser | `pip install -e ".[demo,compare]"` then `python demo/app.py` ([demo/README.md](demo/README.md)) |
+| Call it over HTTP | `pip install "kitna[serve] @ git+https://github.com/Saparajeeta/Kitna"` then `kitna serve`; API page at `http://127.0.0.1:8000/docs` |
+| Run it in Docker | `docker build -t kitna . && docker run --rm -p 8000:8000 kitna` |
+| Guard an agent's tool calls | `python examples/tool_call_guard.py` (offline, mock model); [docs/integrations.md](docs/integrations.md) |
+| Help as a Hindi speaker | Open the demo's `/review` page, answer some cards, send back the CSV |
 
 Kitna ("how much") is two things:
 
@@ -83,6 +132,10 @@ More examples, all executed by the test suite: [docs/quickstart.md](docs/quickst
 | Independent labels and agreement (kappa) | **not started** | - |
 | Runs on real models, results, leaderboard entries | **not started** | - |
 | PyPI release | **not started** (owner checklist ready) | [docs/releasing.md](docs/releasing.md) |
+| Demo: highlighted reading, ambiguity choices, explanations, action preview, live comparison, reviewer page | **built, runs locally; not hosted** | [demo/README.md](demo/README.md) |
+| `kitna serve` (HTTP), `postprocess_tool_call`, Dockerfile | **built and tested, except the Docker image, which has never been built** | [docs/integrations.md](docs/integrations.md) |
+| Context resolvers (clock + tense) | **built; every rule is an open question for native speakers (Q13)** | [docs/policy.md](docs/policy.md) |
+| Voice input in the demo | **wired, off by default, never run with a real speech model; no speech accuracy measured** | [demo/README.md](demo/README.md) |
 
 ### What has been checked, and what has not
 
@@ -90,7 +143,7 @@ More examples, all executed by the test suite: [docs/quickstart.md](docs/quickst
 |---|---|---|
 | Parser vs. its author's own draft cases, settled rules | 322 of 322 match | [results/phase2/golden_summary.json](results/phase2/golden_summary.json) |
 | Same, cases resting on rules still awaiting a native speaker (reported separately) | 40 of 40 match | same file |
-| Test suite, including benchmark-tooling tests | 573 passed, 1 expected failure (a pinned known limitation) | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
+| Test suite, including benchmark-tooling tests | 649 passed, 1 expected failure (a pinned known limitation) | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
 | Native-speaker review of rules, spellings or cases | **not done** | [docs/review/](docs/review/README.md) |
 | Accuracy on a held-out set written by native speakers | **not measured; set does not exist** | [docs/heldout_protocol.md](docs/heldout_protocol.md) |
 
@@ -107,7 +160,11 @@ Install from a checkout: `pip install -e ".[dev]"`, then `pytest`.
   candidate and `value=None`; your code or your user has to choose.
 - It does not use a model, and nothing is trained or fine-tuned. Rules and
   spelling tables only, so an unlisted spelling can be missed.
-- It does not handle speech, other Indian languages, time zones other than a
+- It does not act. The demo's action card and `postprocess_tool_call` only check or preview a
+  call; nothing is sent, booked or paid by Kitna.
+- It does not pick the tool or the recipient for an agent; that is the model's job. Kitna handles
+  the numbers, amounts, dates and times.
+- It does not handle speech (the demo's optional voice tab hands a transcript to Kitna and is untested), other Indian languages, time zones other than a
   naive IST reading, currencies beyond those in `markers.tsv`, ordinals as
   dates in every form, or recurring schedules (`har somvaar`).
 - It does not read lone English number words (`I have two options`) unless a

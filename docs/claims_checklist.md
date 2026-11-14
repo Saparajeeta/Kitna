@@ -13,7 +13,7 @@ placeholder.
 |---|---|---|---|---|
 | C1 | `322 of 322 match` | `README.md` | `results/phase2/golden_summary.json` | `"match": 322` |
 | C2 | `40 of 40 match` | `README.md` | `results/phase2/golden_summary.json` | `"match": 40` |
-| C3 | `573 passed, 1 expected failure` | `README.md` | `results/phase2/test_run.txt` | `573 passed, 1 xfailed` |
+| C3 | `649 passed, 1 expected failure` | `README.md` | `results/phase2/test_run.txt` | `649 passed, 1 xfailed` |
 | C4 | `number-parser parsed 2 of 82 Roman-script number cases` | `README.md` | `results/phase1/baseline_probe_summary.json` | `"number_parser": "0.3.2"` |
 | C5 | `dateparser 3 of 91 Roman-script date/time cases` | `README.md` | `results/phase1/baseline_probe_summary.json` | `"dateparser": "1.5.0"` |
 | C6 | `roughly 12 to 15 points` | `docs/analysis_plan.md` | `results/planning/mcnemar_power.json` | `"pairs": 100` |
@@ -63,3 +63,24 @@ the old file and records one failure):
 ```bash
 python -m pytest -q --cov --cov-report=term > /tmp/t.txt; mv /tmp/t.txt results/phase2/test_run.txt
 ```
+
+## Claims in the post and the demo script
+
+`drafts/linkedin_post.md` and `drafts/demo_script.md` contain no numbers yet. Each statement they
+make, and the file that backs it or must back it before publishing:
+
+| Statement in the drafts | Backed by | State |
+|---|---|---|
+| "dhai lakh rupaye" is read as an exact amount | `results/phase2/golden_summary.json` (the draft cases the parser agrees with include this idiom); `tests/test_demo.py::test_story_line_and_honesty_banner` | behaviour shown, **not accuracy** |
+| "kal 5 baje" is not guessed; every reading is returned | same files | behaviour shown, **not accuracy** |
+| At 10:00 with a future verb, 2 o'clock is read as the afternoon | `tests/test_context.py`; rule is open question Q13 in `src/kitna/data/policy.tsv` | behaviour shown; rule unreviewed |
+| Two existing libraries are run live with their versions | computed in the visitor's session by `demo/kitna_demo/compare.py`; nothing stored | per-sentence output, **not a score**. For counts use C4 and C5 only |
+| "[TBD one sentence]" on what was measured | must be a file under `results/` from a held-out or benchmark run | **[TBD]: no such file exists** |
+| "[TBD number] native Hindi speakers" reviewed the rules | must be recorded in `docs/review/` and `policy.tsv` | **[TBD]: currently none** |
+| Accuracy of Kitna | `results/` file from the frozen held-out set | **[TBD]: not measured; do not state** |
+| How often language models misread these phrases | `results/bench/` from a real run | **[TBD]: no model has been run; do not state** |
+| Demo speed | a timing file under `results/` | **[TBD]: not measured on a hosted demo; do not state** |
+| Speech recognition quality | - | **never claimed** |
+
+The one-line story ("Indian agents misread ...") describes the problem the project targets. Until a
+benchmark run exists it must not be presented as a finding; the README says so directly under it.

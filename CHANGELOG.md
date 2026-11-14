@@ -28,6 +28,16 @@ First development version. Not validated by native speakers; no accuracy claim.
   CODE_OF_CONDUCT, CITATION.cff, issue and pull-request templates.
 - English `day after tomorrow` / `day before yesterday` are read as two days away (were read as
   `tomorrow` / `yesterday`).
+- Context resolver: with a `relative_base` that has a time, `aaj 2 baje ... karungi` said at 10:00
+  is read as 14:00 (02:00 has passed, the verb is future). Policy rows `context.today_future`
+  (on), `context.today_past` (off), `confidence.context_time`; open question Q13. **Behaviour
+  change:** such phrases were returned as ambiguous before.
+- `kitna.postprocess_tool_call`: confirms, corrects or flags the numeric, date, time and duration
+  arguments of an OpenAI-style or Anthropic-style tool call against the user's words.
+- `kitna serve` (extra `serve`): local FastAPI service with `POST /parse`,
+  `POST /tool-call/check`, `GET /health` and an OpenAPI page. Dockerfile (not yet built by anyone).
+- Demo rebuilt: highlighted message, ambiguity as a choice, "why" in English and Hindi, action
+  preview, live comparison, feedback, share link, reviewer page at `/review`, optional voice tab.
 
 ## Benchmark tooling (not part of the `kitna` package; no release yet)
 

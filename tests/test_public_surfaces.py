@@ -75,3 +75,28 @@ def test_every_yaml_file_in_the_repository_parses() -> None:
     assert len(files) >= 10
     for path in files:
         assert yaml.safe_load(path.read_text(encoding="utf-8")) is not None, path
+
+
+def test_space_folder_is_complete_and_card_keeps_the_notice(tmp_path: Path) -> None:
+    space = _load("kitna_build_space", ROOT / "scripts" / "build_space.py")
+    assert space.main(["--check"]) == 0
+    files = space.build(tmp_path / "space")
+    assert {"app.py", "README.md", "requirements.txt", "cases_review.csv", "kitna_demo/review.py"} <= set(files)
+    card = (tmp_path / "space" / "README.md").read_text(encoding="utf-8")
+    assert card.startswith("---\n") and "sdk: gradio" in card and "app_file: app.py" in card
+    assert "Pre-alpha" in card and "No accuracy has been measured" in card
+    requirements = (tmp_path / "space" / "requirements.txt").read_text(encoding="utf-8")
+    assert "kitna @ git+https://github.com/Saparajeeta/Kitna" in requirements
+
+
+def test_dockerfile_serves_as_non_root_and_readme_keeps_story_and_status() -> None:
+    docker = (ROOT / "Dockerfile").read_text(encoding="utf-8")
+    assert 'CMD ["kitna", "serve", "--host", "0.0.0.0", "--port", "8000"]' in docker and "USER kitna" in docker
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "Kitna reads them exactly, or tells you it's unsure." in readme.split("\n", 4)[2]
+    assert "has no accuracy figure" in readme and "## Quickstart in 60 seconds" in readme
+    for shot in ("demo_ambiguity.png", "demo_context.png", "demo_action.png"):
+        assert f"docs/assets/{shot}" in readme and (ROOT / "docs" / "assets" / shot).exists()
+    for name in ("linkedin_post.md", "demo_script.md"):
+        text = (ROOT / "drafts" / name).read_text(encoding="utf-8")
+        assert "[TBD" in text and "not published" in text.lower() or "not recorded" in text.lower()
