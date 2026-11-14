@@ -1,6 +1,8 @@
 # Related work
 
-Checked on 2026-11-12. This sandbox could reach only github.com and pypi.org, so
+First checked on 2026-11-12; existence, licence and latest version of every
+project below were re-checked on 2026-11-14 through the GitHub and PyPI APIs
+(all still present, none archived). This sandbox could reach only github.com and pypi.org, so
 anything hosted elsewhere (Hugging Face, arXiv) was verified second-hand and is
 marked as such. Nothing here is quoted from memory.
 

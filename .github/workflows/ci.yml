@@ -22,7 +22,17 @@ jobs:
       - run: ruff check .
       - run: mypy
       - run: python scripts/validate_cases.py
+      - run: python scripts/gen_policy_docs.py --check
       - run: pytest -q --cov --cov-report=term
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e ".[docs]"
+      - run: mkdocs build --strict
   package:
     runs-on: ubuntu-latest
     steps:
