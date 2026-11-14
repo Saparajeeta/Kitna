@@ -1,4 +1,4 @@
-"""Demo logic, the claims checker, and the rule that drafts carry no unbacked numbers."""
+"""The claims checker and the rule that drafts carry no unbacked numbers. (Demo tests: test_demo.py.)"""
 from __future__ import annotations
 
 import importlib.util
@@ -21,36 +21,8 @@ def _load(name: str, path: Path) -> ModuleType:
 
 
 @pytest.fixture(scope="module")
-def demo() -> ModuleType:
-    return _load("kitna_demo_app", ROOT / "demo" / "app.py")
-
-
-@pytest.fixture(scope="module")
 def claims() -> ModuleType:
     return _load("kitna_check_claims", ROOT / "scripts" / "check_claims.py")
-
-
-def test_demo_shows_value_confidence_and_every_candidate(demo: ModuleType) -> None:
-    rows, status, raw = demo.explain("Ramesh ko kal 5 baje dhai lakh rupaye", "2026-11-12", "10:00")
-    by_kind = {r[1]: r for r in rows}
-    assert by_kind["money"][2] == "INR 250000" and by_kind["money"][3] == "1.00" and by_kind["money"][4] == "no"
-    amb = by_kind["datetime"]
-    assert amb[2] == "(not decided)" and amb[4] == "yes"
-    assert amb[5].split(" | ") == ["2026-11-11T05:00", "2026-11-11T17:00", "2026-11-13T05:00", "2026-11-13T17:00"]
-    assert "ambiguous" in status and len(raw) == 2 and raw[0]["schema_version"] == "1"
-    assert len(demo.HEADERS) == len(rows[0])
-
-
-def test_demo_edge_cases(demo: ModuleType) -> None:
-    assert demo.explain("")[1] == "Type something above."
-    assert demo.explain("mujhe paani de do", "2026-11-12", "10:00")[0] == []
-    assert "must look like" in demo.explain("kal", "12/11/2026", "10:00")[1]
-    rows, status, _ = demo.explain("kal jaunga")
-    assert rows and "server's clock" in status
-    rows, _, _ = demo.explain("tees hazzar", kind="number")
-    assert rows[0][2] == "30000" and rows[0][3] == "0.85"
-    for example in demo.EXAMPLES:
-        demo.explain(*example)
 
 
 def test_claims_checklist_is_consistent(claims: ModuleType) -> None:
