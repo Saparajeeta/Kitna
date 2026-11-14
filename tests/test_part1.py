@@ -19,7 +19,8 @@ from kitna.normalize import detect_script, lexicon
 
 BASE = dt.datetime(2026, 11, 12, 10, 0)  # Thursday
 FAKE_NOW = dt.datetime(2030, 1, 15, 9, 30, 42)
-SCHEMA = json.loads(resources.files("kitna").joinpath("data", "result.schema.json").read_text(encoding="utf-8"))
+_SCHEMA_FILE = resources.files("kitna").joinpath("data").joinpath("result.schema.json")
+SCHEMA = json.loads(_SCHEMA_FILE.read_text(encoding="utf-8"))
 
 
 def canon(text: str, **kw: Any) -> list[str]:

@@ -76,7 +76,7 @@ More examples, all executed by the test suite: [docs/quickstart.md](docs/quickst
 | Evaluation harness, grader, statistics, reports | done, exercised with a mock model only | [results/pipeline_check_mock/](results/pipeline_check_mock/README.md) |
 | Analysis plan | written before any run, tagged `analysis-plan-v1` | [docs/analysis_plan.md](docs/analysis_plan.md) |
 | Dataset card, demo, leaderboard page, post drafts | drafts with placeholders | `hf/`, `demo/`, `leaderboard/`, `drafts/` |
-| CI and release workflows | written; **never run on GitHub**; local checks on Python 3.11 only | [docs/releasing.md](docs/releasing.md) |
+| CI and release workflows | CI has run on GitHub (first run: one type-check failure on Python 3.10, since fixed); release workflow **never run** | [docs/releasing.md](docs/releasing.md) |
 | Native-speaker review of parser rules, spellings, cases | **not started** | [docs/open_questions.md](docs/open_questions.md) |
 | Held-out accuracy set for the parser | **not started** (protocol and freeze script ready) | [docs/heldout_protocol.md](docs/heldout_protocol.md) |
 | Roman Hinglish utterances by native speakers | **not started** | [bench/authoring/guideline.md](bench/authoring/guideline.md) |

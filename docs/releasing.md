@@ -31,10 +31,12 @@ Checked in this repository's sandbox, which has Python 3.11 only and no Docker:
 
 **Not verified** (cannot be, here):
 
-- The workflows have never run on GitHub. `act` needs Docker, which is not available.
-- Python 3.10, 3.12, 3.13 and 3.14: no interpreters available. The code is linted for the
-  3.10 target, but the matrix has not run.
-- Whether `scipy`/`statsmodels`/`matplotlib` wheels install on the benchmark job's Python.
+- The release workflow has never run on GitHub. `act` needs Docker, which is not available.
+- The CI workflow first ran on GitHub when the benchmark-tooling pull request was merged.
+  Python 3.11 to 3.14, the benchmark job, the docs job and the package job passed. Python
+  3.10 failed at the type check (a two-argument `joinpath` that 3.10's type stubs reject).
+  That is fixed, and `mypy` now always checks against 3.10; the fix is confirmed only once
+  CI is green on the pull request that carries it.
 - OIDC trusted publishing to PyPI (needs the pending publisher and a real tag).
 - Dependabot and the release-notes categories (GitHub-side features).
 - `pre-commit run --all-files`: hook repositories could not be fetched in the sandbox

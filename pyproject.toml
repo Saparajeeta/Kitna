@@ -44,6 +44,7 @@ packages = ["src/kitna"]
 [tool.mypy]
 strict = true
 files = ["src"]
+python_version = "3.10"  # the oldest supported version, so API differences show up on any interpreter
 
 [[tool.mypy.overrides]]
 module = ["yaml", "scipy.*", "statsmodels.*", "matplotlib.*", "jsonschema", "gradio"]

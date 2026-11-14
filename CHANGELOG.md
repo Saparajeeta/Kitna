@@ -42,3 +42,4 @@ First development version. Not validated by native speakers; no accuracy claim.
   McNemar, paired bootstrap, Holm), ablation, tables, plots, kill-criterion section.
 - Analysis plan written before any run. No model has been run.
 - Drafts: dataset card, Gradio demo, leaderboard page, post drafts; claims checker.
+- Fixed: type-check failure on Python 3.10 (`joinpath` with two arguments); `mypy` now targets 3.10.

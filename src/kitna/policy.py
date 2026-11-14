@@ -66,7 +66,7 @@ def _hours(spec: str) -> frozenset[int]:
 
 @lru_cache(maxsize=1)
 def policy() -> Policy:
-    text = resources.files("kitna").joinpath("data", "policy.tsv").read_text(encoding="utf-8")
+    text = resources.files("kitna").joinpath("data").joinpath("policy.tsv").read_text(encoding="utf-8")
     values: dict[str, str] = {}
     questions: dict[str, str] = {}
     version = ""
