@@ -235,3 +235,23 @@ def test_cli(capsys: pytest.CaptureFixture[str]) -> None:
     assert main(["parse", "kuch nahi"]) == 1
     assert main(["parse", "kal", "--base", "2026-11-12", "--prefer", "future", "--kind", "date"]) == 0
     assert "2026-11-13" in capsys.readouterr().out
+
+
+def test_ek_baar_is_a_policy_row(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Q12 flipped by data alone."""
+    import dataclasses
+
+    from kitna import normalize
+    from kitna.policy import policy
+
+    assert vals("ek baar") == []
+    real = policy()
+    flipped = dataclasses.replace(real, values={**real.values, "number.ek_baar": "one"})
+    monkeypatch.setattr(normalize, "policy", lambda: flipped)
+    normalize.lexicon.cache_clear()
+    try:
+        assert vals("ek baar") == ["1"]
+    finally:
+        monkeypatch.undo()
+        normalize.lexicon.cache_clear()
+    assert vals("ek baar") == []

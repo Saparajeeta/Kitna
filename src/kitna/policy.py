@@ -18,6 +18,7 @@ _CHOICES = {
     "date.no_year": ("flag", "future", "past"),
     "date.no_month": ("flag", "future", "past"),
     "prefer.relative_words": ("yes", "no"),
+    "number.ek_baar": ("nothing", "one"),
     "week.start": ("monday", "sunday"),
     "date.numeric_order": ("dmy", "mdy"),
 }

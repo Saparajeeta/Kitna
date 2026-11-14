@@ -187,6 +187,9 @@ def lexicon() -> Lexicon:
     versions["context.tsv"], rows = _rows("context.tsv")
     rules: dict[str, list[tuple[frozenset[str], frozenset[str]]]] = {}
     for rule, ws, ctx in rows:
+        rule, _, gate = rule.partition(":")
+        if gate and policy().choice(gate) != "nothing":
+            continue  # this look-alike rule is switched off in policy.tsv
         rules.setdefault(rule, []).append((
             frozenset(word_key(w) for w in ws.split() if w != "-"),
             frozenset(word_key(w) for w in ctx.split() if w != "-"),

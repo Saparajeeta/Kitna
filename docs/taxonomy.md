@@ -166,4 +166,4 @@ in [limitations.md](limitations.md).
 | Q9b | Is `narso` used where you live, or `tarso`? | narso, lowered confidence | DAT-006 |
 | Q10 | Which spellings do you actually type? hazaar/hajar, lakh/lac, baje/bje, chhe/che/chhah, saade/sade/sadhe, dhai/dhaai, paune/pone; do you swap b/w/v? | all listed variants accepted | all `spelling` cases |
 | Q11 | Should `prefer="future"` also resolve bare `kal`/`parso`? (new) | yes | DAT-072 |
-| Q12 | `ek baar` ("once"): return nothing, or 1? (new) | nothing | NUM-097 |
+| Q12 | `ek baar` ("once"): return nothing, or 1? (new; policy row `number.ek_baar`) | nothing | NUM-097 |

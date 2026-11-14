@@ -24,6 +24,7 @@ weekday.agle	next_occurrence	Q7	'agle <weekday>'. next_occurrence | next_week | 
 date.no_year	flag	Q8	day + month, no year, no cue. flag | future | past
 date.no_month	flag	Q8	'20 tareekh', no month, no cue. flag | future | past
 prefer.relative_words	yes	Q11	does prefer='future' also resolve bare kal / parso / narso? yes | no
+number.ek_baar	nothing	Q12	'ek baar' (once): nothing = no number is returned. nothing | one
 week.start	monday	-	first day of the week for 'agle hafte'. monday | sunday
 date.numeric_order	dmy	-	12/11/2026 is 12 November. dmy | mdy
 cue.weak_present	hai hain है हैं	Q4	present-tense words read as a weak future cue for kal/parso
