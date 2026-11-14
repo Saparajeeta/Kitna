@@ -8,7 +8,7 @@ from collections.abc import Sequence
 from datetime import date, datetime
 
 from . import __version__
-from ._types import KINDS, KitnaError, canonical
+from ._types import KINDS, KitnaError
 from .api import parse
 
 
@@ -28,23 +28,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     p.add_argument("--kind", choices=KINDS, help="hint and filter")
     p.add_argument("--base", type=_base, metavar="ISO", help="'today' or 'now' for relative dates (default: clock)")
     p.add_argument("--prefer", choices=("future", "past"), help="resolve dates that lack a year, month or direction")
-    p.add_argument("--json", action="store_true", help="one JSON object per result")
+    p.add_argument("--strict", action="store_true", help="fail on relative dates when --base is missing")
+    p.add_argument("--json", action="store_true", help="one JSON object per result (result.schema.json)")
     a = ap.parse_args(argv)
     try:
-        results = parse(a.text, kind=a.kind, relative_base=a.base, prefer=a.prefer)
+        results = parse(a.text, kind=a.kind, relative_base=a.base, prefer=a.prefer, strict=a.strict)
     except KitnaError as ex:
         print(f"kitna: {ex}", file=sys.stderr)
         return 2
     for r in results:
         if a.json:
-            print(json.dumps({
-                "span": list(r.span), "text": r.text, "kind": r.kind, "canonical": r.canonical,
-                "confidence": r.confidence, "ambiguous": r.ambiguous, "approximate": r.approximate,
-                "candidates": [canonical(c) for c in r.candidates], "notes": list(r.notes),
-            }, ensure_ascii=False))
+            print(json.dumps(r.to_dict(), ensure_ascii=False))
         else:
             flags = "".join(f"  [{f}]" for f, on in (("ambiguous", r.ambiguous), ("approximate", r.approximate)) if on)
             print(f"{r.kind}\t{r.canonical}\tconfidence={r.confidence}{flags}\t{r.text!r}")
+            for w in r.warnings:
+                print(f"kitna: warning: {w}", file=sys.stderr)
     return 0 if results else 1
 
 

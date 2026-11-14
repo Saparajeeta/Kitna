@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Saparajeeta/Kitna/blob/main/src/kitna/data/result.schema.json",
+  "title": "Kitna Result (Result.to_dict()), schema_version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "span", "text", "kind", "value", "canonical", "confidence", "ambiguous",
+               "candidates", "approximate", "notes", "warnings"],
+  "properties": {
+    "schema_version": {"const": "1"},
+    "span": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 2, "maxItems": 2,
+             "description": "start and end character offsets into the input text"},
+    "text": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["number", "digits", "money", "time", "duration", "date", "datetime"]},
+    "value": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/value"}],
+              "description": "null exactly when ambiguous is true"},
+    "canonical": {"type": "string"},
+    "confidence": {"type": "number", "exclusiveMinimum": 0, "maximum": 1,
+                   "description": "an ordering, not a calibrated probability"},
+    "ambiguous": {"type": "boolean"},
+    "candidates": {"type": "array", "items": {"$ref": "#/$defs/value"}},
+    "approximate": {"type": "boolean"},
+    "notes": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}}
+  },
+  "allOf": [
+    {"if": {"properties": {"ambiguous": {"const": true}}},
+     "then": {"properties": {"value": {"type": "null"}, "candidates": {"minItems": 2}}},
+     "else": {"properties": {"value": {"$ref": "#/$defs/value"}, "candidates": {"maxItems": 0}}}}
+  ],
+  "$defs": {
+    "scalar": {
+      "anyOf": [
+        {"type": "integer"},
+        {"type": "string", "pattern": "^-?[0-9]+\\.[0-9]+$", "description": "exact decimal number"},
+        {"type": "string", "pattern": "^[0-9]+$", "description": "digit string"},
+        {"type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$", "description": "time HH:MM"},
+        {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "date"},
+        {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}$", "description": "datetime"},
+        {"type": "string", "pattern": "^P[0-9YMWDTHS]+$", "description": "ISO 8601 duration"},
+        {"$ref": "#/$defs/money"}
+      ]
+    },
+    "money": {
+      "type": "object", "additionalProperties": false, "required": ["amount", "currency"],
+      "properties": {"amount": {"type": "string", "pattern": "^[0-9]+(\\.[0-9]{2})?$"},
+                     "currency": {"const": "INR"}}
+    },
+    "range": {
+      "type": "object", "additionalProperties": false, "required": ["min", "max"],
+      "properties": {"min": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/scalar"}]},
+                     "max": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/scalar"}]}}
+    },
+    "value": {"anyOf": [{"$ref": "#/$defs/scalar"}, {"$ref": "#/$defs/range"}]}
+  }
+}

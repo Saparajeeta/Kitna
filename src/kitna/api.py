@@ -1,6 +1,8 @@
 """The public ``parse`` function and its convenience wrappers."""
 from __future__ import annotations
 
+from collections.abc import Callable
+from dataclasses import replace
 from datetime import date, datetime, time
 from typing import Any
 
@@ -22,11 +24,24 @@ def _result(text: str, tokens: tuple[Token, ...], i: int, j: int, kind: str, val
                   ambiguous=bool(candidates), notes=tuple(dict.fromkeys(notes)))
 
 
+CLOCK_WARNING = ("relative_base was not given: resolved against the system clock, so the result depends on "
+                 "when parse() was called")
+
+
 def _temporal(text: str, tokens: tuple[Token, ...], base: datetime, base_has_time: bool,
-              prefer: str | None, kind: str | None) -> list[tuple[int, int, Result]]:
+              prefer: str | None, kind: str | None, base_given: bool, strict: bool) -> list[tuple[int, int, Result]]:
     out: list[tuple[int, int, Result]] = []
     n, i = len(tokens), 0
     merge = kind in (None, "datetime")
+
+    def relative(i: int, j: int, res: Result) -> Result:
+        """Mark (or, in strict mode, refuse) a result that needed 'today' / 'now'."""
+        if base_given:
+            return res
+        if strict and (kind is None or kind == res.kind):
+            raise KitnaError(f"{res.text!r} is relative to today/now: pass relative_base (strict mode)")
+        return replace(res, warnings=(*res.warnings, CLOCK_WARNING))
+
     while i < n:
         if tokens[i].type == "punct":
             i += 1
@@ -50,10 +65,11 @@ def _temporal(text: str, tokens: tuple[Token, ...], base: datetime, base_has_tim
                 res = _result(text, tokens, i, piece.end, "duration", piece.duration, (), piece.confidence,
                               ("offset from now (" + ("after" if piece.sign > 0 else "before")
                                + "): pass a datetime relative_base to resolve it",))
-            out.append((i, piece.end, res))
+            out.append((i, piece.end, relative(i, piece.end, res)))
             i = piece.end
             continue
         if isinstance(piece, DatePiece):
+            mark = relative if piece.uses_base else (lambda i, j, res: res)
             end = piece.end
             cue = find_cue(tokens, *clause_bounds(tokens, i))
             value, cands, conf, notes = resolve(piece, cue, prefer)
@@ -69,9 +85,9 @@ def _temporal(text: str, tokens: tuple[Token, ...], base: datetime, base_has_tim
                 times = (tr.value,) if tr.value is not None else tr.candidates
                 combos = tuple(datetime.combine(d, t) for d in days for t in times if isinstance(t, time))
                 single = combos[0] if len(combos) == 1 else None
-                out.append((i, tr.end, _result(text, tokens, i, tr.end, "datetime", single,
-                                               () if single else combos, min(conf, tr.confidence),
-                                               notes + tr.notes)))
+                out.append((i, tr.end, mark(i, tr.end, _result(
+                    text, tokens, i, tr.end, "datetime", single, () if single else combos,
+                    min(conf, tr.confidence), notes + tr.notes))))
                 i = tr.end
                 continue
             until = match_temporal(tokens, end, "until")
@@ -79,9 +95,9 @@ def _temporal(text: str, tokens: tuple[Token, ...], base: datetime, base_has_tim
                 end = until[1]
                 rv: Any = Range(None, value) if value is not None else None
                 rc: tuple[Any, ...] = tuple(Range(None, c) for c in cands)
-                out.append((i, end, _result(text, tokens, i, end, "date", rv, rc, conf, notes)))
+                out.append((i, end, mark(i, end, _result(text, tokens, i, end, "date", rv, rc, conf, notes))))
             else:
-                out.append((i, end, _result(text, tokens, i, end, "date", value, cands, conf, notes)))
+                out.append((i, end, mark(i, end, _result(text, tokens, i, end, "date", value, cands, conf, notes))))
             i = end
             continue
         dur = read_duration(tokens, i)
@@ -126,6 +142,8 @@ def parse(
     relative_base: date | datetime | None = None,
     *,
     prefer: str | None = None,
+    strict: bool = False,
+    now: Callable[[], datetime] | None = None,
 ) -> list[Result]:
     """Find quantities, money, times and dates in ``text``; results are in text order.
 
@@ -134,8 +152,15 @@ def parse(
     ``"digits"``: a digit string; ``"number"``: currency and time words ignored).
 
     ``relative_base`` is "today" (a ``date``) or "now" (a ``datetime``) for
-    relative expressions. If omitted the system clock is used, which makes results
-    depend on when you call; pass it for reproducible output.
+    relative expressions (``kal``, ``somvaar``, ``3 din baad``, ``do ghante baad``).
+    If it is omitted, the system clock is used and every result that needed it
+    carries a ``warnings`` entry, because the output then depends on when you
+    call. With ``strict=True`` such an expression raises :class:`KitnaError`
+    instead. Absolute values (``5 baje``, ``15 August 2027``) never need a base.
+
+    ``now`` replaces the system clock (a zero-argument callable returning a naive
+    ``datetime``); it exists for tests and is used only when ``relative_base`` is
+    omitted.
 
     ``prefer`` (``"future"`` or ``"past"``) resolves dates that are ambiguous only
     because a year, month or direction is missing. Off by default: ambiguous
@@ -161,8 +186,11 @@ def parse(
         elif relative_base is not None:
             base, has_time = datetime.combine(relative_base, time(0, 0)), False
         else:
-            base, has_time = datetime.now().replace(second=0, microsecond=0), True
-        for i, j, r in _temporal(text, tokens, base, has_time, prefer, kind):
+            clock = (now or datetime.now)()
+            if not isinstance(clock, datetime):
+                raise KitnaError("now() must return a datetime.datetime")
+            base, has_time = clock.replace(tzinfo=None, second=0, microsecond=0), True
+        for i, j, r in _temporal(text, tokens, base, has_time, prefer, kind, relative_base is not None, strict):
             results.append(r)
             claimed[i:j] = [True] * (j - i)
     if kind is None or kind not in _TEMPORAL:
@@ -182,9 +210,9 @@ def parse(
 
 
 def _first(
-    text: str, kind: str, base: date | datetime | None = None, prefer: str | None = None
+    text: str, kind: str, base: date | datetime | None = None, prefer: str | None = None, strict: bool = False
 ) -> Result | None:
-    results = parse(text, kind=kind, relative_base=base, prefer=prefer)
+    results = parse(text, kind=kind, relative_base=base, prefer=prefer, strict=strict)
     return results[0] if results else None
 
 
@@ -204,7 +232,7 @@ def parse_time(text: str) -> Result | None:
 
 
 def parse_date(
-    text: str, relative_base: date | datetime | None = None, *, prefer: str | None = None
+    text: str, relative_base: date | datetime | None = None, *, prefer: str | None = None, strict: bool = False
 ) -> Result | None:
     """First date in ``text``, or ``None``. See :func:`parse` for the arguments."""
-    return _first(text, "date", relative_base, prefer)
+    return _first(text, "date", relative_base, prefer, strict)

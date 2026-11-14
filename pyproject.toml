@@ -26,7 +26,8 @@ kitna = "kitna.cli:main"
 Repository = "https://github.com/Saparajeeta/Kitna"
 
 [project.optional-dependencies]
-dev = ["pytest", "hypothesis", "pytest-cov", "ruff", "mypy"]
+dev = ["pytest", "hypothesis", "pytest-cov", "ruff", "mypy", "jsonschema"]
+docs = ["mkdocs-material", "mkdocstrings[python]"]
 
 [tool.hatch.version]
 path = "src/kitna/__init__.py"

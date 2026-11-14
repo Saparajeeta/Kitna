@@ -32,6 +32,8 @@ class DatePiece:
     relative_word: bool = False  # kal / parso / narso
     confidence: float = 1.0
     notes: tuple[str, ...] = field(default=())
+    #: False only for fully specified dates (12/11/2026, 15 August 2027)
+    uses_base: bool = True
 
 
 @dataclass(frozen=True, slots=True)
@@ -180,7 +182,7 @@ def _read_date(tokens: tuple[Token, ...], i: int, base: date) -> DatePiece | Non
 
     if t.type == "reserved":
         d = _numeric_date(t)
-        return DatePiece(i + 1, fixed=d) if d else None
+        return DatePiece(i + 1, fixed=d, uses_base=False) if d else None
 
     # "aaj se paanch din baad"
     ft = match_temporal(tokens, i, "from_today")
@@ -255,7 +257,7 @@ def _read_date(tokens: tuple[Token, ...], i: int, base: date) -> DatePiece | Non
         end_y = end
     if end_y < n and tokens[end_y].type == "num" and len(tokens[end_y].norm) == 4 and tokens[end_y].norm.isdigit():
         d = _safe(int(tokens[end_y].norm), month, day)
-        return DatePiece(end_y + 1, fixed=d, confidence=conf) if d else None
+        return DatePiece(end_y + 1, fixed=d, confidence=conf, uses_base=False) if d else None
     prev, nxt = _around(base, [_safe(y, month, day) for y in range(base.year - 8, base.year + 9)])
     piece = _undated(base, prev, nxt, "date.no_year", "no year given")
     return piece and DatePiece(end, piece.fixed, piece.past, piece.future, piece.default,

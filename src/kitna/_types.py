@@ -7,6 +7,8 @@ from decimal import Decimal
 from typing import Any
 
 KINDS = ("number", "digits", "money", "time", "duration", "date", "datetime")
+#: version of the dict produced by ``Result.to_dict()``
+RESULT_SCHEMA_VERSION = "1"
 
 
 class KitnaError(ValueError):
@@ -89,6 +91,26 @@ def canonical(value: Any) -> str:
     return str(value)
 
 
+def to_json(value: Any) -> Any:
+    """JSON form of a result value.
+
+    number: JSON integer, or a decimal string (``"3.25"``) so no precision is lost;
+    digits: string; money: ``{"amount": "100.50", "currency": "INR"}``;
+    time / date / datetime / duration: their canonical strings;
+    range: ``{"min": ..., "max": ...}`` with either end possibly ``null``.
+    """
+    if isinstance(value, Range):
+        return {"min": None if value.min is None else to_json(value.min),
+                "max": None if value.max is None else to_json(value.max)}
+    if isinstance(value, Money):
+        return {"amount": value.amount_str, "currency": value.currency}
+    if isinstance(value, bool) or value is None:
+        return value
+    if isinstance(value, (int, str)):
+        return value
+    return canonical(value)
+
+
 @dataclass(frozen=True, slots=True)
 class Result:
     """One parsed expression.
@@ -112,3 +134,27 @@ class Result:
     ambiguous: bool = False
     approximate: bool = False
     notes: tuple[str, ...] = ()
+    #: things the caller should act on, e.g. a relative date resolved against the
+    #: system clock because no ``relative_base`` was passed
+    warnings: tuple[str, ...] = ()
+
+    def to_dict(self) -> dict[str, Any]:
+        """JSON-serialisable form, described by ``kitna/data/result.schema.json``.
+
+        Values are canonical strings (or ``{"min", "max"}`` objects for ranges);
+        ``schema_version`` changes only when a field is removed or changes meaning.
+        """
+        return {
+            "schema_version": RESULT_SCHEMA_VERSION,
+            "span": list(self.span),
+            "text": self.text,
+            "kind": self.kind,
+            "value": None if self.value is None else to_json(self.value),
+            "canonical": self.canonical,
+            "confidence": self.confidence,
+            "ambiguous": self.ambiguous,
+            "candidates": [to_json(c) for c in self.candidates],
+            "approximate": self.approximate,
+            "notes": list(self.notes),
+            "warnings": list(self.warnings),
+        }

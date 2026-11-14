@@ -14,3 +14,11 @@ First development version. Not validated by native speakers; no accuracy claim.
   day-of-month, tense cues, `prefer`, `relative_base`; date + time as `datetime`.
 - Ambiguous expressions return every candidate with `ambiguous=True`.
 - All spellings and all contested rules are plain TSV files in `src/kitna/data/`.
+- Output contract: `Result.to_dict()` with `schema_version` "1", described by
+  `src/kitna/data/result.schema.json`. Any removed field or changed meaning bumps the version
+  and gets an entry here.
+- `Result.warnings`: a relative date or time resolved without `relative_base` carries a
+  warning that the system clock was used. `parse(..., strict=True)` raises instead.
+  `parse(..., now=callable)` replaces the clock (for tests).
+- A lone English number word (`one`, `two`, `ten`) is ignored without a kind hint unless a
+  scale, currency, unit or Hindi word is next to it.
