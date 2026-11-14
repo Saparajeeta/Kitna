@@ -22,3 +22,7 @@ First development version. Not validated by native speakers; no accuracy claim.
   `parse(..., now=callable)` replaces the clock (for tests).
 - A lone English number word (`one`, `two`, `ten`) is ignored without a kind hint unless a
   scale, currency, unit or Hindi word is next to it.
+- `ek baar` is now a policy row (`number.ek_baar`, open question Q12); behaviour unchanged.
+- Docs: mkdocs site, policy and open-question tables generated from `policy.tsv`,
+  quickstart examples executed by the tests. Project files: CONTRIBUTING, SECURITY,
+  CODE_OF_CONDUCT, CITATION.cff, issue and pull-request templates.
