@@ -18,7 +18,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CHECKLIST = ROOT / "docs" / "claims_checklist.md"
-DRAFT_FILES = ["drafts/linkedin_post.md", "drafts/devto_writeup.md", "drafts/resume_bullets.md", "hf/README.md"]
+DRAFT_FILES = ["drafts/linkedin_post.md", "drafts/demo_script.md", "drafts/devto_writeup.md",
+               "drafts/resume_bullets.md", "hf/README.md"]
 # Design facts that are not measurements. Anything else with a digit needs a placeholder or a checklist row.
 ALLOWED = [
     r"CC BY 4\.0", r"cc-by-4\.0", r"Apache-2\.0", r"n<1K", r"150-200", r"40-scenario", r"Domains: 5",

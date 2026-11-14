@@ -1,29 +1,38 @@
 # LinkedIn post (draft, AI-written, not published)
 
-<!-- Fill every [bracket] from a file in results/ and list it in docs/claims_checklist.md. Delete lines you cannot back. -->
+<!-- Every [TBD ...] must be filled from a file in results/ and listed in docs/claims_checklist.md
+     (section "Claims in the post and the demo script"). Delete any line you cannot back.
+     Do not write "first" or "only". Do not post before a native speaker has reviewed the rules. -->
 
-"Ramesh ko kal dhai lakh bhej dena."
+"Ramesh ko kal 5 baje dhai lakh rupaye bhej dena."
 
-A person reads that instantly. For software it holds three small traps: "dhai lakh" is a
-fraction idiom on an Indian scale word, "kal" means both yesterday and tomorrow, and it is
-Hindi typed in English letters.
+A person reads that instantly. Software has to get three things right: "dhai lakh" is a fraction
+idiom on an Indian scale word, "kal" is both yesterday and tomorrow, and "5 baje" does not say
+morning or evening. A slip here is a payment with a wrong zero or a reminder at the wrong hour.
 
-I built Kitna to look at this properly. Two parts:
+I built Kitna, a small open-source Python library for exactly this. It reads Hinglish and
+Devanagari amounts, dates and times into exact values. When the words do not decide, it does not
+guess: it returns every reading and the app asks the person.
 
-1. A small Python library that turns Hinglish and Devanagari amounts, times and dates into
-   exact values. When something is unclear ("5 baje", a bare "kal") it returns every
-   candidate instead of guessing.
-2. A tool-calling benchmark: [N scenarios] everyday requests, each in Devanagari, Roman
-   Hinglish and English. The Hinglish lines were written by [N writers] native speakers and
-   labelled independently by [N annotators] others (agreement: [kappa]).
+What you can try in the demo ([TBD link to the hosted demo]):
 
-What I found: [one sentence, only if a run in results/bench/ supports it. Otherwise delete
-this paragraph and say the benchmark is open for anyone to run.]
+- Paste a message and see each value highlighted with its meaning in plain words.
+- Pick between readings when a phrase is ambiguous, with the reason shown.
+- See why each value was read that way, in English or Hindi.
+- See the tool call an agent would send, as a confirmation you can check before anything runs.
+- Run the same text through two existing libraries, live, and compare.
 
-What it is not: the parser is rule-based and pre-alpha, the benchmark is small, and the
-English and Devanagari lines are AI-drafted. The limits are written down in the repo.
+For developers: `pip install`, one function call, or a local HTTP service. There is also a helper
+that checks an LLM's tool call against what the user actually said.
 
-Code (Apache licence) and data (Creative Commons Attribution): [link]
+What I measured: [TBD one sentence, copied from a file in results/ once the held-out set and a
+real benchmark run exist. If there is none, delete this paragraph.]
 
-If you speak Hindi and want to help, the open questions page lists the decisions where I
-need a native speaker's ear: [link]
+What it is not: it is pre-alpha and rule-based. The rules were drafted with an AI assistant and
+reviewed by [TBD number] native Hindi speakers so far. There is no accuracy figure until a
+held-out set written by native speakers exists. The limits are written down in the repository.
+
+If you speak Hindi, you can help in a few minutes: the demo has a reviewer page where you mark
+draft examples ok, wrong or unnatural on your phone. [TBD link]
+
+Code (Apache licence): [TBD link]
