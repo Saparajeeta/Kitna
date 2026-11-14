@@ -14,3 +14,4 @@
 | Q9b | Is it `narso` or `tarso` where you live, and is it common? | `confidence.narso` = `0.9` |
 | Q11 | Should `prefer='future'` also resolve a bare `kal` / `parso`? | `prefer.relative_words` = `yes` |
 | Q12 | `ek baar` means 'once': should the parser return nothing, or the number 1? | `number.ek_baar` = `nothing` |
+| Q13 | Said at 10 in the morning: does `aaj 2 baje call karungi` always mean 2 in the afternoon? And does `aaj 5 baje pahuncha tha` always mean 5 in the morning? | `confidence.context_time` = `0.9`<br>`context.today_future` = `resolve`<br>`context.today_past` = `flag` |

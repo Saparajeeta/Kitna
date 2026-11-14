@@ -89,7 +89,7 @@ More examples, all executed by the test suite: [docs/quickstart.md](docs/quickst
 | Check | Result | Source |
 |---|---|---|
 | Parser vs. its author's own draft cases, settled rules | 322 of 322 match | [results/phase2/golden_summary.json](results/phase2/golden_summary.json) |
-| Same, cases resting on rules still awaiting a native speaker (reported separately) | 36 of 36 match | same file |
+| Same, cases resting on rules still awaiting a native speaker (reported separately) | 40 of 40 match | same file |
 | Test suite, including benchmark-tooling tests | 573 passed, 1 expected failure (a pinned known limitation) | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
 | Native-speaker review of rules, spellings or cases | **not done** | [docs/review/](docs/review/README.md) |
 | Accuracy on a held-out set written by native speakers | **not measured; set does not exist** | [docs/heldout_protocol.md](docs/heldout_protocol.md) |

@@ -15,6 +15,7 @@ from .numerals import NumberRead, read_number
 from .policy import policy
 
 _DAY_MIN = 24 * 60
+NO_DAYPART_NOTE = "no day-part word: AM or PM unknown"
 
 
 @dataclass(frozen=True, slots=True)
@@ -111,7 +112,7 @@ def _resolve(p: _Point) -> tuple[list[time], float, list[str]]:
         hh = h12 + (12 if rule.fallback == "pm" else 0)
         note = f"'{p.daypart}' is unusual with hour {said}; read as {rule.fallback.upper()}"
         return [time(hh, m)], p.confidence * policy().conf("odd_daypart"), [note]
-    return [time(h12, m), time(h12 + 12, m)], p.confidence, ["no day-part word: AM or PM unknown"]
+    return [time(h12, m), time(h12 + 12, m)], p.confidence, [NO_DAYPART_NOTE]
 
 
 def read_time(tokens: tuple[Token, ...], i: int) -> TimeRead | None:

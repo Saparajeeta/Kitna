@@ -55,7 +55,8 @@ with near-default settings. This is a coverage check, not a quality ranking.
 
 Out of scope for the probe, and so not counted: negatives, ranges, multi-result
 cases, and cases that use Kitna's `prefer` option or run without a kind hint.
-The case file has 358 cases; 221 were in scope.
+When the probe was run the case file had 358 cases; 221 were in scope. (Four context-resolver cases were added
+later; the probe has not been rerun on them.)
 
 Notes that keep this fair:
 

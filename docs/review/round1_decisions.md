@@ -23,5 +23,5 @@ validation and must not be described as such.
 
 ## Still needed from a native speaker
 
-See `docs/taxonomy.md` section 5 (Q3b, Q7, Q9b, Q10, Q11, Q12) and
+See `docs/taxonomy.md` section 5 (Q3b, Q7, Q9b, Q10, Q11, Q12, Q13) and
 `docs/review/README.md` for the two-hour review route.

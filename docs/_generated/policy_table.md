@@ -27,3 +27,6 @@
 | `date.numeric_order` | `dmy` | settled | 12/11/2026 is 12 November. dmy \| mdy |
 | `cue.weak_present` | `hai hain है हैं` | Q4 | present-tense words read as a weak future cue for kal/parso |
 | `cue.weak_imperative` | `do karo kardo kijiye kariye bhejo dijiye dedo lagao rakho batao dena kardena दो करो कीजिए करिए भेजो दीजिए लगाओ रखो बताओ देना` | Q4 | request words read as a weak future cue |
+| `confidence.context_time` | `0.9` | Q13 | a reading chosen by a context resolver (the rows starting 'context.') |
+| `context.today_future` | `resolve` | Q13 | 'aaj 2 baje ... karungi' said at 10:00: 02:00 is already past and the verb is future, so 14:00. resolve \| flag |
+| `context.today_past` | `flag` | Q13 | 'aaj 5 baje ... pahuncha' said at 10:00: 17:00 has not happened and the verb is past, so 05:00. Off: 'tha/thi' is also used for cancelled plans. resolve \| flag |

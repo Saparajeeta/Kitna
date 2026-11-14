@@ -12,7 +12,7 @@ placeholder.
 | ID | Claim (exact text) | Stated in | Evidence file | Evidence contains |
 |---|---|---|---|---|
 | C1 | `322 of 322 match` | `README.md` | `results/phase2/golden_summary.json` | `"match": 322` |
-| C2 | `36 of 36 match` | `README.md` | `results/phase2/golden_summary.json` | `"match": 36` |
+| C2 | `40 of 40 match` | `README.md` | `results/phase2/golden_summary.json` | `"match": 40` |
 | C3 | `573 passed, 1 expected failure` | `README.md` | `results/phase2/test_run.txt` | `573 passed, 1 xfailed` |
 | C4 | `number-parser parsed 2 of 82 Roman-script number cases` | `README.md` | `results/phase1/baseline_probe_summary.json` | `"number_parser": "0.3.2"` |
 | C5 | `dateparser 3 of 91 Roman-script date/time cases` | `README.md` | `results/phase1/baseline_probe_summary.json` | `"dateparser": "1.5.0"` |

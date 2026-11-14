@@ -21,6 +21,8 @@ _CHOICES = {
     "number.ek_baar": ("nothing", "one"),
     "week.start": ("monday", "sunday"),
     "date.numeric_order": ("dmy", "mdy"),
+    "context.today_future": ("resolve", "flag"),
+    "context.today_past": ("resolve", "flag"),
 }
 
 

@@ -203,7 +203,7 @@ def test_policy_file_is_the_single_place_for_contested_rules() -> None:
     pol = policy()
     # every open question that changes parser behaviour has a row
     asked = {q for q in pol.questions.values() if q != "-"}
-    assert {"Q2", "Q3", "Q3b", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q9b", "Q11"} <= asked
+    assert {"Q2", "Q3", "Q3b", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q9b", "Q11", "Q12", "Q13"} <= asked
     assert pol.choice("weekday.agle") == "next_occurrence"
     assert 2 in pol.dayparts["raat"].am and 4 in pol.dayparts["shaam"].pm
 

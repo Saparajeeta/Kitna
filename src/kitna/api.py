@@ -7,11 +7,12 @@ from datetime import date, datetime, time
 from typing import Any
 
 from ._types import KINDS, KitnaError, Range, Result, canonical
-from .dates import DatePiece, OffsetPiece, clause_bounds, find_cue, read_date, resolve, shift
+from .dates import Cue, DatePiece, OffsetPiece, clause_bounds, find_cue, read_date, resolve, shift
 from .money import Skip, read_quantity
 from .normalize import Token, match_temporal, tokenize
 from .numerals import read_digits
-from .time import read_duration, read_time
+from .policy import policy
+from .time import NO_DAYPART_NOTE, read_duration, read_time
 
 _TEMPORAL = ("time", "duration", "date", "datetime")
 
@@ -26,6 +27,29 @@ def _result(text: str, tokens: tuple[Token, ...], i: int, j: int, kind: str, val
 
 CLOCK_WARNING = ("relative_base was not given: resolved against the system clock, so the result depends on "
                  "when parse() was called")
+
+
+def _context_filter(combos: tuple[datetime, ...], base: datetime, cue: Cue) -> tuple[datetime, float, str] | None:
+    """Context resolver for "today + a clock time with no AM/PM word" (policy rows ``context.today_*``).
+
+    A sentence that points to the future cannot mean a time that has already passed today, and the
+    reverse for the past. Returns ``(the one reading left, confidence factor, note)``, or ``None``
+    when the rule is switched off, does not apply, or does not leave exactly one reading.
+    """
+    if any(c.date() != base.date() for c in combos):
+        return None
+    pol = policy()
+    direction = cue.direction or (cue.weak[0] if cue.weak else None)
+    if direction not in ("future", "past") or pol.choice(f"context.today_{direction}") != "resolve":
+        return None
+    kept = [c for c in combos if (c > base) == (direction == "future")]
+    if len(kept) != 1:
+        return None
+    dropped = ", ".join(c.strftime("%H:%M") for c in combos if c != kept[0])
+    factor = pol.conf("context_time") * (1.0 if cue.direction else cue.weak[1] if cue.weak else 1.0)
+    state = "has already passed" if direction == "future" else "has not happened yet"
+    return kept[0], factor, (f"context: {dropped} today {state} at {base.strftime('%H:%M')} and the sentence "
+                             f"points to the {direction} (policy context.today_{direction})")
 
 
 def _temporal(text: str, tokens: tuple[Token, ...], base: datetime, base_has_time: bool,
@@ -84,10 +108,16 @@ def _temporal(text: str, tokens: tuple[Token, ...], base: datetime, base_has_tim
                 days = (value,) if value is not None else cands
                 times = (tr.value,) if tr.value is not None else tr.candidates
                 combos = tuple(datetime.combine(d, t) for d in days for t in times if isinstance(t, time))
+                both = min(conf, tr.confidence)
+                all_notes = notes + tr.notes
+                if len(combos) > 1 and base_has_time:
+                    kept = _context_filter(combos, base, cue)
+                    if kept is not None:
+                        combos, both = (kept[0],), both * kept[1]
+                        all_notes = tuple(n for n in all_notes if n != NO_DAYPART_NOTE) + (kept[2],)
                 single = combos[0] if len(combos) == 1 else None
                 out.append((i, tr.end, mark(i, tr.end, _result(
-                    text, tokens, i, tr.end, "datetime", single, () if single else combos,
-                    min(conf, tr.confidence), notes + tr.notes))))
+                    text, tokens, i, tr.end, "datetime", single, () if single else combos, both, all_notes))))
                 i = tr.end
                 continue
             until = match_temporal(tokens, end, "until")
