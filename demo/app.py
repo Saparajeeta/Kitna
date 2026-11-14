@@ -229,7 +229,7 @@ def build_ui() -> gr.Blocks:
                     edit = gr.Button("Edit the call")
                 confirm_note = gr.HTML()
                 call = gr.Textbox(label="The tool call an agent would send", buttons=["copy"], interactive=False,
-                                  lines=2)
+                                  lines=2, elem_id="k-call")
                 call_edit = gr.Textbox(label="Edit the call (your edits are not checked by Kitna)", visible=False,
                                        lines=3, buttons=["copy"])
                 with gr.Accordion("For developers: the full result as JSON", open=False):

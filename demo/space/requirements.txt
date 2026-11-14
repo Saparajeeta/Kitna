@@ -1,0 +1,6 @@
+# Gradio itself is installed by the Space from `sdk_version` in README.md.
+# Kitna is not on PyPI yet, so it is installed from the repository. Pin a commit for a stable Space.
+kitna @ git+https://github.com/Saparajeeta/Kitna@main
+# the two libraries used by the live comparison tab (optional: without them the tab says "not installed")
+number-parser
+dateparser

@@ -16,3 +16,4 @@ bench/models.yaml
 # regenerable per-call logs of the mock pipeline check (see its README)
 results/pipeline_check_mock/raw.jsonl
 results/pipeline_check_mock/scored.jsonl
+space_build/
