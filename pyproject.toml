@@ -29,7 +29,10 @@ Repository = "https://github.com/Saparajeeta/Kitna"
 dev = ["pytest", "hypothesis", "pytest-cov", "ruff", "mypy", "jsonschema"]
 docs = ["mkdocs-material", "mkdocstrings[python]"]
 bench = ["jsonschema", "pyyaml", "numpy", "scipy", "statsmodels", "matplotlib"]
-demo = ["gradio"]
+demo = ["gradio>=6"]
+serve = ["fastapi", "uvicorn"]
+compare = ["number-parser", "dateparser"]
+voice = ["faster-whisper"]
 
 [tool.hatch.version]
 path = "src/kitna/__init__.py"
@@ -44,6 +47,18 @@ packages = ["src/kitna"]
 [tool.mypy]
 strict = true
 files = ["src"]
+python_version = "3.10"  # the oldest supported version, so API differences show up on any interpreter
+
+[[tool.mypy.overrides]]
+# optional dependencies: the core type check must pass whether or not they are installed
+module = ["fastapi.*", "pydantic.*", "uvicorn.*", "gradio.*", "number_parser.*", "dateparser.*", "faster_whisper.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["kitna.server"]
+disallow_subclassing_any = false
+disallow_untyped_calls = false
+warn_return_any = false
 
 [[tool.mypy.overrides]]
 module = ["yaml", "scipy.*", "statsmodels.*", "matplotlib.*", "jsonschema", "gradio"]
@@ -62,4 +77,4 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["bench"]
+pythonpath = ["bench", "demo"]

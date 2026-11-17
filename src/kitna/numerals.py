@@ -6,6 +6,7 @@ from decimal import Decimal
 
 from . import fractions
 from .normalize import Entry, Token, lexicon, lookup
+from .policy import policy
 
 _HUNDRED = Decimal(100)
 
@@ -240,6 +241,9 @@ def read_number(
                         break
                     cur = fractions.with_number(e, base)
                     conf = min(conf, c, 1.0 if nxt_lit else nxt[1])  # type: ignore[index]
+                    if e.name == "saade" and base == 1:
+                        conf = min(conf, policy().conf("saade_ek"))
+                        notes.append("Nonstandard saade ek interpreted as 1.5; standard wording is dedh (Q9)")
                     j += 2
                 elif nxt and nxt[0].cat == "scale":
                     cur = fractions.before_scale(e)

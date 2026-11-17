@@ -48,6 +48,19 @@ jobs:
           python scripts/bench.py leaderboard --out "$RUNNER_TEMP/leaderboard.html"
       - name: Every claim links to a results file
         run: python scripts/check_claims.py
+  apps:
+    name: demo, HTTP service, live comparison
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e ".[dev,demo,serve,compare]" httpx
+      - run: mypy src demo
+      - run: pytest -q tests/test_demo.py tests/test_demo_app.py tests/test_server.py tests/test_cli_serve.py tests/test_toolcall.py
+      - name: The offline tool-call example runs
+        run: python examples/tool_call_guard.py
   docs:
     runs-on: ubuntu-latest
     steps:

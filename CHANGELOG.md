@@ -2,7 +2,12 @@
 
 ## 0.1.0.dev0 (unreleased pre-alpha)
 
-First development version. Not validated by native speakers; no accuracy claim.
+First development version. One native-speaker case review recorded; no accuracy claim.
+
+- Native-speaker review by Aparajeeta Singh (Uttar Pradesh), original CSV and scope in
+  `docs/review/REVIEW_LOG.md`. Behaviour changes: `agle <weekday>` keeps both dates
+  when coming and following-week readings differ; nonstandard `saade ek` returns 1.5
+  with a warning and confidence 0.8. `saade do` remains rejected. Policy version 2.
 
 - `parse`, `parse_number`, `parse_money`, `parse_time`, `parse_date`, CLI `kitna parse`.
 - Numbers (Hindi 0-99 in Roman and Devanagari, sau/hazaar/lakh/crore/arab, English
@@ -28,6 +33,16 @@ First development version. Not validated by native speakers; no accuracy claim.
   CODE_OF_CONDUCT, CITATION.cff, issue and pull-request templates.
 - English `day after tomorrow` / `day before yesterday` are read as two days away (were read as
   `tomorrow` / `yesterday`).
+- Context resolver: with a `relative_base` that has a time, `aaj 2 baje ... karungi` said at 10:00
+  is read as 14:00 (02:00 has passed, the verb is future). Policy rows `context.today_future`
+  (on), `context.today_past` (off), `confidence.context_time`; open question Q13. **Behaviour
+  change:** such phrases were returned as ambiguous before.
+- `kitna.postprocess_tool_call`: confirms, corrects or flags the numeric, date, time and duration
+  arguments of an OpenAI-style or Anthropic-style tool call against the user's words.
+- `kitna serve` (extra `serve`): local FastAPI service with `POST /parse`,
+  `POST /tool-call/check`, `GET /health` and an OpenAPI page. Dockerfile (not yet built by anyone).
+- Demo rebuilt: highlighted message, ambiguity as a choice, "why" in English and Hindi, action
+  preview, live comparison, feedback, share link, reviewer page at `/review`, optional voice tab.
 
 ## Benchmark tooling (not part of the `kitna` package; no release yet)
 
@@ -42,3 +57,4 @@ First development version. Not validated by native speakers; no accuracy claim.
   McNemar, paired bootstrap, Holm), ablation, tables, plots, kill-criterion section.
 - Analysis plan written before any run. No model has been run.
 - Drafts: dataset card, Gradio demo, leaderboard page, post drafts; claims checker.
+- Fixed: type-check failure on Python 3.10 (`joinpath` with two arguments); `mypy` now targets 3.10.

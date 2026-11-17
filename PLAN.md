@@ -13,7 +13,7 @@ not reserved until a first upload. Fallback if it is taken by then: `kitna-nlp`
 | Read BFCL-Hi card, IndicOrderBench, number-parser, dateparser | `docs/related_work.md` | done, gaps marked `[TBD]` |
 | Probe the two parsers on our inputs | `scripts/probe_baselines.py`, `results/phase1/` | done (re-run on draft 2) |
 | Phenomena, canonical forms | `docs/taxonomy.md` | draft 2, round-1 decisions applied |
-| Labeled parser cases | `tests/golden/draft_cases.jsonl` (358), validator + tests | draft 2 |
+| Labeled parser cases | `tests/golden/draft_cases.jsonl` (362), validator + tests | draft 2 |
 | Review round 1 (arithmetic, non-native) | `docs/review/round1_decisions.md` | done |
 | **HUMAN CHECKPOINT**: native-speaker review | `docs/review/README.md` | **waiting** (taxonomy section 5) |
 

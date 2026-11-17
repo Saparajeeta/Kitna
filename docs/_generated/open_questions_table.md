@@ -8,9 +8,10 @@
 | Q4 | Is `kal chhutti hai` / `kal ka ticket book kar do` future? How much weaker than a real future verb? | `confidence.weak_cue_present` = `0.85`<br>`confidence.weak_cue_imperative` = `0.9`<br>`cue.weak_present` = `hai hain है हैं`<br>`cue.weak_imperative` = `do karo kardo kijiye kariye bhejo dijiye dedo lagao rakho batao dena kardena दो करो कीजिए करिए भेजो दीजिए लगाओ रखो बताओ देना` |
 | Q5 | Is a bare `paune` (0.75) natural, or only `paun` / `pauna`? | `confidence.bare_paune` = `0.8` |
 | Q6 | A bare weekday said on that weekday: today, next week, or flag both? | `weekday.same_day` = `flag` |
-| Q7 | `agle shanivaar` said on a Thursday: the coming Saturday or next week's? | `weekday.agle` = `next_occurrence` |
+| Q7 | `agle shanivaar` said on a Thursday: the coming Saturday or next week's? | `weekday.agle` = `flag` |
 | Q8 | A date with no year (or no month) and no tense cue: flag both, or assume the next one? | `date.no_year` = `flag`<br>`date.no_month` = `flag` |
-| Q9 | Is `saade ek` / `saade do` ever said? | `saade.min_n` = `3` |
+| Q9 | Is `saade ek` / `saade do` ever said? | `saade.min_n` = `3`<br>`saade.ek` = `accept_warn`<br>`confidence.saade_ek` = `0.8` |
 | Q9b | Is it `narso` or `tarso` where you live, and is it common? | `confidence.narso` = `0.9` |
 | Q11 | Should `prefer='future'` also resolve a bare `kal` / `parso`? | `prefer.relative_words` = `yes` |
 | Q12 | `ek baar` means 'once': should the parser return nothing, or the number 1? | `number.ek_baar` = `nothing` |
+| Q13 | Said at 10 in the morning: does `aaj 2 baje call karungi` always mean 2 in the afternoon? And does `aaj 5 baje pahuncha tha` always mean 5 in the morning? | `confidence.context_time` = `0.9`<br>`context.today_future` = `resolve`<br>`context.today_past` = `flag` |

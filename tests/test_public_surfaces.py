@@ -1,4 +1,4 @@
-"""Demo logic, the claims checker, and the rule that drafts carry no unbacked numbers."""
+"""The claims checker and the rule that drafts carry no unbacked numbers. (Demo tests: test_demo.py.)"""
 from __future__ import annotations
 
 import importlib.util
@@ -21,36 +21,8 @@ def _load(name: str, path: Path) -> ModuleType:
 
 
 @pytest.fixture(scope="module")
-def demo() -> ModuleType:
-    return _load("kitna_demo_app", ROOT / "demo" / "app.py")
-
-
-@pytest.fixture(scope="module")
 def claims() -> ModuleType:
     return _load("kitna_check_claims", ROOT / "scripts" / "check_claims.py")
-
-
-def test_demo_shows_value_confidence_and_every_candidate(demo: ModuleType) -> None:
-    rows, status, raw = demo.explain("Ramesh ko kal 5 baje dhai lakh rupaye", "2026-11-12", "10:00")
-    by_kind = {r[1]: r for r in rows}
-    assert by_kind["money"][2] == "INR 250000" and by_kind["money"][3] == "1.00" and by_kind["money"][4] == "no"
-    amb = by_kind["datetime"]
-    assert amb[2] == "(not decided)" and amb[4] == "yes"
-    assert amb[5].split(" | ") == ["2026-11-11T05:00", "2026-11-11T17:00", "2026-11-13T05:00", "2026-11-13T17:00"]
-    assert "ambiguous" in status and len(raw) == 2 and raw[0]["schema_version"] == "1"
-    assert len(demo.HEADERS) == len(rows[0])
-
-
-def test_demo_edge_cases(demo: ModuleType) -> None:
-    assert demo.explain("")[1] == "Type something above."
-    assert demo.explain("mujhe paani de do", "2026-11-12", "10:00")[0] == []
-    assert "must look like" in demo.explain("kal", "12/11/2026", "10:00")[1]
-    rows, status, _ = demo.explain("kal jaunga")
-    assert rows and "server's clock" in status
-    rows, _, _ = demo.explain("tees hazzar", kind="number")
-    assert rows[0][2] == "30000" and rows[0][3] == "0.85"
-    for example in demo.EXAMPLES:
-        demo.explain(*example)
 
 
 def test_claims_checklist_is_consistent(claims: ModuleType) -> None:
@@ -103,3 +75,28 @@ def test_every_yaml_file_in_the_repository_parses() -> None:
     assert len(files) >= 10
     for path in files:
         assert yaml.safe_load(path.read_text(encoding="utf-8")) is not None, path
+
+
+def test_space_folder_is_complete_and_card_keeps_the_notice(tmp_path: Path) -> None:
+    space = _load("kitna_build_space", ROOT / "scripts" / "build_space.py")
+    assert space.main(["--check"]) == 0
+    files = space.build(tmp_path / "space")
+    assert {"app.py", "README.md", "requirements.txt", "cases_review.csv", "kitna_demo/review.py"} <= set(files)
+    card = (tmp_path / "space" / "README.md").read_text(encoding="utf-8")
+    assert card.startswith("---\n") and "sdk: gradio" in card and "app_file: app.py" in card
+    assert "Pre-alpha" in card and "No accuracy has been measured" in card
+    requirements = (tmp_path / "space" / "requirements.txt").read_text(encoding="utf-8")
+    assert "kitna @ git+https://github.com/Saparajeeta/Kitna" in requirements
+
+
+def test_dockerfile_serves_as_non_root_and_readme_keeps_story_and_status() -> None:
+    docker = (ROOT / "Dockerfile").read_text(encoding="utf-8")
+    assert 'CMD ["kitna", "serve", "--host", "0.0.0.0", "--port", "8000"]' in docker and "USER kitna" in docker
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "Kitna reads them exactly, or tells you it's unsure." in readme.split("\n", 4)[2]
+    assert "has no accuracy figure" in readme and "## Quickstart in 60 seconds" in readme
+    for shot in ("demo_ambiguity.png", "demo_context.png", "demo_action.png"):
+        assert f"docs/assets/{shot}" in readme and (ROOT / "docs" / "assets" / shot).exists()
+    for name in ("linkedin_post.md", "demo_script.md"):
+        text = (ROOT / "drafts" / name).read_text(encoding="utf-8")
+        assert "[TBD" in text and "not published" in text.lower() or "not recorded" in text.lower()

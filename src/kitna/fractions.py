@@ -22,7 +22,8 @@ class RejectedFraction(Exception):
 
 def with_number(frac: Entry, n: Decimal) -> Decimal:
     """``add``-type fraction followed by the whole number ``n``."""
-    if frac.name == "saade" and n < int(policy().choice("saade.min_n")):
+    if (frac.name == "saade" and n < int(policy().choice("saade.min_n"))
+            and not (n == 1 and policy().choice("saade.ek") == "accept_warn")):
         raise RejectedFraction(f"'saade' is not used with {n}; speakers say dedh / dhai")
     return n + frac.value
 

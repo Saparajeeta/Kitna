@@ -29,6 +29,7 @@ nav:
   - Home: index.md
   - Install: install.md
   - Quickstart: quickstart.md
+  - Use it in your app: integrations.md
   - Reference:
       - API: api.md
       - Taxonomy and canonical forms: taxonomy.md

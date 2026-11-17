@@ -6,7 +6,7 @@ arithmetic and calendar math of the first 292 cases (see
 `docs/review/round1_decisions.md`). Naturalness, regional usage and typing
 habits are still unchecked.
 
-Cases: `tests/golden/draft_cases.jsonl` (358). Spreadsheet copy:
+Cases: `tests/golden/draft_cases.jsonl` (362). Spreadsheet copy:
 `docs/review/phase1_cases_review.csv`.
 
 ## 1. Kinds and canonical values
@@ -167,3 +167,4 @@ in [limitations.md](limitations.md).
 | Q10 | Which spellings do you actually type? hazaar/hajar, lakh/lac, baje/bje, chhe/che/chhah, saade/sade/sadhe, dhai/dhaai, paune/pone; do you swap b/w/v? | all listed variants accepted | all `spelling` cases |
 | Q11 | Should `prefer="future"` also resolve bare `kal`/`parso`? (new) | yes | DAT-072 |
 | Q12 | `ek baar` ("once"): return nothing, or 1? (new; policy row `number.ek_baar`) | nothing | NUM-097 |
+| Q13 | Context resolvers: at 10:00, `aaj 2 baje call karungi` → 14:00 because 02:00 has passed and the verb is future (policy row `context.today_future`). The mirror rule for past verbs (`context.today_past`) is off: `tha/thi` also marks cancelled plans. Right? | future side resolves at confidence 0.9; past side stays flagged | DTM-010 to DTM-013 |

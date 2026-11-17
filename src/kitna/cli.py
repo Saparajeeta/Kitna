@@ -30,7 +30,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     p.add_argument("--prefer", choices=("future", "past"), help="resolve dates that lack a year, month or direction")
     p.add_argument("--strict", action="store_true", help="fail on relative dates when --base is missing")
     p.add_argument("--json", action="store_true", help="one JSON object per result (result.schema.json)")
+    sv = sub.add_parser("serve", help="run the local HTTP service (needs: pip install 'kitna[serve]')")
+    sv.add_argument("--host", default="127.0.0.1", help="address to listen on (default: this machine only)")
+    sv.add_argument("--port", type=int, default=8000)
     a = ap.parse_args(argv)
+    if a.cmd == "serve":
+        try:
+            from .server import run
+        except ImportError:
+            print("kitna: the HTTP service needs FastAPI and uvicorn: pip install 'kitna[serve]'", file=sys.stderr)
+            return 2
+        run(a.host, a.port)
+        return 0
     try:
         results = parse(a.text, kind=a.kind, relative_base=a.base, prefer=a.prefer, strict=a.strict)
     except KitnaError as ex:

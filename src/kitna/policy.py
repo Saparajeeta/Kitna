@@ -11,6 +11,7 @@ from functools import lru_cache
 from importlib import resources
 
 _CHOICES = {
+    "saade.ek": ("accept_warn", "reject"),
     "time.bare_hour": ("flag",),
     "weekday.bare": ("next",),
     "weekday.same_day": ("flag", "today", "next_week"),
@@ -21,6 +22,8 @@ _CHOICES = {
     "number.ek_baar": ("nothing", "one"),
     "week.start": ("monday", "sunday"),
     "date.numeric_order": ("dmy", "mdy"),
+    "context.today_future": ("resolve", "flag"),
+    "context.today_past": ("resolve", "flag"),
 }
 
 
@@ -66,7 +69,7 @@ def _hours(spec: str) -> frozenset[int]:
 
 @lru_cache(maxsize=1)
 def policy() -> Policy:
-    text = resources.files("kitna").joinpath("data", "policy.tsv").read_text(encoding="utf-8")
+    text = resources.files("kitna").joinpath("data").joinpath("policy.tsv").read_text(encoding="utf-8")
     values: dict[str, str] = {}
     questions: dict[str, str] = {}
     version = ""

@@ -27,6 +27,8 @@ QUESTIONS = {
     "Q9b": "Is it `narso` or `tarso` where you live, and is it common?",
     "Q12": "`ek baar` means 'once': should the parser return nothing, or the number 1?",
     "Q11": "Should `prefer='future'` also resolve a bare `kal` / `parso`?",
+    "Q13": "Said at 10 in the morning: does `aaj 2 baje call karungi` always mean 2 in the afternoon? "
+           "And does `aaj 5 baje pahuncha tha` always mean 5 in the morning?",
 }
 
 

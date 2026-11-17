@@ -118,7 +118,7 @@ class DataTableError(RuntimeError):
 
 
 def _rows(name: str) -> tuple[str, list[list[str]]]:
-    text = resources.files("kitna").joinpath("data", name).read_text(encoding="utf-8")
+    text = resources.files("kitna").joinpath("data").joinpath(name).read_text(encoding="utf-8")
     version, rows = "", []
     for line in text.splitlines():
         if line.startswith("# version:"):
