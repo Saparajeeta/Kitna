@@ -11,6 +11,7 @@ from functools import lru_cache
 from importlib import resources
 
 _CHOICES = {
+    "saade.ek": ("accept_warn", "reject"),
     "time.bare_hour": ("flag",),
     "weekday.bare": ("next",),
     "weekday.same_day": ("flag", "today", "next_week"),

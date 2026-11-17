@@ -1,5 +1,15 @@
-# kitna 0.1.0.dev0, 2026-11-14T16:32Z, Python 3.11.2, full suite including tests/bench and the demo/service tests (needs the bench, demo, serve and compare extras)
+# kitna 0.1.0.dev0, 2026-11-12, Python 3.11.2, full suite including bench, demo and service tests
 # NOT an accuracy measurement: see docs/heldout_protocol.md
+........................................................................ [ 11%]
+........................................................................ [ 22%]
+........................................................................ [ 33%]
+........................................................................ [ 44%]
+........................................................................ [ 55%]
+........................................................................ [ 66%]
+........................................................................ [ 77%]
+.........................x.............................................. [ 88%]
+........................................................................ [ 99%]
+..                                                                       [100%]
 ================================ tests coverage ================================
 _______________ coverage: platform linux, python 3.11.2-final-0 ________________
 
@@ -9,15 +19,15 @@ src/kitna/__init__.py        6      0      0      0   100%
 src/kitna/_types.py         81      3     22      2    95%
 src/kitna/api.py           177      0     76      0   100%
 src/kitna/cli.py            52      7     10      2    85%
-src/kitna/dates.py         268      5    126      9    96%
-src/kitna/fractions.py      20      0      8      0   100%
+src/kitna/dates.py         268      4    126      6    97%
+src/kitna/fractions.py      20      1      8      1    93%
 src/kitna/money.py         119      3     72      5    96%
-src/kitna/normalize.py     182      3     86      6    97%
-src/kitna/numerals.py      247      7    134      8    96%
+src/kitna/normalize.py     182      4     86      7    96%
+src/kitna/numerals.py      251      7    136      8    96%
 src/kitna/policy.py         68      8     28      6    85%
 src/kitna/server.py         63      4      2      0    94%
-src/kitna/time.py          161      6     72      7    94%
+src/kitna/time.py          161      5     72      6    95%
 src/kitna/toolcall.py      270     12    132     14    94%
 ----------------------------------------------------------
-TOTAL                     1714     58    768     59    95%
-649 passed, 1 xfailed in 62.04s (0:01:02)
+TOTAL                     1718     58    770     57    95%
+649 passed, 1 xfailed in 60.08s (0:01:00)

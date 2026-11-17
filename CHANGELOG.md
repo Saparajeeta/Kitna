@@ -2,7 +2,12 @@
 
 ## 0.1.0.dev0 (unreleased pre-alpha)
 
-First development version. Not validated by native speakers; no accuracy claim.
+First development version. One native-speaker case review recorded; no accuracy claim.
+
+- Native-speaker review by Aparajeeta Singh (Uttar Pradesh), original CSV and scope in
+  `docs/review/REVIEW_LOG.md`. Behaviour changes: `agle <weekday>` keeps both dates
+  when coming and following-week readings differ; nonstandard `saade ek` returns 1.5
+  with a warning and confidence 0.8. `saade do` remains rejected. Policy version 2.
 
 - `parse`, `parse_number`, `parse_money`, `parse_time`, `parse_date`, CLI `kitna parse`.
 - Numbers (Hindi 0-99 in Roman and Devanagari, sau/hazaar/lakh/crore/arab, English

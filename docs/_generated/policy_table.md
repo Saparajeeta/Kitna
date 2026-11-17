@@ -18,7 +18,7 @@
 | `time.bare_hour` | `flag` | Q3 | no day-part, hour 1-12. flag = return both AM and PM |
 | `weekday.bare` | `next` | settled | bare weekday with no cue. next = first occurrence after the base date |
 | `weekday.same_day` | `flag` | Q6 | bare weekday said on that weekday. flag \| today \| next_week |
-| `weekday.agle` | `next_occurrence` | Q7 | 'agle <weekday>'. next_occurrence \| next_week \| flag |
+| `weekday.agle` | `flag` | Q7 | 'agle <weekday>'. next_occurrence \| next_week \| flag |
 | `date.no_year` | `flag` | Q8 | day + month, no year, no cue. flag \| future \| past |
 | `date.no_month` | `flag` | Q8 | '20 tareekh', no month, no cue. flag \| future \| past |
 | `prefer.relative_words` | `yes` | Q11 | does prefer='future' also resolve bare kal / parso / narso? yes \| no |
@@ -30,3 +30,5 @@
 | `confidence.context_time` | `0.9` | Q13 | a reading chosen by a context resolver (the rows starting 'context.') |
 | `context.today_future` | `resolve` | Q13 | 'aaj 2 baje ... karungi' said at 10:00: 02:00 is already past and the verb is future, so 14:00. resolve \| flag |
 | `context.today_past` | `flag` | Q13 | 'aaj 5 baje ... pahuncha' said at 10:00: 17:00 has not happened and the verb is past, so 05:00. Off: 'tha/thi' is also used for cancelled plans. resolve \| flag |
+| `saade.ek` | `accept_warn` | Q9 | Nonstandard saade ek = 1.5 with warning; accept_warn \| reject (Aparajeeta Singh review) |
+| `confidence.saade_ek` | `0.8` | Q9 | Nonstandard saade ek; lower confidence, not a probability |

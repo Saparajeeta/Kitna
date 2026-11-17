@@ -204,7 +204,10 @@ def test_policy_file_is_the_single_place_for_contested_rules() -> None:
     # every open question that changes parser behaviour has a row
     asked = {q for q in pol.questions.values() if q != "-"}
     assert {"Q2", "Q3", "Q3b", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q9b", "Q11", "Q12", "Q13"} <= asked
-    assert pol.choice("weekday.agle") == "next_occurrence"
+    r = kitna.parse_number("saade ek")
+    assert r is not None and r.canonical == "1.5" and r.confidence == 0.8
+    assert r.warnings and "Nonstandard" in r.warnings[0]
+    assert pol.choice("weekday.agle") == "flag"
     assert 2 in pol.dayparts["raat"].am and 4 in pol.dayparts["shaam"].pm
 
 
@@ -222,7 +225,7 @@ def test_changing_policy_changes_behaviour_without_code(monkeypatch: pytest.Monk
     assert kitna.parse_date("agle shanivaar", BASE).canonical == "2026-11-21"  # type: ignore[union-attr]
     assert kitna.parse_date("26 January", BASE).canonical == "2027-01-26"  # type: ignore[union-attr]
     monkeypatch.undo()
-    assert kitna.parse_date("agle shanivaar", BASE).canonical == "2026-11-14"  # type: ignore[union-attr]
+    assert kitna.parse_date("agle shanivaar", BASE).canonical == "2026-11-14 | 2026-11-21"  # type: ignore[union-attr]
 
 
 def test_cli(capsys: pytest.CaptureFixture[str]) -> None:

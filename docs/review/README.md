@@ -21,3 +21,9 @@ validated (enforced by `tests/test_golden_format.py`).
 
 The canonical file is `tests/golden/draft_cases.jsonl`. Regenerate the CSV with
 `python scripts/validate_cases.py --export-csv docs/review/phase1_cases_review.csv`.
+
+## Completed reviews
+
+See [REVIEW_LOG.md](REVIEW_LOG.md) for Aparajeeta Singh’s case review and follow-up
+decisions. The submitted `phase1_cases_review_AS.csv` is preserved unchanged; do not
+regenerate it. Further independent reviews are welcome.

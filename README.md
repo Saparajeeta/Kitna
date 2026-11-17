@@ -3,8 +3,8 @@
 **Indian agents misread "dhai lakh", "parso", "saade teen baje". Kitna reads them exactly, or tells you it's unsure.**
 
 > **Status: pre-alpha (0.1.0.dev0), not on PyPI.** The parser is built but
-> **has no accuracy figure**: no native speaker has reviewed its rules or test
-> cases, and the held-out set that will give one does not exist. The benchmark
+> **has no accuracy figure**: one native Hindi speaker has reviewed the draft cases
+> ([review log](docs/review/REVIEW_LOG.md)), but the independent held-out set does not exist. The benchmark
 > tooling runs end to end on a mock model, but **the benchmark itself does not
 > exist yet and no model has been run**: it needs utterances written and labelled
 > by native speakers. [What is done and what is not](#status).
@@ -144,7 +144,7 @@ More examples, all executed by the test suite: [docs/quickstart.md](docs/quickst
 | Parser vs. its author's own draft cases, settled rules | 322 of 322 match | [results/phase2/golden_summary.json](results/phase2/golden_summary.json) |
 | Same, cases resting on rules still awaiting a native speaker (reported separately) | 40 of 40 match | same file |
 | Test suite, including benchmark-tooling tests | 649 passed, 1 expected failure (a pinned known limitation) | [results/phase2/test_run.txt](results/phase2/test_run.txt) |
-| Native-speaker review of rules, spellings or cases | **not done** | [docs/review/](docs/review/README.md) |
+| Native-speaker review of rules, spellings or cases | **first case review completed; broader policy review pending** | [docs/review/](docs/review/README.md) |
 | Accuracy on a held-out set written by native speakers | **not measured; set does not exist** | [docs/heldout_protocol.md](docs/heldout_protocol.md) |
 
 The first two rows are a self-consistency check, not accuracy: the same AI
@@ -198,8 +198,8 @@ The longer list, with examples: [docs/limitations.md](docs/limitations.md).
 
 ## Limitations (current)
 
-- All Hindi/Hinglish text so far was drafted by an AI agent. One non-native
-  reviewer checked the arithmetic; no native speaker has reviewed it.
+- All Hindi/Hinglish text so far was drafted by an AI agent. Aparajeeta Singh, a native Hindi speaker from Uttar Pradesh, reviewed the draft
+  cases. See [scope and decisions](docs/review/REVIEW_LOG.md); this is not independent accuracy evaluation.
 - The spelling tables are AI-drafted too. Unlisted spellings fall back to a
   repair step that can miss, and ordinary words that look like number words
   (`do`, `saath`, `ek`) are handled by a small rule list that will have gaps.

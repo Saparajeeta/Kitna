@@ -185,7 +185,7 @@ def test_gallery_has_eight_synthetic_scenarios_and_each_reads_and_acts() -> None
     sentences = {label: action.build(read(text, NOW)).sentence for label, text in gallery.EXAMPLES}
     assert sentences["Reminder"] == "Set a reminder today at 2:00 PM?"
     assert sentences["Collections call"] == "Record a payment of ₹3,500 due by day after tomorrow?"
-    assert sentences["Train booking"] == "Book 2 train tickets tomorrow?"
+    assert sentences["Train booking"] == "Book 2 train tickets …?"  # agle weekday now needs a choice
     assert sentences["COD order"] == "Place the order for ₹1,750, cash on delivery?"
     assert sentences["Salary"] == "Save income as ₹1,50,000 per month?"
     assert sentences["How long"] == "Block a meeting of 2 hours 30 minutes?"

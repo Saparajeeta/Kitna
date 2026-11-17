@@ -151,6 +151,7 @@ def read_quantity(
         span=(start, end), text=text[start:end], kind="money" if is_money else "number",
         value=value, canonical=canonical(value), confidence=round(conf, 4),
         approximate=approx, notes=tuple(notes),
+        warnings=tuple(n for n in notes if n.startswith("Nonstandard saade ek")),
     )
     return res, j
 
